@@ -11,53 +11,22 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // const Home({Key? key}) : super(key: key);
+  List<HomeModel> fruitModel = List.generate(
+    HomeImages2.images.length,
+    (index) => HomeModel(
+      image: HomeImages2.images[index],
+      name: HomeFruitNames.fruitNames[index],
+      amout: index.toString(),
+      addToCart: 'Add to cart',
+    ),
+  );
 
-  // List<String> images1 = [
-  //   'assets/banana.png',
-  //   'assets/ice-cream.png',
-  //   'assets/milk.png',
-  //   'assets/banana.png',
-  //   'assets/ice-cream.png',
-  //   'assets/milk.png',
-  //   'assets/banana.png',
-  //   'assets/ice-cream.png',
-  //   'assets/milk.png',
-  //   'assets/banana.png',
-  // ];
-
-  // List<String> images2 = [
-  //   'assets/oranage.png',
-  //   'assets/garlic.png',
-  //   'assets/broccoli.png',
-  //   'assets/onion.png',
-  //   'assets/banana2.png',
-  //   'assets/cabbage.png',
-  //   'assets/tomato.png',
-  //   'assets/potato.png',
-  // ];
-
-  // List<String> fruitNames = [
-  //   'Orange',
-  //   'Garlic',
-  //   'Broccoli',
-  //   'Onion',
-  //   'Banana',
-  //   'Cabbabe',
-  //   'Tomato',
-  //   'Potato',
-  // ];
-
-  List isSelected = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
+  void toggleFavorite(int index) {
+    setState(() {
+      fruitModel[index].isFavorite = !fruitModel[index].isFavorite;
+      print(fruitModel[index].isFavorite);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -189,21 +158,17 @@ class _HomeState extends State<Home> {
                               IconButton(
                                 padding: const EdgeInsets.all(0),
                                 onPressed: () {
-                                  setState(() {
-                                    isSelected[index] = !isSelected[index];
-                                    print(isSelected[index]);
-                                  });
+                                  toggleFavorite(index);
                                 },
                                 icon: Icon(
                                   Icons.favorite,
-                                  // color: Color(0xFFB1B1B1),
-                                  color: isSelected[index]
+                                  color: fruitModel[index].isFavorite
                                       ? const Color(0xFFFF2E6C)
                                       : const Color(0xFFB1B1B1),
                                 ),
                               ),
                               Image.asset(
-                                HomeImages2.images[index],
+                                fruitModel[index].image,
                                 fit: BoxFit.cover,
                               ),
                               Text(
@@ -218,14 +183,14 @@ class _HomeState extends State<Home> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '\$6.7',
+                                    fruitModel[index].amout,
                                     style: TextStyle(
                                       fontSize: deviceSize.width * 0.036,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Text(
-                                    'Add to cart',
+                                    fruitModel[index].addToCart,
                                     style: TextStyle(
                                       fontSize: deviceSize.width * 0.036,
                                       fontWeight: FontWeight.bold,
@@ -240,7 +205,7 @@ class _HomeState extends State<Home> {
                       ),
                     ],
                   ),
-                  itemCount: HomeImages2.images.length,
+                  itemCount: fruitModel.length,
                 ),
               ),
             ),
