@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery/logic/auth_bloc/auth_bloc.dart';
+import 'package:grocery/logic/basehomebloc/base_home_page_bloc.dart';
 // import 'package:grocery/logic/bloc/auth_bloc.dart';
 // import 'package:grocery/bloc/cubit/counter_cubit.dart';
 import 'package:grocery/presentation/pages/base_home.dart';
@@ -15,6 +16,7 @@ import 'package:grocery/presentation/pages/thank_you.dart';
 
 class AppRoute {
   AuthBloc authBloc = AuthBloc();
+  BaseHomePageBloc baseHomePageBloc = BaseHomePageBloc();
   Route? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case SplashScreen.splashScreen:
@@ -23,7 +25,10 @@ class AppRoute {
         );
       case BaseHomePage.baseHomePage:
         return MaterialPageRoute(
-          builder: (_) => const BaseHomePage(),
+          builder: (_) => BlocProvider.value(
+            value: baseHomePageBloc,
+            child: const BaseHomePage(),
+          ),
         );
       case Category.category:
         return MaterialPageRoute(

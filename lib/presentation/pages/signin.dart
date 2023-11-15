@@ -16,6 +16,9 @@ class SigninPage extends StatefulWidget {
 
 class _SigninPageState extends State<SigninPage> {
   // write a function which compares two numbers
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  bool obscure = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +70,6 @@ class _SigninPageState extends State<SigninPage> {
   }
 
   Widget buildScreen(BuildContext context) {
-    TextEditingController userNameController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    bool _obscureText = true;
-
     Size deviceSize = MediaQuery.of(context).size;
 
     return Column(
@@ -134,7 +133,7 @@ class _SigninPageState extends State<SigninPage> {
                           const SizedBox(height: 20),
                           TextFormField(
                             controller: passwordController,
-                            obscureText: _obscureText,
+                            obscureText: obscure,
                             decoration: InputDecoration(
                               hintText: 'password',
                               hintStyle: const TextStyle(color: Colors.grey),
@@ -145,13 +144,14 @@ class _SigninPageState extends State<SigninPage> {
                               fillColor: Colors.white,
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _obscureText
+                                  obscure == true
                                       ? Icons.visibility_off
                                       : Icons.visibility,
                                 ),
                                 onPressed: () {
                                   setState(() {
-                                    _obscureText = !_obscureText;
+                                    obscure = !obscure;
+                                    print(obscure);
                                   });
                                 },
                               ),
