@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:grocery/Constants/Images/home_images.dart';
+import 'package:grocery/Constants/Images/home_images2.dart';
+import 'package:grocery/Constants/names/home_fruit_names.dart';
+import 'package:grocery/Models/home_model.dart';
 
 class Home extends StatefulWidget {
   static const home = 'home';
@@ -8,40 +12,41 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   // const Home({Key? key}) : super(key: key);
-  List<String> images1 = [
-    'assets/banana.png',
-    'assets/ice-cream.png',
-    'assets/milk.png',
-    'assets/banana.png',
-    'assets/ice-cream.png',
-    'assets/milk.png',
-    'assets/banana.png',
-    'assets/ice-cream.png',
-    'assets/milk.png',
-    'assets/banana.png',
-  ];
 
-  List<String> images2 = [
-    'assets/oranage.png',
-    'assets/garlic.png',
-    'assets/broccoli.png',
-    'assets/onion.png',
-    'assets/banana2.png',
-    'assets/cabbage.png',
-    'assets/tomato.png',
-    'assets/potato.png',
-  ];
+  // List<String> images1 = [
+  //   'assets/banana.png',
+  //   'assets/ice-cream.png',
+  //   'assets/milk.png',
+  //   'assets/banana.png',
+  //   'assets/ice-cream.png',
+  //   'assets/milk.png',
+  //   'assets/banana.png',
+  //   'assets/ice-cream.png',
+  //   'assets/milk.png',
+  //   'assets/banana.png',
+  // ];
 
-  List<String> fruitNames = [
-    'Orange',
-    'Garlic',
-    'Broccoli',
-    'Onion',
-    'Banana',
-    'Cabbabe',
-    'Tomato',
-    'Potato',
-  ];
+  // List<String> images2 = [
+  //   'assets/oranage.png',
+  //   'assets/garlic.png',
+  //   'assets/broccoli.png',
+  //   'assets/onion.png',
+  //   'assets/banana2.png',
+  //   'assets/cabbage.png',
+  //   'assets/tomato.png',
+  //   'assets/potato.png',
+  // ];
+
+  // List<String> fruitNames = [
+  //   'Orange',
+  //   'Garlic',
+  //   'Broccoli',
+  //   'Onion',
+  //   'Banana',
+  //   'Cabbabe',
+  //   'Tomato',
+  //   'Potato',
+  // ];
 
   List isSelected = [
     false,
@@ -140,13 +145,13 @@ class _HomeState extends State<Home> {
                       ),
                       width: deviceSize.width * 0.25,
                       height: deviceSize.height * 0.1,
-                      child: Image.asset(images1[index]),
+                      child: Image.asset(HomeImages.images[index]),
                     ),
                     SizedBox(width: deviceSize.width * 0.02)
                   ],
                 ),
                 scrollDirection: Axis.horizontal,
-                itemCount: images1.length,
+                itemCount: HomeImages.images.length,
               ),
             ),
             SizedBox(height: deviceSize.height * 0.02),
@@ -198,11 +203,11 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                               Image.asset(
-                                images2[index],
+                                HomeImages2.images[index],
                                 fit: BoxFit.cover,
                               ),
                               Text(
-                                fruitNames[index],
+                                HomeFruitNames.fruitNames[index],
                                 style: TextStyle(
                                   fontSize: deviceSize.width * 0.036,
                                   fontWeight: FontWeight.bold,
@@ -235,7 +240,7 @@ class _HomeState extends State<Home> {
                       ),
                     ],
                   ),
-                  itemCount: images2.length,
+                  itemCount: HomeImages2.images.length,
                 ),
               ),
             ),
