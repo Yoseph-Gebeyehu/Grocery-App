@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery/data/Models/home_model.dart';
 import 'package:grocery/presentation/Auth/View/signin.dart';
 import 'package:grocery/presentation/Auth/auth_bloc/auth_bloc.dart';
 import 'package:grocery/presentation/BaseHomePage/View/base_home.dart';
 import 'package:grocery/presentation/BaseHomePage/basehomebloc/base_home_page_bloc.dart';
-import 'package:grocery/presentation/categories.dart';
+import 'package:grocery/presentation/Category/categories.dart';
 import 'package:grocery/presentation/favorite.dart';
 import 'package:grocery/presentation/home.dart';
 import 'package:grocery/presentation/item_detail.dart';
@@ -17,6 +18,11 @@ class AppRoute {
   AuthBloc authBloc = AuthBloc();
   BaseHomePageBloc baseHomePageBloc = BaseHomePageBloc();
   Route? onGenerateRoute(RouteSettings routeSettings) {
+    HomeModel? fruit;
+
+    if (routeSettings.name == ItemDetail.itemDetail) {
+      fruit = routeSettings.arguments as HomeModel;
+    }
     switch (routeSettings.name) {
       case SplashScreen.splashScreen:
         return MaterialPageRoute(
@@ -43,7 +49,9 @@ class AppRoute {
         );
       case ItemDetail.itemDetail:
         return MaterialPageRoute(
-          builder: (_) => ItemDetail(),
+          builder: (_) => ItemDetail(
+            friut: fruit!,
+          ),
         );
       case ShoppingCart.shoppingCart:
         return MaterialPageRoute(

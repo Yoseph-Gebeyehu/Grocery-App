@@ -1,30 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:grocery/data/Models/category_model.dart';
+import 'package:grocery/domain/Constants/Images/category_images.dart';
+
+import '../../domain/Constants/names/category_fruit_names.dart';
 
 class Category extends StatelessWidget {
   static const category = 'category';
-
-  // const Category({Key? key}) : super(key: key);
-
-  List<String> imageList = [
-    'assets/fruits.png',
-    'assets/vegetables.png',
-    'assets/mushroom.png',
-    'assets/dairy.png',
-    'assets/oats.png',
-    'assets/bread.png',
-    'assets/rice.png',
-    'assets/eggs.png',
-  ];
-  List<String> categoryNames = [
-    'Fruits',
-    'Vegetables',
-    'Mushroom',
-    'Dairy',
-    'Oats',
-    'Breads',
-    'Rice',
-    'Egg'
-  ];
+  List<CategoryModel> categories = List.generate(
+    CategoryImages.images.length,
+    (index) => CategoryModel(
+      image: CategoryImages.images[index],
+      name: CategoryFruitNames.fruitName[index],
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +77,12 @@ class Category extends StatelessWidget {
                 children: [
                   SizedBox(height: deviceSize.height * 0.01),
                   Image.asset(
-                    imageList[index],
+                    categories[index].image,
                     fit: BoxFit.cover,
                   ),
                   SizedBox(height: deviceSize.height * 0.009),
                   Text(
-                    categoryNames[index],
+                    categories[index].name,
                     style: const TextStyle(
                       color: Color(0xFFE67F1E),
                       fontWeight: FontWeight.bold,
@@ -104,7 +92,7 @@ class Category extends StatelessWidget {
               ),
             ),
           ),
-          itemCount: imageList.length,
+          itemCount: categories.length,
         ),
       ),
     );

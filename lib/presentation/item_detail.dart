@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:grocery/data/Models/home_model.dart';
 
-class ItemDetail extends StatelessWidget {
+class ItemDetail extends StatefulWidget {
+  final HomeModel friut;
   static const itemDetail = 'item-detail';
-  // const ItemDetail({Key? key}) : super(key: key);
 
+  ItemDetail({required this.friut});
+
+  @override
+  State<ItemDetail> createState() => _ItemDetailState();
+}
+
+class _ItemDetailState extends State<ItemDetail> {
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
@@ -14,10 +22,13 @@ class ItemDetail extends StatelessWidget {
           Expanded(
             child: Stack(
               children: [
-                SizedBox(
+                Container(
                   height: deviceSize.height * 0.4,
+                  width: double.infinity,
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(60),
                   child: Image.asset(
-                    'assets/lady.png',
+                    widget.friut.image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -28,7 +39,7 @@ class ItemDetail extends StatelessWidget {
                     iconSize: deviceSize.width * 0.1,
                     icon: const Icon(
                       Icons.arrow_back,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -60,7 +71,7 @@ class ItemDetail extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Fresh Orange',
+                                widget.friut.name,
                                 style: TextStyle(
                                   fontSize: deviceSize.width * 0.06,
                                   fontWeight: FontWeight.w600,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery/data/Local/shered_preference.dart';
+import 'package:grocery/presentation/item_detail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/Models/home_model.dart';
 import '../domain/Constants/Images/home_images.dart';
@@ -45,24 +46,6 @@ class _HomeState extends State<Home> {
     });
     await prefs.setBool(homeModel.name, newValue);
   }
-
-  // Future toggleFavorite(HomeModel fruit) async {
-  //   final newValue = !fruit.isFavorite;
-  //   bool isFav = false;
-
-  //   setState(() {
-  //     fruit.isFavorite = newValue;
-  //   });
-  //   await LocalStorage().setFavorite(fruit.name, newValue);
-  //   bool? favResponse = await LocalStorage().getFavorite(fruit.name);
-  //   if (favResponse != null) {
-  //     isFav = favResponse;
-  //   }
-
-  //   setState(() {
-  //     fruit.isFavorite = isFav;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -214,9 +197,18 @@ class _HomeState extends State<Home> {
                                         : const Color(0xFFB1B1B1),
                                   ),
                                 ),
-                                Image.asset(
-                                  fruitModel[index].image,
-                                  fit: BoxFit.cover,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      ItemDetail.itemDetail,
+                                      arguments: fruitModel[index],
+                                    );
+                                  },
+                                  child: Image.asset(
+                                    fruitModel[index].image,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                                 Text(
                                   HomeFruitNames.fruitNames[index],
