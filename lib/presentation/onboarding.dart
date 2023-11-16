@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grocery/presentation/pages/signin.dart';
-// import 'package:grocery/pages/base_home.dart';
-// import 'package:grocery/pages/signin.dart';
+import 'package:grocery/presentation/Auth/View/signin.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

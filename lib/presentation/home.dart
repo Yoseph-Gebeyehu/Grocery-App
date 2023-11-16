@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:grocery/data/Local/shered_preference.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../data/Models/home_model.dart';
 import '../domain/Constants/Images/home_images.dart';
 import '../domain/Constants/Images/home_images2.dart';
@@ -12,6 +13,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    loadFavorite();
+  }
+
   List<HomeModel> fruitModel = List.generate(
     HomeImages2.images.length,
     (index) => HomeModel(
@@ -21,13 +28,41 @@ class _HomeState extends State<Home> {
       addToCart: 'Add to cart',
     ),
   );
-
-  void toggleFavorite(int index) {
+  Future<void> loadFavorite() async {
+    final prefs = await SharedPreferences.getInstance();
     setState(() {
-      fruitModel[index].isFavorite = !fruitModel[index].isFavorite;
-      print(fruitModel[index].isFavorite);
+      fruitModel.forEach((element) {
+        element.isFavorite = prefs.getBool(element.name) ?? false;
+      });
     });
   }
+
+  Future<void> toogleFavorite(HomeModel homeModel) async {
+    final prefs = await SharedPreferences.getInstance();
+    final newValue = !homeModel.isFavorite;
+    setState(() {
+      homeModel.isFavorite = newValue;
+    });
+    await prefs.setBool(homeModel.name, newValue);
+  }
+
+  // Future toggleFavorite(HomeModel fruit) async {
+  //   final newValue = !fruit.isFavorite;
+  //   bool isFav = false;
+
+  //   setState(() {
+  //     fruit.isFavorite = newValue;
+  //   });
+  //   await LocalStorage().setFavorite(fruit.name, newValue);
+  //   bool? favResponse = await LocalStorage().getFavorite(fruit.name);
+  //   if (favResponse != null) {
+  //     isFav = favResponse;
+  //   }
+
+  //   setState(() {
+  //     fruit.isFavorite = isFav;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -144,68 +179,80 @@ class _HomeState extends State<Home> {
                     crossAxisSpacing: 10,
                     childAspectRatio: 2 / 3,
                   ),
-                  itemBuilder: (context, index) => Column(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              IconButton(
-                                padding: const EdgeInsets.all(0),
-                                onPressed: () {
-                                  toggleFavorite(index);
-                                },
-                                icon: Icon(
-                                  Icons.favorite,
-                                  color: fruitModel[index].isFavorite
-                                      ? const Color(0xFFFF2E6C)
-                                      : const Color(0xFFB1B1B1),
-                                ),
-                              ),
-                              Image.asset(
-                                fruitModel[index].image,
-                                fit: BoxFit.cover,
-                              ),
-                              Text(
-                                HomeFruitNames.fruitNames[index],
-                                style: TextStyle(
-                                  fontSize: deviceSize.width * 0.036,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    fruitModel[index].amout,
-                                    style: TextStyle(
-                                      fontSize: deviceSize.width * 0.036,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                  itemBuilder: (context, index) {
+                    final fruit = fruitModel[index];
+                    return Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                IconButton(
+                                  padding: const EdgeInsets.all(0),
+                                  onPressed: () async {
+                                    toogleFavorite(fruit);
+                                    // await toggleFavorite(
+                                    //   fruitModel[index],
+                                    // );
+                                  },
+                                  icon: Icon(
+                                    Icons.favorite,
+                                    color: fruitModel[index].isFavorite &&
+                                            fruitModel[index]
+                                                    .name
+                                                    .toLowerCase() ==
+                                                fruitModel[index]
+                                                    .name
+                                                    .toLowerCase()
+                                        ? const Color(0xFFFF2E6C)
+                                        : const Color(0xFFB1B1B1),
                                   ),
-                                  Text(
-                                    fruitModel[index].addToCart,
-                                    style: TextStyle(
-                                      fontSize: deviceSize.width * 0.036,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xFFFF0000),
-                                    ),
+                                ),
+                                Image.asset(
+                                  fruitModel[index].image,
+                                  fit: BoxFit.cover,
+                                ),
+                                Text(
+                                  HomeFruitNames.fruitNames[index],
+                                  style: TextStyle(
+                                    fontSize: deviceSize.width * 0.036,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ],
-                              )
-                            ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      fruitModel[index].amout,
+                                      style: TextStyle(
+                                        fontSize: deviceSize.width * 0.036,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      fruitModel[index].addToCart,
+                                      style: TextStyle(
+                                        fontSize: deviceSize.width * 0.036,
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(0xFFFF0000),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    );
+                  },
                   itemCount: fruitModel.length,
                 ),
               ),
