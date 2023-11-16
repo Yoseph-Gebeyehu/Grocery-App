@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:grocery/Constants/Images/home_images.dart';
-import 'package:grocery/Constants/Images/home_images2.dart';
-import 'package:grocery/Constants/names/home_fruit_names.dart';
-import 'package:grocery/Models/home_model.dart';
+
+import '../data/Models/home_model.dart';
+import '../domain/Constants/Images/home_images.dart';
+import '../domain/Constants/Images/home_images2.dart';
+import '../domain/Constants/names/home_fruit_names.dart';
 
 class Home extends StatefulWidget {
   static const home = 'home';
@@ -16,7 +17,7 @@ class _HomeState extends State<Home> {
     (index) => HomeModel(
       image: HomeImages2.images[index],
       name: HomeFruitNames.fruitNames[index],
-      amout: index.toString(),
+      amout: '\$${(index * 1.78).toString()}',
       addToCart: 'Add to cart',
     ),
   );
@@ -42,7 +43,7 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Good Morning',
+              DateTime.now().hour < 12 ? 'Good Morning' : 'Good Afternoon',
               style: TextStyle(
                 fontSize: deviceSize.width * 0.04,
                 color: Colors.black,

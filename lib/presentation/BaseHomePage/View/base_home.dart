@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/logic/basehomebloc/base_home_page_bloc.dart';
-import 'package:grocery/presentation/pages/categories.dart';
-import 'package:grocery/presentation/pages/favorite.dart';
-import 'package:grocery/presentation/pages/home.dart';
-import 'package:grocery/presentation/pages/shopping_cart.dart';
-import 'package:grocery/presentation/pages/thank_you.dart';
-// import 'package:grocery/pages/categories.dart';
-// import 'package:grocery/pages/favorite.dart';
-// import 'package:grocery/pages/home.dart';
-// import 'package:grocery/pages/item_detail.dart';
-// import 'package:grocery/pages/shopping_cart.dart';
-// import 'package:grocery/pages/thank_you.dart';
+import 'package:grocery/presentation/BaseHomePage/basehomebloc/base_home_page_bloc.dart';
+import 'package:grocery/presentation/categories.dart';
+import 'package:grocery/presentation/home.dart';
+import 'package:grocery/presentation/shopping_cart.dart';
+
+import '../../favorite.dart';
+import '../../thank_you.dart';
 
 class BaseHomePage extends StatefulWidget {
   const BaseHomePage({Key? key}) : super(key: key);

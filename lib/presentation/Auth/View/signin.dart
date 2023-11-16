@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:grocery/logic/bloc/auth_bloc.dart';
-// import 'package:grocery/pages/base_home.dart';
-import 'package:grocery/presentation/pages/base_home.dart';
-
-import '../../logic/auth_bloc/auth_bloc.dart';
+import 'package:grocery/presentation/Auth/auth_bloc/auth_bloc.dart';
+import 'package:grocery/presentation/BaseHomePage/View/base_home.dart';
 
 class SigninPage extends StatefulWidget {
   const SigninPage({Key? key}) : super(key: key);

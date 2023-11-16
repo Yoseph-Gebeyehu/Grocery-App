@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/logic/auth_bloc/auth_bloc.dart';
-import 'package:grocery/logic/basehomebloc/base_home_page_bloc.dart';
-// import 'package:grocery/logic/bloc/auth_bloc.dart';
-// import 'package:grocery/bloc/cubit/counter_cubit.dart';
-import 'package:grocery/presentation/pages/base_home.dart';
-import 'package:grocery/presentation/pages/categories.dart';
-import 'package:grocery/presentation/pages/favorite.dart';
-import 'package:grocery/presentation/pages/home.dart';
-import 'package:grocery/presentation/pages/item_detail.dart';
-import 'package:grocery/presentation/pages/onboarding.dart';
-import 'package:grocery/presentation/pages/shopping_cart.dart';
-import 'package:grocery/presentation/pages/signin.dart';
-import 'package:grocery/presentation/pages/thank_you.dart';
+import 'package:grocery/presentation/Auth/View/signin.dart';
+import 'package:grocery/presentation/Auth/auth_bloc/auth_bloc.dart';
+import 'package:grocery/presentation/BaseHomePage/View/base_home.dart';
+import 'package:grocery/presentation/BaseHomePage/basehomebloc/base_home_page_bloc.dart';
+import 'package:grocery/presentation/categories.dart';
+import 'package:grocery/presentation/favorite.dart';
+import 'package:grocery/presentation/home.dart';
+import 'package:grocery/presentation/item_detail.dart';
+import 'package:grocery/presentation/onboarding.dart';
+import 'package:grocery/presentation/shopping_cart.dart';
+
+import '../../../presentation/thank_you.dart';
 
 class AppRoute {
   AuthBloc authBloc = AuthBloc();
