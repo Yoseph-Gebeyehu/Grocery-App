@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery/data/Models/home_model.dart';
 import 'package:grocery/presentation/Auth/View/signin.dart';
-import 'package:grocery/presentation/Auth/auth_bloc/auth_bloc.dart';
+import 'package:grocery/presentation/Auth/bloc/auth_bloc.dart';
 import 'package:grocery/presentation/BaseHomePage/View/base_home.dart';
-import 'package:grocery/presentation/BaseHomePage/basehomebloc/base_home_page_bloc.dart';
+import 'package:grocery/presentation/BaseHomePage/bloc/base_home_page_bloc.dart';
 import 'package:grocery/presentation/Category/categories.dart';
 import 'package:grocery/presentation/favorite.dart';
 import 'package:grocery/presentation/home.dart';
@@ -50,7 +50,7 @@ class AppRoute {
       case ItemDetail.itemDetail:
         return MaterialPageRoute(
           builder: (_) => ItemDetail(
-            friut: fruit!,
+            fruit: fruit!,
           ),
         );
       case ShoppingCart.shoppingCart:

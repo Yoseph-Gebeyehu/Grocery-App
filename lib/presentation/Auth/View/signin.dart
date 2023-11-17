@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/presentation/Auth/auth_bloc/auth_bloc.dart';
+import 'package:grocery/presentation/Auth/bloc/auth_bloc.dart';
 import 'package:grocery/presentation/BaseHomePage/View/base_home.dart';
 
 class SigninPage extends StatefulWidget {

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:grocery/data/Models/home_model.dart';
 
 class ItemDetail extends StatefulWidget {
-  final HomeModel friut;
+  final HomeModel fruit;
   static const itemDetail = 'item-detail';
 
-  ItemDetail({required this.friut});
+  ItemDetail({required this.fruit});
 
   @override
   State<ItemDetail> createState() => _ItemDetailState();
@@ -28,7 +28,7 @@ class _ItemDetailState extends State<ItemDetail> {
                   color: Colors.white,
                   padding: const EdgeInsets.all(60),
                   child: Image.asset(
-                    widget.friut.image,
+                    widget.fruit.image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -71,7 +71,7 @@ class _ItemDetailState extends State<ItemDetail> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                widget.friut.name,
+                                widget.fruit.name,
                                 style: TextStyle(
                                   fontSize: deviceSize.width * 0.06,
                                   fontWeight: FontWeight.w600,
@@ -95,7 +95,7 @@ class _ItemDetailState extends State<ItemDetail> {
                                 ),
                                 onPressed: () {},
                                 child: Text(
-                                  'ADD TO CART',
+                                  widget.fruit.addToCart,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: deviceSize.width * 0.03,
@@ -107,7 +107,7 @@ class _ItemDetailState extends State<ItemDetail> {
                           Row(
                             children: [
                               Text(
-                                '\$ 4.9',
+                                widget.fruit.amout,
                                 style: TextStyle(
                                   fontSize: deviceSize.width * 0.05,
                                   color: const Color(0xFFFEC54B),
