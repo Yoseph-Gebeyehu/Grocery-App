@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/data/Models/home_model.dart';
-import 'package:grocery/presentation/Auth/View/signin.dart';
-import 'package:grocery/presentation/Auth/bloc/auth_bloc.dart';
-import 'package:grocery/presentation/BaseHomePage/View/base_home.dart';
-import 'package:grocery/presentation/BaseHomePage/bloc/base_home_page_bloc.dart';
-import 'package:grocery/presentation/Category/categories.dart';
-import 'package:grocery/presentation/favorite.dart';
-import 'package:grocery/presentation/home.dart';
-import 'package:grocery/presentation/item_detail.dart';
-import 'package:grocery/presentation/onboarding.dart';
-import 'package:grocery/presentation/shopping_cart.dart';
 
+import '../../../data/Models/home_model.dart';
+import '../../../presentation/Auth/View/signin.dart';
+import '../../../presentation/BaseHomePage/View/base_home.dart';
+import '../../../presentation/Category/categories.dart';
+import '../../../presentation/favorite.dart';
+import '../../../presentation/Home/view/home.dart';
+import '../../../presentation/item_detail.dart';
+import '../../../presentation/onboarding.dart';
+import '../../../presentation/shopping_cart.dart';
 import '../../../presentation/thank_you.dart';
 
 class AppRoute {
-  AuthBloc authBloc = AuthBloc();
-  BaseHomePageBloc baseHomePageBloc = BaseHomePageBloc();
   Route? onGenerateRoute(RouteSettings routeSettings) {
     HomeModel? fruit;
 
@@ -30,10 +25,7 @@ class AppRoute {
         );
       case BaseHomePage.baseHomePage:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: baseHomePageBloc,
-            child: const BaseHomePage(),
-          ),
+          builder: (_) => const BaseHomePage(),
         );
       case Category.category:
         return MaterialPageRoute(
@@ -59,10 +51,7 @@ class AppRoute {
         );
       case SigninPage.signIn:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider.value(
-            value: authBloc,
-            child: const SigninPage(),
-          ),
+          builder: (_) => const SigninPage(),
         );
       case ThankYouPage.thankyou:
         return MaterialPageRoute(

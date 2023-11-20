@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:grocery/data/Models/home_model.dart';
-import 'package:grocery/domain/Constants/Images/home_images2.dart';
-import 'package:grocery/domain/Constants/names/home_fruit_names.dart';
-import 'package:grocery/presentation/item_detail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../data/Models/home_model.dart';
+import '../domain/Constants/Images/home_images2.dart';
+import '../domain/Constants/names/category_fruit_names.dart';
+import '../domain/Constants/names/home_fruit_names.dart';
+import '../presentation/item_detail.dart';
 
 class Favorite extends StatefulWidget {
   const Favorite({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class _FavoriteState extends State<Favorite> {
   void initState() {
     super.initState();
     loadFavorites();
+    laodCartItems();
   }
 
   List<HomeModel> fruitModel = List.generate(
@@ -24,8 +27,9 @@ class _FavoriteState extends State<Favorite> {
     (index) => HomeModel(
       image: HomeImages2.images[index],
       name: HomeFruitNames.fruitNames[index],
-      amout: '\$${(index * 1.78).toString()}',
-      addToCart: 'Add to cart',
+      // amout: '\$${(index * 1.78).toString()}',
+      amout: index * 1.78,
+      category: CategoryFruitNames.fruitName[index],
     ),
   );
   List<HomeModel> favortieFruits = [];
@@ -40,11 +44,16 @@ class _FavoriteState extends State<Favorite> {
           favortieFruits.add(fruitModel[i]);
         }
       }
-      print(favortieFruits.length);
     });
-    // fruitModel.forEach((fruit) {
-    //   fruit.isFavorite = prefs.getBool(fruit.name) ?? false;
-    // });
+  }
+
+  Future<void> laodCartItems() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      fruitModel.forEach((element) {
+        element.isAddedToCart = prefs.getBool(element.image) ?? false;
+      });
+    });
   }
 
   Future<void> toogleFavorite(HomeModel homeModel) async {
@@ -54,6 +63,15 @@ class _FavoriteState extends State<Favorite> {
       homeModel.isFavorite = newValue;
     });
     await prefs.setBool(homeModel.name, newValue);
+  }
+
+  Future<void> addToCart(HomeModel homeModel) async {
+    final prefs = await SharedPreferences.getInstance();
+    final newValue = !homeModel.isAddedToCart;
+    setState(() {
+      homeModel.isAddedToCart = newValue;
+    });
+    await prefs.setBool(homeModel.image, newValue);
   }
 
   @override
@@ -148,32 +166,45 @@ class _FavoriteState extends State<Favorite> {
                               Row(
                                 children: [
                                   Text(
-                                    // '\$${((index + 0.1) * 10).toString()}',
-                                    favortieFruits[index].amout,
+                                    favortieFruits[index].amout.toString(),
                                     style: TextStyle(
                                       fontSize: deviceSize.width * 0.05,
                                       color: const Color(0xFFE67F1E),
                                     ),
                                   ),
                                   const Spacer(),
-                                  Container(
-                                    padding: const EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFEFEFEF),
-                                      borderRadius: BorderRadius.circular(100),
-                                    ),
-                                    child: Center(
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            favortieFruits[index].addToCart,
-                                            style: TextStyle(
-                                              fontSize:
-                                                  deviceSize.width * 0.035,
-                                              fontWeight: FontWeight.w500,
+                                  GestureDetector(
+                                    onTap: () async {
+                                      favortieFruits[index].isAddedToCart
+                                          ? null
+                                          : await addToCart(fruits);
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            favortieFruits[index].isAddedToCart
+                                                ? const Color(0xFFEFEFEF)
+                                                : const Color(0xFFFEC54B),
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                      ),
+                                      child: Center(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              favortieFruits[index]
+                                                      .isAddedToCart
+                                                  ? 'Added to cart'
+                                                  : 'Add to cart',
+                                              style: TextStyle(
+                                                fontSize:
+                                                    deviceSize.width * 0.03,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   )

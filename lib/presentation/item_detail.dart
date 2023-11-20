@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery/data/Models/home_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ItemDetail extends StatefulWidget {
   final HomeModel fruit;
@@ -12,6 +13,20 @@ class ItemDetail extends StatefulWidget {
 }
 
 class _ItemDetailState extends State<ItemDetail> {
+  @override
+  initState() {
+    super.initState();
+  }
+
+  Future<void> addToCart(HomeModel homeModel) async {
+    final prefs = await SharedPreferences.getInstance();
+    final newValue = !homeModel.isAddedToCart;
+    setState(() {
+      homeModel.isAddedToCart = newValue;
+    });
+    await prefs.setBool(homeModel.image, newValue);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
@@ -85,17 +100,27 @@ class _ItemDetailState extends State<ItemDetail> {
                                       borderRadius: BorderRadius.circular(30),
                                     ),
                                   ),
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                  backgroundColor: widget.fruit.isAddedToCart
+                                      ? MaterialStateProperty.all<Color>(
+                                          const Color.fromARGB(
+                                              255, 215, 209, 209))
+                                      : MaterialStateProperty.all<Color>(
                                           const Color(0xFFFEC54B)),
                                   padding: MaterialStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.all(15),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  widget.fruit.isAddedToCart
+                                      ? null
+                                      : addToCart(widget.fruit);
+                                },
                                 child: Text(
-                                  widget.fruit.addToCart,
+                                  // widget.fruit.addToCart,
+                                  widget.fruit.isAddedToCart
+                                      ? 'Added to cart'
+                                      : 'Add to cart',
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: deviceSize.width * 0.03,
@@ -107,7 +132,7 @@ class _ItemDetailState extends State<ItemDetail> {
                           Row(
                             children: [
                               Text(
-                                widget.fruit.amout,
+                                widget.fruit.amout.toString(),
                                 style: TextStyle(
                                   fontSize: deviceSize.width * 0.05,
                                   color: const Color(0xFFFEC54B),

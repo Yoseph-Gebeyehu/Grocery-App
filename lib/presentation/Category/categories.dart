@@ -4,8 +4,19 @@ import 'package:grocery/domain/Constants/Images/category_images.dart';
 
 import '../../domain/Constants/names/category_fruit_names.dart';
 
-class Category extends StatelessWidget {
+class Category extends StatefulWidget {
   static const category = 'category';
+
+  @override
+  State<Category> createState() => _CategoryState();
+}
+
+class _CategoryState extends State<Category> {
+  @override
+  initState() {
+    super.initState();
+  }
+
   List<CategoryModel> categories = List.generate(
     CategoryImages.images.length,
     (index) => CategoryModel(
@@ -23,15 +34,6 @@ class Category extends StatelessWidget {
         toolbarHeight: deviceSize.height * 0.08,
         backgroundColor: const Color(0xFFFFFFFF),
         centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-        ),
         title: const Text(
           'Categories',
           style: TextStyle(color: Colors.black),

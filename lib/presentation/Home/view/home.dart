@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:grocery/data/Local/shered_preference.dart';
-import 'package:grocery/presentation/item_detail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../data/Models/home_model.dart';
-import '../domain/Constants/Images/home_images.dart';
-import '../domain/Constants/Images/home_images2.dart';
-import '../domain/Constants/names/home_fruit_names.dart';
+
+import '../../../presentation/item_detail.dart';
+import '../../../data/Models/home_model.dart';
+import '../../../domain/Constants/Images/home_images.dart';
+import '../../../domain/Constants/Images/home_images2.dart';
+import '../../../domain/Constants/names/category_fruit_names.dart';
+import '../../../domain/Constants/names/home_fruit_names.dart';
 
 class Home extends StatefulWidget {
   static const home = 'home';
@@ -18,6 +19,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     loadFavorite();
+    laodCartItems();
   }
 
   List<HomeModel> fruitModel = List.generate(
@@ -25,8 +27,9 @@ class _HomeState extends State<Home> {
     (index) => HomeModel(
       image: HomeImages2.images[index],
       name: HomeFruitNames.fruitNames[index],
-      amout: '\$${(index * 1.78).toString()}',
-      addToCart: 'Add to cart',
+      amout: index * 1.78,
+      category: CategoryFruitNames.fruitName[index],
+      // addToCart: 'Add to cart',
     ),
   );
   Future<void> loadFavorite() async {
@@ -38,6 +41,15 @@ class _HomeState extends State<Home> {
     });
   }
 
+  Future<void> laodCartItems() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      fruitModel.forEach((element) {
+        element.isAddedToCart = prefs.getBool(element.image) ?? false;
+      });
+    });
+  }
+
   Future<void> toogleFavorite(HomeModel homeModel) async {
     final prefs = await SharedPreferences.getInstance();
     final newValue = !homeModel.isFavorite;
@@ -45,6 +57,15 @@ class _HomeState extends State<Home> {
       homeModel.isFavorite = newValue;
     });
     await prefs.setBool(homeModel.name, newValue);
+  }
+
+  Future<void> addToCart(HomeModel homeModel) async {
+    final prefs = await SharedPreferences.getInstance();
+    final newValue = !homeModel.isAddedToCart;
+    setState(() {
+      homeModel.isAddedToCart = newValue;
+    });
+    await prefs.setBool(homeModel.image, newValue);
   }
 
   @override
@@ -180,9 +201,6 @@ class _HomeState extends State<Home> {
                                   padding: const EdgeInsets.all(0),
                                   onPressed: () async {
                                     toogleFavorite(fruit);
-                                    // await toggleFavorite(
-                                    //   fruitModel[index],
-                                    // );
                                   },
                                   icon: Icon(
                                     Icons.favorite,
@@ -222,18 +240,39 @@ class _HomeState extends State<Home> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      fruitModel[index].amout,
+                                      fruitModel[index].amout.toString(),
                                       style: TextStyle(
                                         fontSize: deviceSize.width * 0.036,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Text(
-                                      fruitModel[index].addToCart,
-                                      style: TextStyle(
-                                        fontSize: deviceSize.width * 0.036,
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color(0xFFFF0000),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        fruitModel[index].isAddedToCart
+                                            ? null
+                                            : addToCart(fruit);
+                                        // context.read<HomeBloc>().add(
+                                        //       AddToCartEvent(
+                                        //         isAddedToCart:
+                                        //             fruitModel[index]
+                                        //                 .isAddedToCart,
+                                        //       ),
+                                        //     );
+                                      },
+                                      child: Text(
+                                        // fruitModel[index].addToCart,
+                                        fruitModel[index].isAddedToCart
+                                            // state is AddedToCartState
+                                            ? 'Added to cart'
+                                            : 'Add to cart',
+                                        style: TextStyle(
+                                          fontSize: deviceSize.width * 0.03,
+                                          fontWeight: FontWeight.bold,
+                                          color: fruitModel[index].isAddedToCart
+                                              // state is AddedToCartState
+                                              ? const Color(0xFFB1B1B1)
+                                              : const Color(0xFFFF0000),
+                                        ),
                                       ),
                                     ),
                                   ],

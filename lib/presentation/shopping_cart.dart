@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+// import 'package:grocery/presentation/CheckOut/check_out.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../data/Models/home_model.dart';
+import '../domain/Constants/Images/home_images2.dart';
+import '../domain/Constants/names/category_fruit_names.dart';
+import '../domain/Constants/names/home_fruit_names.dart';
 
 class ShoppingCart extends StatefulWidget {
   const ShoppingCart({Key? key}) : super(key: key);
@@ -8,21 +15,75 @@ class ShoppingCart extends StatefulWidget {
 }
 
 class _ShoppingCartState extends State<ShoppingCart> {
-  List<String> imagesList = [
-    'assets/banana_detail.png',
-    'assets/bronci_detail.png',
-    'assets/mushroom_details.png',
-  ];
-  List<String> category = [
-    'FRUITS',
-    'VEGETABLES',
-    'MUSHROOM',
-  ];
-  List<String> fruitName = [
-    'Banana',
-    'Brocolli',
-    'Oyster Mushroom',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    loadCartFruits();
+    totalAmount();
+  }
+
+  List<HomeModel> fruitModel = List.generate(
+    HomeImages2.images.length,
+    (index) => HomeModel(
+      image: HomeImages2.images[index],
+      name: HomeFruitNames.fruitNames[index],
+      amout: index * 1.78,
+      category: CategoryFruitNames.fruitName[index],
+    ),
+  );
+  List<HomeModel> cartFruits = [];
+  double total = 0;
+  // resetTotalAmount() {
+  //   total = 0;
+  // }
+
+  totalAmount() {
+    cartFruits.forEach((element) {
+      setState(() {
+        total += element.amout;
+      });
+    });
+    return total;
+  }
+
+  List<int> itemCount = [];
+  incrementItemCount(int index) {
+    setState(() {
+      // itemCount += 1;
+      itemCount[index] += 1;
+    });
+  }
+
+  decrementItemCount(int index) {
+    setState(() {
+      itemCount[index] -= 1;
+    });
+  }
+
+  Future<void> loadCartFruits() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      fruitModel.forEach((fruit) {
+        fruit.isAddedToCart = prefs.getBool(fruit.image) ?? false;
+      });
+      for (int i = 0; i < fruitModel.length; i++) {
+        if (fruitModel[i].isAddedToCart == true) {
+          cartFruits.add(fruitModel[i]);
+        }
+      }
+    });
+    itemCount = List.generate(cartFruits.length, (index) => 1);
+  }
+
+  Future<void> removeFromCart(HomeModel homeModel) async {
+    final prefs = await SharedPreferences.getInstance();
+    final newValue = !homeModel.isAddedToCart;
+    setState(() {
+      homeModel.isAddedToCart = newValue;
+    });
+    await prefs.setBool(homeModel.image, newValue);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
@@ -35,7 +96,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
         title: Padding(
           padding: EdgeInsets.only(left: deviceSize.width * 0.1),
           child: const Text(
-            'Item details',
+            'Cart',
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
@@ -43,165 +104,233 @@ class _ShoppingCartState extends State<ShoppingCart> {
           ),
         ),
       ),
-      body: SizedBox(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              flex: 10,
-              child: ListView.builder(
-                itemBuilder: (context, index) => Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: deviceSize.width * 0.08,
-                    vertical: deviceSize.height * 0.015,
-                  ),
-                  child: SizedBox(
-                    height: deviceSize.height * 0.15,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SizedBox(
-                          child: Image.asset(
-                            imagesList[index],
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        SizedBox(
-                          width: deviceSize.width * 0.05,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              SizedBox(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      category[index],
-                                      style: TextStyle(
-                                        fontSize: deviceSize.width * 0.03,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    Text(
-                                      fruitName[index],
-                                      style: TextStyle(
-                                        fontSize: deviceSize.width * 0.05,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+      body: cartFruits.isEmpty
+          ? const Center(
+              child: Text('No cart is added yet'),
+            )
+          : SizedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    flex: 10,
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        var fruits = cartFruits[index];
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: deviceSize.width * 0.08,
+                                vertical: deviceSize.height * 0.015,
                               ),
-                              Row(
-                                children: [
-                                  Text(
-                                    '\$${((index + 0.1) * 19.57).toString()}',
-                                    style: TextStyle(
-                                      fontSize: deviceSize.width * 0.05,
-                                      color: const Color(0xFFE67F1E),
+                              child: SizedBox(
+                                height: deviceSize.height * 0.15,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    SizedBox(
+                                      child: Image.asset(
+                                        cartFruits[index].image,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
-                                  ),
-                                  const Spacer(),
-                                  Container(
-                                    height: deviceSize.height * 0.04,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFEFEFEF),
-                                      borderRadius: BorderRadius.circular(100),
+                                    SizedBox(
+                                      width: deviceSize.width * 0.05,
                                     ),
-                                    child: Center(
-                                      child: Row(
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
                                         children: [
-                                          IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(
-                                              Icons.remove,
-                                              color: Color(0xFFB1B1B1),
+                                          SizedBox(
+                                            child: Row(
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      cartFruits[index]
+                                                          .category,
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            deviceSize.width *
+                                                                0.03,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      cartFruits[index].name,
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            deviceSize.width *
+                                                                0.05,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const Spacer(),
+                                                IconButton(
+                                                  onPressed: () async {
+                                                    removeFromCart(fruits);
+                                                    cartFruits.removeAt(index);
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.delete,
+                                                    color: Colors.red,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          Text(
-                                            index.toString(),
-                                            style: TextStyle(
-                                              fontSize: deviceSize.width * 0.05,
-                                            ),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(
-                                              Icons.add,
-                                              color: Color(0xFFB1B1B1),
-                                            ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                (cartFruits[index].amout *
+                                                        itemCount[index])
+                                                    .toString(),
+                                                // cartFruits[index]
+                                                //     .amout
+                                                //     .toString(),
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      deviceSize.width * 0.05,
+                                                  color:
+                                                      const Color(0xFFE67F1E),
+                                                ),
+                                              ),
+                                              const Spacer(),
+                                              Container(
+                                                height:
+                                                    deviceSize.height * 0.04,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      const Color(0xFFEFEFEF),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                ),
+                                                child: Center(
+                                                  child: Row(
+                                                    children: [
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          decrementItemCount(
+                                                            index,
+                                                          );
+                                                          // resetTotalAmount();
+                                                        },
+                                                        icon: const Icon(
+                                                          Icons.remove,
+                                                          color:
+                                                              Color(0xFFB1B1B1),
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        // index.toString(),
+                                                        itemCount[index]
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              deviceSize.width *
+                                                                  0.05,
+                                                        ),
+                                                      ),
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          incrementItemCount(
+                                                            index,
+                                                          );
+                                                          // resetTotalAmount();
+                                                        },
+                                                        icon: const Icon(
+                                                          Icons.add,
+                                                          color:
+                                                              Color(0xFFB1B1B1),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  )
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
-                            ],
-                          ),
-                        )
-                      ],
+                            ),
+                            Divider(
+                              thickness: 1,
+                              indent: deviceSize.width * 0.1,
+                              endIndent: deviceSize.width * 0.1,
+                            ),
+                          ],
+                        );
+                      },
+                      itemCount: cartFruits.length,
                     ),
                   ),
-                ),
-                itemCount: imagesList.length,
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: deviceSize.width * 0.08,
-                  vertical: deviceSize.height * 0.015,
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Text(
-                        'total \$6',
-                        style: TextStyle(
-                          fontSize: deviceSize.width * 0.05,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: deviceSize.width * 0.08,
+                        vertical: deviceSize.height * 0.015,
                       ),
-                      SizedBox(height: deviceSize.height * 0.009),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Text(
+                              totalAmount().toString(),
+                              style: TextStyle(
+                                fontSize: deviceSize.width * 0.05,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              const Color(0xFFFEC54B)),
-                          minimumSize: MaterialStateProperty.all(
-                            const Size(double.infinity, 50),
-                          ),
-                        ),
-                        child: Text(
-                          'PLACE ORDER',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: deviceSize.width * 0.04,
-                            fontWeight: FontWeight.bold,
-                          ),
+                            SizedBox(height: deviceSize.height * 0.009),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                  ),
+                                ),
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        const Color(0xFFFEC54B)),
+                                minimumSize: MaterialStateProperty.all(
+                                  const Size(double.infinity, 50),
+                                ),
+                              ),
+                              child: Text(
+                                'PLACE ORDER',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: deviceSize.width * 0.04,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }
