@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery/presentation/CheckOut/customer_info.dart';
 
 import '../../../data/Models/home_model.dart';
 import '../../../presentation/Auth/View/signin.dart';
@@ -14,6 +15,9 @@ import '../../../presentation/thank_you.dart';
 class AppRoute {
   Route? onGenerateRoute(RouteSettings routeSettings) {
     HomeModel? fruit;
+    String title;
+    String amount;
+    String description;
 
     if (routeSettings.name == ItemDetail.itemDetail) {
       fruit = routeSettings.arguments as HomeModel;
@@ -57,6 +61,8 @@ class AppRoute {
         return MaterialPageRoute(
           builder: (_) => const ThankYouPage(),
         );
+      case CustomerInformationForm.customerInfo:
+        return MaterialPageRoute(builder: (_) => CustomerInformationForm());
       default:
         return null;
     }

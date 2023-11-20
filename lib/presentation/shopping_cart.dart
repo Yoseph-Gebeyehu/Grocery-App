@@ -6,6 +6,7 @@ import '../data/Models/home_model.dart';
 import '../domain/Constants/Images/home_images2.dart';
 import '../domain/Constants/names/category_fruit_names.dart';
 import '../domain/Constants/names/home_fruit_names.dart';
+import 'CheckOut/customer_info.dart';
 
 class ShoppingCart extends StatefulWidget {
   const ShoppingCart({Key? key}) : super(key: key);
@@ -299,7 +300,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
                             ),
                             SizedBox(height: deviceSize.height * 0.009),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => CustomerInformationForm()));
+                              },
                               style: ButtonStyle(
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
