@@ -18,11 +18,14 @@ class _ItemDetailState extends State<ItemDetail> {
     super.initState();
   }
 
+  bool isAddedToCart = false;
+
   Future<void> addToCart(HomeModel homeModel) async {
     final prefs = await SharedPreferences.getInstance();
     final newValue = !homeModel.isAddedToCart;
     setState(() {
       homeModel.isAddedToCart = newValue;
+      isAddedToCart = true;
     });
     await prefs.setBool(homeModel.image, newValue);
   }
@@ -57,7 +60,7 @@ class _ItemDetailState extends State<ItemDetail> {
                       color: Colors.black,
                     ),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      return Navigator.of(context).pop(isAddedToCart);
                     },
                   ),
                 ),

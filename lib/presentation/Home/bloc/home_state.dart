@@ -10,8 +10,14 @@ class HomeState {}
 
 class HomeInitial extends HomeState {}
 
+class CartInitiaState extends HomeState {
+  List<HomeModel> homeModel;
+  CartInitiaState({required this.homeModel});
+}
+
 class AddedToCartState extends HomeState {
-  List<bool> isAddedToCart = [];
+  List<HomeModel> isAddedToCart;
+  AddedToCartState({required this.isAddedToCart});
 }
 
 class NotAddedToCartState extends HomeState {}
