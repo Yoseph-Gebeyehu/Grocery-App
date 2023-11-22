@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery/presentation/Auth/bloc/auth_bloc.dart';
-import 'package:grocery/presentation/BaseHomePage/bloc/base_home_page_bloc.dart';
+import 'package:grocery/presentation/base-home-page/bloc/base_home_page_bloc.dart';
 import 'package:grocery/presentation/Home/bloc/home_bloc.dart';
 
 import 'domain/Constants/router/app_route.dart';

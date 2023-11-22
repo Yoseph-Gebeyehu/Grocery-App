@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:grocery/presentation/CheckOut/customer_info.dart';
 
+import '../../../presentation/check-out/customer_info.dart';
 import '../../../data/Models/home_model.dart';
 import '../../../presentation/Auth/View/signin.dart';
-import '../../../presentation/BaseHomePage/View/base_home.dart';
+import '../../../presentation/base-home-page/View/base_home.dart';
 import '../../../presentation/Category/categories.dart';
 import '../../../presentation/favorite.dart';
 import '../../../presentation/Home/view/home.dart';

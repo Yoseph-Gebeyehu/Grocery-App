@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:grocery/presentation/CheckOut/check_out.dart';
+import 'package:grocery/presentation/check-out/check_out.dart';
 import 'package:http/http.dart' as http;
 
 class CustomerInformationForm extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/presentation/BaseHomePage/bloc/base_home_page_bloc.dart';
+import 'package:grocery/presentation/base-home-page/bloc/base_home_page_bloc.dart';
 import 'package:grocery/presentation/Category/categories.dart';
 import 'package:grocery/presentation/Home/view/home.dart';
 import 'package:grocery/presentation/shopping_cart.dart';
