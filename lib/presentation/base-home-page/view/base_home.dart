@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/presentation/base-home-page/bloc/base_home_page_bloc.dart';
-import 'package:grocery/presentation/Category/categories.dart';
-import 'package:grocery/presentation/Home/view/home.dart';
-import 'package:grocery/presentation/shopping_cart.dart';
 
-import '../../favorite.dart';
+import '../../../presentation/base-home-page/bloc/base_home_page_bloc.dart';
+import '../../../presentation/Category/categories.dart';
+import '../../../presentation/Home/view/home.dart';
+import '../../../presentation/shopping_cart.dart';
+import '../../favorite/view/favorite.dart';
 import '../../thank_you.dart';
 
 class BaseHomePage extends StatefulWidget {
@@ -20,7 +20,6 @@ class _BaseHomePageState extends State<BaseHomePage> {
   List<Widget> pages = [
     Home(),
     CategoryPage(),
-    // ItemDetail(),
     const ShoppingCart(),
     const Favorite(),
     const ThankYouPage(),
@@ -67,9 +66,6 @@ class _BaseHomePageState extends State<BaseHomePage> {
               } else if (value == 4) {
                 context.read<BaseHomePageBloc>().add(BProfileEvent());
               }
-              // setState(() {
-              //   selectedIndex = value;
-              // });
             },
             items: const [
               BottomNavigationBarItem(

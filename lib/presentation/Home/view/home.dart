@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
     (index) => Fruit(
       image: HomeImages2.images[index],
       name: HomeFruitNames.fruitNames[index],
-      amout: index * 1.78,
+      amout: index.toDouble(),
       category: CategoryNames.fruitName[index],
     ),
   );
@@ -38,11 +38,9 @@ class _HomeState extends State<Home> {
     setState(() {
       fruitList.forEach((element) async {
         element.isFavorite = prefs.getBool(element.name) ?? false;
-        // element.isFavorite = await LocalStorage.get(element.name) ?? false;
       });
       fruitList.forEach((element) async {
         element.isAddedToCart = prefs.getBool(element.image) ?? false;
-        // element.isAddedToCart = await LocalStorage.get(element.image) ?? false;
       });
     });
     return fruitList;

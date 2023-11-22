@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:grocery/data/Models/home_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../data/Models/home_model.dart';
 
 class ItemDetail extends StatefulWidget {
   final Fruit fruit;
   static const itemDetail = 'item-detail';
 
-  ItemDetail({required this.fruit});
+   ItemDetail({required this.fruit});
 
   @override
   State<ItemDetail> createState() => _ItemDetailState();
@@ -74,7 +75,6 @@ class _ItemDetailState extends State<ItemDetail> {
                         top: deviceSize.height * 0.03,
                       ),
                       width: deviceSize.width,
-                      // height: deviceSize.height,
                       decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
@@ -120,7 +120,6 @@ class _ItemDetailState extends State<ItemDetail> {
                                       : addToCart(widget.fruit);
                                 },
                                 child: Text(
-                                  // widget.fruit.addToCart,
                                   widget.fruit.isAddedToCart
                                       ? 'Added to cart'
                                       : 'Add to cart',

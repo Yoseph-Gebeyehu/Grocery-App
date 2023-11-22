@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../presentation/check-out/customer_info.dart';
 import '../../../data/Models/home_model.dart';
-import '../../../presentation/Auth/View/signin.dart';
-import '../../../presentation/base-home-page/View/base_home.dart';
+import '../../../presentation/auth/view/signin.dart';
+import '../../../presentation/base-home-page/view/base_home.dart';
 import '../../../presentation/Category/categories.dart';
-import '../../../presentation/favorite.dart';
 import '../../../presentation/Home/view/home.dart';
+import '../../../presentation/favorite/view/favorite.dart';
 import '../../../presentation/item_detail.dart';
 import '../../../presentation/onboarding.dart';
 import '../../../presentation/shopping_cart.dart';
@@ -15,9 +15,6 @@ import '../../../presentation/thank_you.dart';
 class AppRoute {
   Route? onGenerateRoute(RouteSettings routeSettings) {
     Fruit? fruit;
-    String title;
-    String amount;
-    String description;
 
     if (routeSettings.name == ItemDetail.itemDetail) {
       fruit = routeSettings.arguments as Fruit;

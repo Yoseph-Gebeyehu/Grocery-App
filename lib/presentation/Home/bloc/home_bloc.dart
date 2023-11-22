@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:grocery/data/Local/shered_preference.dart';
-import 'package:grocery/data/Models/home_model.dart';
+import '../../../data/Local/shered_preference.dart';
+import '../../../data/Models/home_model.dart';
 
 import '../../../domain/Constants/Images/home_images2.dart';
 import '../../../domain/Constants/names/category_fruit_names.dart';
