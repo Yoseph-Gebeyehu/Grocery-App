@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
       image: HomeImages2.images[index],
       name: HomeFruitNames.fruitNames[index],
       amout: index * 1.78,
-      category: CategoryFruitNames.fruitName[index],
+      category: CategoryNames.fruitName[index],
     ),
   );
 

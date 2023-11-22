@@ -79,14 +79,13 @@ class _CustomerInformationFormState extends State<CustomerInformationForm> {
               const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () async {
-                  // Now you can use title, amount, and description to create the request body
                   var body = json.encode({
                     'email': 'yosephgebeyehu73@gmail.com',
                     'amount': amount,
                     'first_name': 'firstName',
                     'last_name': 'lastName',
                     'phone_number': '0918292773',
-                    'tx_ref': 'hellobrohowyoudoing',
+                    'tx_ref': 'hellbrohowyoudoing',
                     'currency': 'ETB',
                     'callback_url': 'https://your-callback-url.com',
                     'return_url': 'https://your-return-url.com',

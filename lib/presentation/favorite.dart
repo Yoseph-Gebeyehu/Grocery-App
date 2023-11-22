@@ -29,7 +29,7 @@ class _FavoriteState extends State<Favorite> {
       name: HomeFruitNames.fruitNames[index],
       // amout: '\$${(index * 1.78).toString()}',
       amout: index * 1.78,
-      category: CategoryFruitNames.fruitName[index],
+      category: CategoryNames.fruitName[index],
     ),
   );
   List<Fruit> favortieFruits = [];

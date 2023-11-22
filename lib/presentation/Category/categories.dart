@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:grocery/data/Models/category_model.dart';
-import 'package:grocery/domain/Constants/Images/category_images.dart';
 
+import '../../data/Models/category_model.dart';
+import '../../data/Models/home_model.dart';
+import '../../domain/Constants/Images/category_images.dart';
+import '../../domain/Constants/Images/home_images2.dart';
 import '../../domain/Constants/names/category_fruit_names.dart';
+import '../../domain/Constants/names/home_fruit_names.dart';
 
 class CategoryPage extends StatefulWidget {
   static const category = 'category';
@@ -21,9 +24,26 @@ class _CategoryPageState extends State<CategoryPage> {
     CategoryImages.images.length,
     (index) => Category(
       image: CategoryImages.images[index],
-      name: CategoryFruitNames.fruitName[index],
+      name: CategoryNames.fruitName[index],
     ),
   );
+
+  List<Fruit> fruitList = List.generate(
+    HomeImages2.images.length,
+    (index) => Fruit(
+      image: HomeImages2.images[index],
+      name: HomeFruitNames.fruitNames[index],
+      amout: index * 1.78,
+      category: CategoryNames.fruitName[index],
+    ),
+  );
+  List<Fruit> fruitTypeList() {
+    return fruitList.where((fruit) => fruit.category == 'Fruits').toList();
+  }
+
+  List<Fruit> vegetableTypeList() {
+    return fruitList.where((fruit) => fruit.category == 'Vegetable').toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,58 +63,63 @@ class _CategoryPageState extends State<CategoryPage> {
         padding: EdgeInsets.symmetric(
           horizontal: deviceSize.width * 0.05,
         ),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 0,
-            childAspectRatio: 6 / 5,
-            mainAxisSpacing: 10,
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: const Color(0xFFFBFBFB),
           ),
-          itemBuilder: (context, index) => Padding(
-            padding: EdgeInsets.only(
-              left: deviceSize.width * 0.05,
-              right: deviceSize.width * 0.05,
-              top: deviceSize.height * 0.03,
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: const Color(0xFFFBFBFB),
-                border: Border.all(
-                  color: index == 0
-                      ? const Color(0xFFFF2E6C)
-                      : const Color(0x00000000),
-                  width: 1.0,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: deviceSize.height * 0.01),
+              SizedBox(height: deviceSize.height * 0.009),
+              Text(
+                categories[0].name,
+                style: TextStyle(
+                  color: const Color(0xFFE67F1E),
+                  fontWeight: FontWeight.bold,
+                  fontSize: deviceSize.width * 0.05,
                 ),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x42000000),
-                    offset: Offset(9, 0),
-                    blurRadius: 10,
-                    spreadRadius: 2,
-                  ),
-                ],
               ),
-              child: Column(
-                children: [
-                  SizedBox(height: deviceSize.height * 0.01),
-                  Image.asset(
-                    categories[index].image,
-                    fit: BoxFit.cover,
-                  ),
-                  SizedBox(height: deviceSize.height * 0.009),
-                  Text(
-                    categories[index].name,
-                    style: const TextStyle(
-                      color: Color(0xFFE67F1E),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+              Expanded(
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(fruitTypeList()[index].name),
+                      leading: CircleAvatar(
+                        backgroundImage:
+                            AssetImage(fruitTypeList()[index].image),
+                      ),
+                    );
+                  },
+                  itemCount: fruitTypeList().length,
+                ),
               ),
-            ),
+              SizedBox(height: deviceSize.height * 0.009),
+              Text(
+                categories[1].name,
+                style: TextStyle(
+                    color: const Color(0xFFE67F1E),
+                    fontWeight: FontWeight.bold,
+                    fontSize: deviceSize.width * 0.05),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(vegetableTypeList()[index].name),
+                      leading: CircleAvatar(
+                        backgroundImage:
+                            AssetImage(vegetableTypeList()[index].image),
+                      ),
+                    );
+                  },
+                  itemCount: vegetableTypeList().length,
+                ),
+              ),
+            ],
           ),
-          itemCount: categories.length,
         ),
       ),
     );

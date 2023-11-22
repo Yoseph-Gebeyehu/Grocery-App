@@ -1,4 +1,4 @@
-class CategoryFruitNames {
+class CategoryNames {
   static const fruits = 'Fruits';
   static const vegetable = 'Vegetable';
   // static const mushroom = 'Mushroom';
