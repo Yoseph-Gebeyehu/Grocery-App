@@ -20,7 +20,7 @@ class _CategoryPageState extends State<CategoryPage> {
     super.initState();
   }
 
-  List<Category> categories = List.generate(
+  List<Category> categoryList = List.generate(
     CategoryImages.images.length,
     (index) => Category(
       image: CategoryImages.images[index],
@@ -75,7 +75,7 @@ class _CategoryPageState extends State<CategoryPage> {
               SizedBox(height: deviceSize.height * 0.01),
               SizedBox(height: deviceSize.height * 0.009),
               Text(
-                categories[0].name,
+                categoryList[0].name,
                 style: TextStyle(
                   color: const Color(0xFFE67F1E),
                   fontWeight: FontWeight.bold,
@@ -98,11 +98,12 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
               SizedBox(height: deviceSize.height * 0.009),
               Text(
-                categories[1].name,
+                categoryList[1].name,
                 style: TextStyle(
-                    color: const Color(0xFFE67F1E),
-                    fontWeight: FontWeight.bold,
-                    fontSize: deviceSize.width * 0.05),
+                  color: const Color(0xFFE67F1E),
+                  fontWeight: FontWeight.bold,
+                  fontSize: deviceSize.width * 0.05,
+                ),
               ),
               Expanded(
                 child: ListView.builder(

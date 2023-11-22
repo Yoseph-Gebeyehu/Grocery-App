@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:grocery/presentation/CheckOut/check_out.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/Models/home_model.dart';
@@ -28,7 +27,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     (index) => Fruit(
       image: HomeImages2.images[index],
       name: HomeFruitNames.fruitNames[index],
-      amout: index * 1.78,
+      amout: index * 2,
       category: CategoryNames.fruitName[index],
     ),
   );
@@ -39,10 +38,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
   // }
 
   totalAmount() {
+    total = 0; // Reset the total amount to zero before calculating
     cartFruits.forEach((element) {
-      setState(() {
-        total += element.amout;
-      });
+      total += element.amout * itemCount[cartFruits.indexOf(element)];
     });
     return total;
   }
@@ -50,15 +48,16 @@ class _ShoppingCartState extends State<ShoppingCart> {
   List<int> itemCount = [];
   incrementItemCount(int index) {
     setState(() {
-      // itemCount += 1;
       itemCount[index] += 1;
     });
   }
 
   decrementItemCount(int index) {
-    setState(() {
-      itemCount[index] -= 1;
-    });
+    if (itemCount[index] > 1) {
+      setState(() {
+        itemCount[index] -= 1;
+      });
+    }
   }
 
   Future<void> loadCartFruits() async {
@@ -196,9 +195,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                                 (cartFruits[index].amout *
                                                         itemCount[index])
                                                     .toString(),
-                                                // cartFruits[index]
-                                                //     .amout
-                                                //     .toString(),
                                                 style: TextStyle(
                                                   fontSize:
                                                       deviceSize.width * 0.05,
@@ -225,7 +221,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                                           decrementItemCount(
                                                             index,
                                                           );
-                                                          // resetTotalAmount();
                                                         },
                                                         icon: const Icon(
                                                           Icons.remove,
@@ -234,7 +229,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                                         ),
                                                       ),
                                                       Text(
-                                                        // index.toString(),
                                                         itemCount[index]
                                                             .toString(),
                                                         style: TextStyle(
@@ -248,7 +242,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                                           incrementItemCount(
                                                             index,
                                                           );
-                                                          // resetTotalAmount();
                                                         },
                                                         icon: const Icon(
                                                           Icons.add,
