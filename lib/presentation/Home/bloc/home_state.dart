@@ -11,24 +11,15 @@ class HomeState {}
 class HomeInitial extends HomeState {}
 
 class CartInitiaState extends HomeState {
-  List<HomeModel> homeModel;
-  CartInitiaState({required this.homeModel});
+  List<Fruit> fruitList;
+  CartInitiaState({required this.fruitList});
 }
 
-class AddedToCartState extends HomeState {
-  List<HomeModel> isAddedToCart;
-  AddedToCartState({required this.isAddedToCart});
-}
+class AddedToCartState extends HomeState {}
 
 //                  //
 // //   Favorte  // //
 //                  //
-class FavoriteInitialState extends HomeState {
-  List<HomeModel> homeModel;
-  FavoriteInitialState({required this.homeModel});
-}
+class FavoriteInitialState extends HomeState {}
 
-class AddedToFavoriteState extends HomeState {
-  List<HomeModel> homeModel;
-  AddedToFavoriteState({required this.homeModel});
-}
+class AddedToFavoriteState extends HomeState {}

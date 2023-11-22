@@ -4,22 +4,22 @@ import 'package:grocery/domain/Constants/Images/category_images.dart';
 
 import '../../domain/Constants/names/category_fruit_names.dart';
 
-class Category extends StatefulWidget {
+class CategoryPage extends StatefulWidget {
   static const category = 'category';
 
   @override
-  State<Category> createState() => _CategoryState();
+  State<CategoryPage> createState() => _CategoryPageState();
 }
 
-class _CategoryState extends State<Category> {
+class _CategoryPageState extends State<CategoryPage> {
   @override
   initState() {
     super.initState();
   }
 
-  List<CategoryModel> categories = List.generate(
+  List<Category> categories = List.generate(
     CategoryImages.images.length,
-    (index) => CategoryModel(
+    (index) => Category(
       image: CategoryImages.images[index],
       name: CategoryFruitNames.fruitName[index],
     ),

@@ -22,9 +22,9 @@ class _FavoriteState extends State<Favorite> {
     laodCartItems();
   }
 
-  List<HomeModel> fruitModel = List.generate(
+  List<Fruit> fruitList = List.generate(
     HomeImages2.images.length,
-    (index) => HomeModel(
+    (index) => Fruit(
       image: HomeImages2.images[index],
       name: HomeFruitNames.fruitNames[index],
       // amout: '\$${(index * 1.78).toString()}',
@@ -32,16 +32,16 @@ class _FavoriteState extends State<Favorite> {
       category: CategoryFruitNames.fruitName[index],
     ),
   );
-  List<HomeModel> favortieFruits = [];
+  List<Fruit> favortieFruits = [];
   Future<void> loadFavorites() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      fruitModel.forEach((fruit) {
+      fruitList.forEach((fruit) {
         fruit.isFavorite = prefs.getBool(fruit.name) ?? false;
       });
-      for (int i = 0; i < fruitModel.length; i++) {
-        if (fruitModel[i].isFavorite == true) {
-          favortieFruits.add(fruitModel[i]);
+      for (int i = 0; i < fruitList.length; i++) {
+        if (fruitList[i].isFavorite == true) {
+          favortieFruits.add(fruitList[i]);
         }
       }
     });
@@ -50,28 +50,28 @@ class _FavoriteState extends State<Favorite> {
   Future<void> laodCartItems() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      fruitModel.forEach((element) {
+      fruitList.forEach((element) {
         element.isAddedToCart = prefs.getBool(element.image) ?? false;
       });
     });
   }
 
-  Future<void> toogleFavorite(HomeModel homeModel) async {
+  Future<void> toogleFavorite(Fruit fruit) async {
     final prefs = await SharedPreferences.getInstance();
-    final newValue = !homeModel.isFavorite;
+    final newValue = !fruit.isFavorite;
     setState(() {
-      homeModel.isFavorite = newValue;
+      fruit.isFavorite = newValue;
     });
-    await prefs.setBool(homeModel.name, newValue);
+    await prefs.setBool(fruit.name, newValue);
   }
 
-  Future<void> addToCart(HomeModel homeModel) async {
+  Future<void> addToCart(Fruit fruit) async {
     final prefs = await SharedPreferences.getInstance();
-    final newValue = !homeModel.isAddedToCart;
+    final newValue = !fruit.isAddedToCart;
     setState(() {
-      homeModel.isAddedToCart = newValue;
+      fruit.isAddedToCart = newValue;
     });
-    await prefs.setBool(homeModel.image, newValue);
+    await prefs.setBool(fruit.image, newValue);
   }
 
   @override

@@ -1,4 +1,4 @@
-class HomeModel {
+class Fruit {
   final String image;
   final String name;
   final double amout;
@@ -6,7 +6,7 @@ class HomeModel {
   bool isAddedToCart;
   bool isFavorite;
 
-  HomeModel({
+  Fruit({
     required this.image,
     required this.name,
     required this.amout,

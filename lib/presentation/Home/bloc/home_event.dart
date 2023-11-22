@@ -10,14 +10,14 @@ class HomeEvent extends Equatable {
 class CartInitial extends HomeEvent {}
 
 class AddToCartEvent extends HomeEvent {
-  final HomeModel homeModel;
+  final Fruit fruit;
 
-  const AddToCartEvent({required this.homeModel});
+  const AddToCartEvent({required this.fruit});
 }
 
 // class FavoriteInitial extends HomeEvent {}
 
 class AddToFavorite extends HomeEvent {
-  final HomeModel homeModel;
-  const AddToFavorite({required this.homeModel});
+  final Fruit fruit;
+  const AddToFavorite({required this.fruit});
 }

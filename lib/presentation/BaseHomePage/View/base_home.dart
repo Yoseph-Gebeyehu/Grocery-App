@@ -19,7 +19,7 @@ class _BaseHomePageState extends State<BaseHomePage> {
   int selectedIndex = 0;
   List<Widget> pages = [
     Home(),
-    Category(),
+    CategoryPage(),
     // ItemDetail(),
     const ShoppingCart(),
     const Favorite(),

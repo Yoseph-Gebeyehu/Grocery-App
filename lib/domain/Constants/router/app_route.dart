@@ -14,13 +14,13 @@ import '../../../presentation/thank_you.dart';
 
 class AppRoute {
   Route? onGenerateRoute(RouteSettings routeSettings) {
-    HomeModel? fruit;
+    Fruit? fruit;
     String title;
     String amount;
     String description;
 
     if (routeSettings.name == ItemDetail.itemDetail) {
-      fruit = routeSettings.arguments as HomeModel;
+      fruit = routeSettings.arguments as Fruit;
     }
     switch (routeSettings.name) {
       case SplashScreen.splashScreen:
@@ -31,9 +31,9 @@ class AppRoute {
         return MaterialPageRoute(
           builder: (_) => const BaseHomePage(),
         );
-      case Category.category:
+      case CategoryPage.category:
         return MaterialPageRoute(
-          builder: (_) => Category(),
+          builder: (_) => CategoryPage(),
         );
       case Favorite.favorite:
         return MaterialPageRoute(

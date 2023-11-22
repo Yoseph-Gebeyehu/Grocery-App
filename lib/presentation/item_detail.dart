@@ -3,7 +3,7 @@ import 'package:grocery/data/Models/home_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ItemDetail extends StatefulWidget {
-  final HomeModel fruit;
+  final Fruit fruit;
   static const itemDetail = 'item-detail';
 
   ItemDetail({required this.fruit});
@@ -20,14 +20,14 @@ class _ItemDetailState extends State<ItemDetail> {
 
   bool isAddedToCart = false;
 
-  Future<void> addToCart(HomeModel homeModel) async {
+  Future<void> addToCart(Fruit fruit) async {
     final prefs = await SharedPreferences.getInstance();
-    final newValue = !homeModel.isAddedToCart;
+    final newValue = !fruit.isAddedToCart;
     setState(() {
-      homeModel.isAddedToCart = newValue;
+      fruit.isAddedToCart = newValue;
       isAddedToCart = true;
     });
-    await prefs.setBool(homeModel.image, newValue);
+    await prefs.setBool(fruit.image, newValue);
   }
 
   @override

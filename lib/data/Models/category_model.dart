@@ -1,6 +1,6 @@
-class CategoryModel {
+class Category {
   final String image;
   final String name;
 
-  CategoryModel({required this.image, required this.name});
+  Category({required this.image, required this.name});
 }

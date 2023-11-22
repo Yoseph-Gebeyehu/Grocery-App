@@ -23,16 +23,16 @@ class _ShoppingCartState extends State<ShoppingCart> {
     totalAmount();
   }
 
-  List<HomeModel> fruitModel = List.generate(
+  List<Fruit> fruitList = List.generate(
     HomeImages2.images.length,
-    (index) => HomeModel(
+    (index) => Fruit(
       image: HomeImages2.images[index],
       name: HomeFruitNames.fruitNames[index],
       amout: index * 1.78,
       category: CategoryFruitNames.fruitName[index],
     ),
   );
-  List<HomeModel> cartFruits = [];
+  List<Fruit> cartFruits = [];
   double total = 0;
   // resetTotalAmount() {
   //   total = 0;
@@ -64,25 +64,25 @@ class _ShoppingCartState extends State<ShoppingCart> {
   Future<void> loadCartFruits() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      fruitModel.forEach((fruit) {
+      fruitList.forEach((fruit) {
         fruit.isAddedToCart = prefs.getBool(fruit.image) ?? false;
       });
-      for (int i = 0; i < fruitModel.length; i++) {
-        if (fruitModel[i].isAddedToCart == true) {
-          cartFruits.add(fruitModel[i]);
+      for (int i = 0; i < fruitList.length; i++) {
+        if (fruitList[i].isAddedToCart == true) {
+          cartFruits.add(fruitList[i]);
         }
       }
     });
     itemCount = List.generate(cartFruits.length, (index) => 1);
   }
 
-  Future<void> removeFromCart(HomeModel homeModel) async {
+  Future<void> removeFromCart(Fruit fruit) async {
     final prefs = await SharedPreferences.getInstance();
-    final newValue = !homeModel.isAddedToCart;
+    final newValue = !fruit.isAddedToCart;
     setState(() {
-      homeModel.isAddedToCart = newValue;
+      fruit.isAddedToCart = newValue;
     });
-    await prefs.setBool(homeModel.image, newValue);
+    await prefs.setBool(fruit.image, newValue);
   }
 
   @override
@@ -301,7 +301,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
                             SizedBox(height: deviceSize.height * 0.009),
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => CustomerInformationForm()));
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        CustomerInformationForm()));
                               },
                               style: ButtonStyle(
                                 shape: MaterialStateProperty.all<
