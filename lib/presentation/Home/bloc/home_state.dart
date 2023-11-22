@@ -20,4 +20,15 @@ class AddedToCartState extends HomeState {
   AddedToCartState({required this.isAddedToCart});
 }
 
-class NotAddedToCartState extends HomeState {}
+//                  //
+// //   Favorte  // //
+//                  //
+class FavoriteInitialState extends HomeState {
+  List<HomeModel> homeModel;
+  FavoriteInitialState({required this.homeModel});
+}
+
+class AddedToFavoriteState extends HomeState {
+  List<HomeModel> homeModel;
+  AddedToFavoriteState({required this.homeModel});
+}

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/presentation/Home/bloc/home_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../Home/bloc/home_bloc.dart';
 import '../../../presentation/item_detail.dart';
 import '../../../data/Models/home_model.dart';
 import '../../../domain/Constants/Images/home_images.dart';
@@ -20,9 +20,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    loadFavorite();
-    BlocProvider.of<HomeBloc>(context).add(CartInitial());
-    // laodCartItems();
+    fetchFruits();
   }
 
   List<HomeModel> fruitModel = List.generate(
@@ -34,22 +32,20 @@ class _HomeState extends State<Home> {
       category: CategoryFruitNames.fruitName[index],
     ),
   );
-  Future<void> loadFavorite() async {
+
+  Future<List<HomeModel>> fetchFruits() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      fruitModel.forEach((element) {
+      fruitModel.forEach((element) async {
         element.isFavorite = prefs.getBool(element.name) ?? false;
+        // element.isFavorite = await LocalStorage.get(element.name) ?? false;
+      });
+      fruitModel.forEach((element) async {
+        element.isAddedToCart = prefs.getBool(element.image) ?? false;
+        // element.isAddedToCart = await LocalStorage.get(element.image) ?? false;
       });
     });
-  }
-
-  Future<void> toogleFavorite(HomeModel homeModel) async {
-    final prefs = await SharedPreferences.getInstance();
-    final newValue = !homeModel.isFavorite;
-    setState(() {
-      homeModel.isFavorite = newValue;
-    });
-    await prefs.setBool(homeModel.name, newValue);
+    return fruitModel;
   }
 
   @override
@@ -95,13 +91,19 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: BlocListener<HomeBloc, HomeState>(
-        listener: (context, state) {
-          if (state is HomeInitial) {
-            CircularProgressIndicator();
+        listener: (context, state) async {
+          if (state is AddedToFavoriteState) {
+            await fetchFruits();
+            print(state);
+          } else if (state is AddedToCartState) {
+            await fetchFruits();
+            print(state);
           }
         },
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
+            print(state);
+            print(1);
             return Padding(
               padding: EdgeInsets.only(left: deviceSize.width * 0.08),
               child: Column(
@@ -178,7 +180,7 @@ class _HomeState extends State<Home> {
                         ),
                         itemBuilder: (context, index) {
                           // final fruit = fruitModel[index];
-                          final fruit = fruitModel[index];
+                          // final fruit = fetchFruits;
                           return Column(
                             children: [
                               Expanded(
@@ -195,10 +197,19 @@ class _HomeState extends State<Home> {
                                       IconButton(
                                         padding: const EdgeInsets.all(0),
                                         onPressed: () async {
-                                          toogleFavorite(fruit);
+                                          // toogleFavorite(fruit);
+                                          context.read<HomeBloc>().add(
+                                                AddToFavorite(
+                                                  homeModel: fruitModel[index],
+                                                ),
+                                              );
                                         },
                                         icon: Icon(
                                           Icons.favorite,
+                                          // color:
+                                          //     state is AddedToFavoriteState &&
+                                          //             state.homeModel[index]
+                                          //                 .isFavorite
                                           color: fruitModel[index].isFavorite
                                               ? const Color(0xFFFF2E6C)
                                               : const Color(0xFFB1B1B1),
@@ -206,24 +217,18 @@ class _HomeState extends State<Home> {
                                       ),
                                       GestureDetector(
                                         onTap: () async {
-                                          if (state is AddedToCartState) {
-                                            print(state.isAddedToCart[index]
-                                                .isAddedToCart);
-                                            print('object');
-                                            var pageResponse =
-                                                await Navigator.pushNamed(
-                                              context,
-                                              ItemDetail.itemDetail,
-                                              arguments:
-                                                  state.isAddedToCart[index],
-                                            );
-                                            if (pageResponse is bool) {
-                                              BlocProvider.of<HomeBloc>(context)
-                                                  .add(CartInitial());
-                                            } else {
-                                              BlocProvider.of<HomeBloc>(context)
-                                                  .add(CartInitial());
-                                            }
+                                          var pageResponse =
+                                              await Navigator.pushNamed(
+                                            context,
+                                            ItemDetail.itemDetail,
+                                            arguments: fruitModel[index],
+                                          );
+                                          if (pageResponse is bool) {
+                                            BlocProvider.of<HomeBloc>(context)
+                                                .add(CartInitial());
+                                          } else {
+                                            BlocProvider.of<HomeBloc>(context)
+                                                .add(CartInitial());
                                           }
                                         },
                                         child: Image.asset(
@@ -260,31 +265,28 @@ class _HomeState extends State<Home> {
                                                         AddToCartEvent(
                                                           homeModel:
                                                               fruitModel[index],
-                                                          index: index,
                                                         ),
                                                       );
                                             },
                                             child: Text(
-                                              // fruitModel[index].addToCart,
-                                              // fruitModel[index].isAddedToCart
-
-                                              state is AddedToCartState &&
-                                                      state.isAddedToCart[index]
-                                                          .isAddedToCart
+                                              // state is AddedToCartState &&
+                                              //         state.isAddedToCart[index]
+                                              //             .isAddedToCart
+                                              fruitModel[index].isAddedToCart
                                                   ? 'Added to cart'
                                                   : 'Add to cart',
                                               style: TextStyle(
                                                 fontSize:
                                                     deviceSize.width * 0.03,
                                                 fontWeight: FontWeight.bold,
-                                                // color: fruitModel[index]
-                                                //         .isAddedToCart
                                                 color:
-                                                    state is AddedToCartState &&
-                                                            state
-                                                                .isAddedToCart[
-                                                                    index]
-                                                                .isAddedToCart
+                                                    // state is AddedToCartState &&
+                                                    //         state
+                                                    //             .isAddedToCart[
+                                                    //                 index]
+                                                    //             .isAddedToCart
+                                                    fruitModel[index]
+                                                            .isAddedToCart
                                                         ? const Color(
                                                             0xFFB1B1B1,
                                                           )

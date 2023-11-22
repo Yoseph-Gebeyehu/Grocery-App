@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:grocery/data/Local/shered_preference.dart';
 import 'package:grocery/data/Models/home_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,38 +23,31 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     ),
   );
   HomeBloc() : super(HomeInitial()) {
+    // ---------- Cart ------------------//
+
     on<CartInitial>((event, emit) async {
-      final prefs = await SharedPreferences.getInstance();
-      fruitModel.forEach((element) {
-        element.isAddedToCart = prefs.getBool(element.image) ?? false;
-      });
       emit(AddedToCartState(isAddedToCart: fruitModel));
     });
 
     on<AddToCartEvent>((event, emit) async {
-      final prefs = await SharedPreferences.getInstance();
       final newValue = !event.homeModel.isAddedToCart;
       event.homeModel.isAddedToCart = newValue;
-      await prefs.setBool(event.homeModel.image, newValue);
-
-      fruitModel.forEach((element) {
-        element.isAddedToCart = prefs.getBool(element.image) ?? false;
-      });
+      await LocalStorage.save(event.homeModel.image, newValue);
 
       emit(AddedToCartState(isAddedToCart: fruitModel));
     });
 
-    // on<HomeEvent>((event, emit) {
-    //   if (event is AddToCartEvent) {
-    //     for (int i = 0; i < event.isAddedToCart.length; i++) {
-    //       if (event.isAddedToCart[i]) {
-    //         emit(AddedToCartState()..isAddedToCart.add(event.isAddedToCart[i]));
-    //       } else {
-    //         emit(NotAddedToCartState());
-    //       }
-    //       ;
-    //     }
-    //   }
+    // ---------- Favorite ------------------//
+    // on<FavoriteInitial>((event, emit) async {
+    //   emit(AddedToFavoriteState(homeModel: fruitModel));
     // });
+
+    on<AddToFavorite>((event, emit) async {
+      final newValue = !event.homeModel.isFavorite;
+      event.homeModel.isFavorite = newValue;
+      await LocalStorage.save(event.homeModel.name, newValue);
+
+      emit(AddedToFavoriteState(homeModel: fruitModel));
+    });
   }
 }

@@ -11,6 +11,13 @@ class CartInitial extends HomeEvent {}
 
 class AddToCartEvent extends HomeEvent {
   final HomeModel homeModel;
-  final int index;
-  AddToCartEvent({required this.homeModel, required this.index});
+
+  const AddToCartEvent({required this.homeModel});
+}
+
+// class FavoriteInitial extends HomeEvent {}
+
+class AddToFavorite extends HomeEvent {
+  final HomeModel homeModel;
+  const AddToFavorite({required this.homeModel});
 }
