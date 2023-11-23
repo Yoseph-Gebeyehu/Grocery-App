@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery/domain/constants/images/chapa_images.dart';
+import 'package:grocery/presentation/shopping-cart/widget/check_out_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../data/Models/home_model.dart';
-import '../../domain/Constants/Images/home_images2.dart';
-import '../../domain/Constants/names/category_fruit_names.dart';
-import '../../domain/Constants/names/home_fruit_names.dart';
-import '../Home/bloc/home_bloc.dart';
-import '../check-out/customer_info.dart';
+import '../../../data/Models/home_model.dart';
+import '../../../domain/Constants/Images/home_images2.dart';
+import '../../../domain/Constants/names/category_fruit_names.dart';
+import '../../../domain/Constants/names/home_fruit_names.dart';
+import '../../Home/bloc/home_bloc.dart';
+import '../../check-out/customer_info.dart';
 
 class ShoppingCart extends StatefulWidget {
   const ShoppingCart({Key? key}) : super(key: key);
@@ -370,50 +371,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return SingleChildScrollView(
-          child: ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              topRight: Radius.circular(20.0),
-            ),
-            child: Container(
-              color: Colors.white,
-              height: deviceSize.height * 0.3,
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
-                left: deviceSize.width * 0.05,
-                right: deviceSize.width * 0.05,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    'Complete action via',
-                    style: TextStyle(
-                      fontSize: deviceSize.width * 0.04,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.star),
-                    title: Text(
-                      'Chapa Financial Technologies',
-                      style: TextStyle(fontSize: deviceSize.width * 0.04),
-                      textAlign: TextAlign.center,
-                    ),
-                    trailing: Container(
-                      width: deviceSize.width * 0.2,
-                      child: Image.asset(
-                        ChapaImage.chapa,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  CustomerInformationForm(amount: totalAmount().toString()),
-                ],
-              ),
-            ),
-          ),
+        return CheckOutWidget(
+          amount: totalAmount().toString(),
         );
       },
     );
