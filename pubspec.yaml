@@ -42,6 +42,7 @@ dependencies:
   provider: ^6.0.5
   url_launcher: ^6.1.10
   http: ^0.13.5
+  randomstring_dart: ^0.0.4
 
 
 
@@ -101,6 +102,8 @@ flutter:
     - assets/mushroom_details.png
 
     - assets/thank_you.png
+
+    - assets/splash_logo.png
 
 
 

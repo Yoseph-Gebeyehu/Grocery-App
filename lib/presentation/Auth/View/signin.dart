@@ -13,7 +13,6 @@ class SigninPage extends StatefulWidget {
 }
 
 class _SigninPageState extends State<SigninPage> {
-  // write a function which compares two numbers
   TextEditingController userNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool obscure = false;
@@ -149,7 +148,6 @@ class _SigninPageState extends State<SigninPage> {
                                 onPressed: () {
                                   setState(() {
                                     obscure = !obscure;
-                                    print(obscure);
                                   });
                                 },
                               ),

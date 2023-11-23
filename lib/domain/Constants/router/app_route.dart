@@ -15,9 +15,12 @@ import '../../../presentation/thank_you.dart';
 class AppRoute {
   Route? onGenerateRoute(RouteSettings routeSettings) {
     Fruit? fruit;
+    String? amount;
 
     if (routeSettings.name == ItemDetail.itemDetail) {
       fruit = routeSettings.arguments as Fruit;
+    } else if (routeSettings.name == CustomerInformationForm.customerInfo) {
+      amount = routeSettings.arguments as String;
     }
     switch (routeSettings.name) {
       case SplashScreen.splashScreen:
@@ -59,7 +62,11 @@ class AppRoute {
           builder: (_) => const ThankYouPage(),
         );
       case CustomerInformationForm.customerInfo:
-        return MaterialPageRoute(builder: (_) => CustomerInformationForm());
+        return MaterialPageRoute(
+          builder: (_) => CustomerInformationForm(
+            amount: amount!,
+          ),
+        );
       default:
         return null;
     }

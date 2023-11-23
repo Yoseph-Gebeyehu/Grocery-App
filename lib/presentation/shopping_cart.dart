@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery/domain/constants/images/chapa_images.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/Models/home_model.dart';
@@ -82,6 +83,62 @@ class _ShoppingCartState extends State<ShoppingCart> {
       fruit.isAddedToCart = newValue;
     });
     await prefs.setBool(fruit.image, newValue);
+  }
+
+  void _showCustomerInfoSheet(BuildContext context) {
+    Size deviceSize = MediaQuery.of(context).size;
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
+            ),
+            child: Container(
+              color: Colors.white,
+              height: deviceSize.height * 0.3,
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+                left: deviceSize.width * 0.05,
+                right: deviceSize.width * 0.05,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Complete action via',
+                    style: TextStyle(
+                      fontSize: deviceSize.width * 0.04,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.star),
+                    title: Text(
+                      'Chapa Financial Technologies',
+                      style: TextStyle(fontSize: deviceSize.width * 0.04),
+                      textAlign: TextAlign.center,
+                    ),
+                    trailing: Container(
+                      width: deviceSize.width * 0.2,
+                      child: Image.asset(
+                        ChapaImage.chapa,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  CustomerInformationForm(amount: totalAmount().toString()),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -294,9 +351,21 @@ class _ShoppingCartState extends State<ShoppingCart> {
                             SizedBox(height: deviceSize.height * 0.009),
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        CustomerInformationForm()));
+                                // String total = totalAmount().toString();
+                                // Navigator.pushNamed(
+                                //   context,
+                                //   CustomerInformationForm.customerInfo,
+                                //   arguments: total,
+                                // );
+                                _showCustomerInfoSheet(context);
+                                // Navigator.of(context).push(
+                                //   MaterialPageRoute(
+                                //     builder: (context) =>
+                                //         CustomerInformationForm(
+                                //       amount: totalAmount().toString(),
+                                //     ),
+                                //   ),
+                                // );
                               },
                               style: ButtonStyle(
                                 shape: MaterialStateProperty.all<
