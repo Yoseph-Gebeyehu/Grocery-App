@@ -32,21 +32,19 @@ class _FavoriteState extends State<Favorite> {
       category: CategoryNames.fruitName[index],
     ),
   );
+
   List<Fruit> favortieFruits = [];
+
   Future<void> loadFavoriteFruits() async {
     favortieFruits = [];
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       fruitList.forEach((fruit) {
         fruit.isFavorite = prefs.getBool(fruit.name) ?? false;
-      });
-      for (int i = 0; i < fruitList.length; i++) {
-        if (fruitList[i].isFavorite == true) {
-          favortieFruits.add(fruitList[i]);
+        fruit.isAddedToCart = prefs.getBool(fruit.image) ?? false;
+        if (fruit.isFavorite == true) {
+          favortieFruits.add(fruit);
         }
-      }
-      favortieFruits.forEach((element) {
-        element.isAddedToCart = prefs.getBool(element.image) ?? false;
       });
     });
   }
@@ -150,9 +148,6 @@ class _FavoriteState extends State<Favorite> {
                                                   fruit: fruits,
                                                 ),
                                               );
-                                              setState(() {
-                                                favortieFruits.removeAt(index);
-                                              });
                                             },
                                             icon: const Icon(
                                               Icons.favorite,

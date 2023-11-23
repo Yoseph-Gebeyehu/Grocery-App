@@ -38,8 +38,6 @@ class _HomeState extends State<Home> {
     setState(() {
       fruitList.forEach((element) async {
         element.isFavorite = prefs.getBool(element.name) ?? false;
-      });
-      fruitList.forEach((element) async {
         element.isAddedToCart = prefs.getBool(element.image) ?? false;
       });
     });
