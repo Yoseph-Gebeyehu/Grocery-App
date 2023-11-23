@@ -9,7 +9,7 @@ import '../../../presentation/Home/view/home.dart';
 import '../../../presentation/favorite/view/favorite.dart';
 import '../../../presentation/item_detail.dart';
 import '../../../presentation/onboarding.dart';
-import '../../../presentation/shopping_cart.dart';
+import '../../../presentation/shopping-cart/shopping_cart.dart';
 import '../../../presentation/thank_you.dart';
 
 class AppRoute {

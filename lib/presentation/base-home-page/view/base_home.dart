@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../presentation/base-home-page/bloc/base_home_page_bloc.dart';
 import '../../../presentation/Category/categories.dart';
 import '../../../presentation/Home/view/home.dart';
-import '../../../presentation/shopping_cart.dart';
 import '../../favorite/view/favorite.dart';
+import '../../shopping-cart/shopping_cart.dart';
 import '../../thank_you.dart';
 
 class BaseHomePage extends StatefulWidget {

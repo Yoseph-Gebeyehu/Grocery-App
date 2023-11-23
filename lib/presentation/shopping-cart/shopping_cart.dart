@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:grocery/domain/constants/images/chapa_images.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../data/Models/home_model.dart';
-import '../domain/Constants/Images/home_images2.dart';
-import '../domain/Constants/names/category_fruit_names.dart';
-import '../domain/Constants/names/home_fruit_names.dart';
-import 'check-out/customer_info.dart';
+import '../../data/Models/home_model.dart';
+import '../../domain/Constants/Images/home_images2.dart';
+import '../../domain/Constants/names/category_fruit_names.dart';
+import '../../domain/Constants/names/home_fruit_names.dart';
+import '../check-out/customer_info.dart';
 
 class ShoppingCart extends StatefulWidget {
   const ShoppingCart({Key? key}) : super(key: key);
