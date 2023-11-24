@@ -7,7 +7,13 @@ class ShoppingCartEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class PlaceOrderEvent extends ShoppingCartEvent {
-  Fruit fruit;
-  PlaceOrderEvent({required this.fruit});
+class BuyEvent extends ShoppingCartEvent {
+  String amount;
+  String txRef;
+  String currency;
+  BuyEvent({
+    required this.amount,
+    required this.txRef,
+    required this.currency,
+  });
 }

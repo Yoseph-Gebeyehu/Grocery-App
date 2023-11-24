@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/domain/constants/images/chapa_images.dart';
-import 'package:grocery/presentation/shopping-cart/widget/check_out_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../presentation/shopping-cart/widget/check_out_widget.dart';
 import '../../../data/Models/home_model.dart';
 import '../../../domain/Constants/Images/home_images2.dart';
 import '../../../domain/Constants/names/category_fruit_names.dart';
 import '../../../domain/Constants/names/home_fruit_names.dart';
 import '../../Home/bloc/home_bloc.dart';
-import '../../check-out/customer_info.dart';
 
 class ShoppingCart extends StatefulWidget {
   const ShoppingCart({Key? key}) : super(key: key);
@@ -77,6 +75,11 @@ class _ShoppingCartState extends State<ShoppingCart> {
     });
     itemCount = List.generate(cartFruits.length, (index) => 1);
   }
+  // WebViewController controller(String checkOutUrl) {
+  //   return WebViewController()
+  //     ..setJavaScriptMode(JavaScriptMode.disabled)
+  //     ..loadRequest(Uri.parse(checkOutUrl));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -314,21 +317,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                             SizedBox(height: deviceSize.height * 0.009),
                             ElevatedButton(
                               onPressed: () {
-                                // String total = totalAmount().toString();
-                                // Navigator.pushNamed(
-                                //   context,
-                                //   CustomerInformationForm.customerInfo,
-                                //   arguments: total,
-                                // );
                                 _showCustomerInfoSheet(context);
-                                // Navigator.of(context).push(
-                                //   MaterialPageRoute(
-                                //     builder: (context) =>
-                                //         CustomerInformationForm(
-                                //       amount: totalAmount().toString(),
-                                //     ),
-                                //   ),
-                                // );
                               },
                               style: ButtonStyle(
                                 shape: MaterialStateProperty.all<
@@ -365,7 +354,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
   }
 
   void _showCustomerInfoSheet(BuildContext context) {
-    Size deviceSize = MediaQuery.of(context).size;
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,

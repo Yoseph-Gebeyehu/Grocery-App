@@ -9,4 +9,6 @@ class ShoppingCartState extends Equatable {
 
 class ShoppingCartInitial extends ShoppingCartState {}
 
-class PlaceOrderState extends ShoppingCartState {}
+class BuySuccessState extends ShoppingCartState {}
+
+class BuyErrorState extends ShoppingCartState {}
