@@ -13,8 +13,17 @@ class ApiResponse {
 
   factory ApiResponse.fromResponse(dynamic response) {
     int code = response.statusCode;
-    dynamic body = jsonDecode(response.body);
-    String checkoutUrl = body['data']['checkout_url'];
+    dynamic body;
+    String checkoutUrl;
+
+    try {
+      body = jsonDecode(response.body);
+      checkoutUrl = body['data']['checkout_url'];
+    } catch (e) {
+      body = null;
+      checkoutUrl = '';
+    }
+
     return ApiResponse(
       status: code,
       body: body,

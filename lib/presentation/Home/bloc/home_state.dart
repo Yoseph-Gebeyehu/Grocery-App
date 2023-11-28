@@ -1,15 +1,15 @@
 part of 'home_bloc.dart';
 
-//  class HomeState extends Equatable {
-//   const HomeState();
+class HomeState extends Equatable {
+  const HomeState();
 
-//   @override
-//   List<Object> get props => [];
-// }
-class HomeState {}
+  @override
+  List<Object> get props => [];
+}
 
 class HomeInitial extends HomeState {}
 
+// ******* Cart ****************//
 class CartInitiaState extends HomeState {
   List<Fruit> fruitList;
   CartInitiaState({required this.fruitList});
@@ -17,14 +17,23 @@ class CartInitiaState extends HomeState {
 
 class AddedToCartState extends HomeState {}
 
-//                  //
-// //   Favorte  // //
-//                  //
+// ******* Favorite ****************//
+
 class FavoriteInitialState extends HomeState {}
 
 class AddedToFavoriteState extends HomeState {}
+
+// ******* Fetch Products ****************//
 
 class FetchProductsState extends HomeState {
   List<Products> products;
   FetchProductsState({required this.products});
 }
+
+// ******* Api Error ****************//
+
+class ApiErrorState extends HomeState {}
+
+// ******* Network Error ****************//
+
+class NetworkErrorState extends HomeState {}

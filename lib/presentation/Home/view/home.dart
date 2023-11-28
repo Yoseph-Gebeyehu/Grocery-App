@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../presentation/home/widgets/api_error_widget.dart';
+import '../../../widgets/no_internet.dart';
 import '../../Home/bloc/home_bloc.dart';
 import '../../../domain/Constants/Images/home_images.dart';
 import '../../item-detail/item_detail.dart';
@@ -76,10 +78,10 @@ class _HomeState extends State<Home> {
               BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
             } else if (state is AddedToCartState) {
               BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
-            }
+            } else {}
           },
-          child: BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, state) {
+          child: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+            if (state is FetchProductsState) {
               return Padding(
                 padding: EdgeInsets.only(left: deviceSize.width * 0.08),
                 child: Column(
@@ -144,165 +146,151 @@ class _HomeState extends State<Home> {
                     ),
                     SizedBox(height: deviceSize.height * 0.02),
                     Expanded(
-                      child: state is FetchProductsState
-                          ? Padding(
-                              padding: EdgeInsets.only(
-                                  right: deviceSize.width * 0.08),
-                              child: GridView.builder(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10,
-                                  childAspectRatio: 2 / 3,
-                                ),
-                                itemBuilder: (context, index) {
-                                  var product = state.products[index];
-                                  return Column(
+                        child: Padding(
+                      padding: EdgeInsets.only(right: deviceSize.width * 0.08),
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: 2 / 3,
+                        ),
+                        itemBuilder: (context, index) {
+                          var product = state.products[index];
+                          return Column(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Expanded(
+                                      IconButton(
+                                        padding: const EdgeInsets.all(0),
+                                        onPressed: () async {
+                                          context.read<HomeBloc>().add(
+                                                AddToFavorite(
+                                                  products: product,
+                                                ),
+                                              );
+                                          BlocProvider.of<HomeBloc>(context)
+                                              .add(FetchProductsEvent());
+                                        },
+                                        icon: Icon(
+                                          Icons.favorite,
+                                          color: product.isFavorite
+                                              ? const Color(0xFFFF2E6C)
+                                              : const Color(0xFFB1B1B1),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () async {
+                                          var pageResponse =
+                                              await Navigator.pushNamed(
+                                            context,
+                                            ItemDetail.itemDetail,
+                                            arguments: product,
+                                          );
+                                          if (pageResponse is bool) {
+                                            BlocProvider.of<HomeBloc>(context)
+                                                .add(CartInitial());
+                                          } else {
+                                            BlocProvider.of<HomeBloc>(context)
+                                                .add(CartInitial());
+                                          }
+                                        },
                                         child: Container(
-                                          padding: const EdgeInsets.all(10),
+                                          width: double.infinity,
+                                          height: deviceSize.height * 0.15,
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            color: Colors.white,
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              IconButton(
-                                                padding:
-                                                    const EdgeInsets.all(0),
-                                                onPressed: () async {
-                                                  context.read<HomeBloc>().add(
-                                                        AddToFavorite(
-                                                          products: product,
-                                                        ),
-                                                      );
-                                                  BlocProvider.of<HomeBloc>(
-                                                          context)
-                                                      .add(
-                                                          FetchProductsEvent());
-                                                },
-                                                icon: Icon(
-                                                  Icons.favorite,
-                                                  color: product.isFavorite
-                                                      ? const Color(0xFFFF2E6C)
-                                                      : const Color(0xFFB1B1B1),
-                                                ),
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                product.image!,
                                               ),
-                                              GestureDetector(
-                                                onTap: () async {
-                                                  var pageResponse =
-                                                      await Navigator.pushNamed(
-                                                    context,
-                                                    ItemDetail.itemDetail,
-                                                    arguments: product,
-                                                  );
-                                                  if (pageResponse is bool) {
-                                                    BlocProvider.of<HomeBloc>(
-                                                            context)
-                                                        .add(CartInitial());
-                                                  } else {
-                                                    BlocProvider.of<HomeBloc>(
-                                                            context)
-                                                        .add(CartInitial());
-                                                  }
-                                                },
-                                                child: Container(
-                                                  width: double.infinity,
-                                                  height:
-                                                      deviceSize.height * 0.15,
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: NetworkImage(
-                                                        product.image!,
-                                                      ),
-                                                      fit: BoxFit.contain,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                product.title!.substring(0, 5),
-                                                style: TextStyle(
-                                                  fontSize:
-                                                      deviceSize.width * 0.036,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    product.price!.toString(),
-                                                    style: TextStyle(
-                                                      fontSize:
-                                                          deviceSize.width *
-                                                              0.036,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () async {
-                                                      product.isAddedToCart
-                                                          ? null
-                                                          : context
-                                                              .read<HomeBloc>()
-                                                              .add(
-                                                                AddToCartEvent(
-                                                                  products:
-                                                                      product,
-                                                                ),
-                                                              );
-                                                    },
-                                                    child: Text(
-                                                      product.isAddedToCart
-                                                          ? 'Added to cart'
-                                                          : 'Add to cart',
-                                                      style: TextStyle(
-                                                        fontSize:
-                                                            deviceSize.width *
-                                                                0.03,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: product
-                                                                .isAddedToCart
-                                                            ? const Color(
-                                                                0xFFB1B1B1,
-                                                              )
-                                                            : const Color(
-                                                                0xFFFF0000,
-                                                              ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
+                                              fit: BoxFit.contain,
+                                            ),
                                           ),
                                         ),
                                       ),
+                                      Text(
+                                        product.title!.substring(0, 5),
+                                        style: TextStyle(
+                                          fontSize: deviceSize.width * 0.036,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            product.price!.toString(),
+                                            style: TextStyle(
+                                              fontSize:
+                                                  deviceSize.width * 0.036,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              product.isAddedToCart
+                                                  ? null
+                                                  : context
+                                                      .read<HomeBloc>()
+                                                      .add(
+                                                        AddToCartEvent(
+                                                          products: product,
+                                                        ),
+                                                      );
+                                            },
+                                            child: Text(
+                                              product.isAddedToCart
+                                                  ? 'Added to cart'
+                                                  : 'Add to cart',
+                                              style: TextStyle(
+                                                fontSize:
+                                                    deviceSize.width * 0.03,
+                                                fontWeight: FontWeight.bold,
+                                                color: product.isAddedToCart
+                                                    ? const Color(
+                                                        0xFFB1B1B1,
+                                                      )
+                                                    : const Color(
+                                                        0xFFFF0000,
+                                                      ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
                                     ],
-                                  );
-                                },
-                                itemCount: state.products.length,
+                                  ),
+                                ),
                               ),
-                            )
-                          : const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                    ),
+                            ],
+                          );
+                        },
+                        itemCount: state.products.length,
+                      ),
+                    )),
                   ],
                 ),
               );
-            },
-          ),
+            } else if (state is ApiErrorState) {
+              return const ApiErrorWidget();
+            } else if (state is NetworkErrorState) {
+              return const NoConnectionPage();
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
         ),
       ),
     );

@@ -1,14 +1,13 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
-import 'package:grocery/data/models/products.dart';
-import 'package:grocery/data/repositories/remote-request/api_client.dart';
-import 'package:grocery/data/repositories/remote-request/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../data/models/products.dart';
+import '../../../data/repositories/remote-request/api_client.dart';
 import '../../../data/Local/shered_preference.dart';
 import '../../../data/Models/home_model.dart';
+
 part 'home_event.dart';
 part 'home_state.dart';
 
@@ -35,15 +34,30 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<FetchProductsEvent>((event, emit) async {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult == ConnectivityResult.none) {
+        emit(NetworkErrorState());
+      }
       ApiClient apiClient = ApiClient();
-      List<Products> products = await apiClient.getProduct();
+      var apiResponse = await apiClient.getProduct();
 
-      final prefs = await SharedPreferences.getInstance();
-      products.forEach((element) async {
-        element.isFavorite = prefs.getBool(element.title!) ?? false;
-        element.isAddedToCart = prefs.getBool(element.image!) ?? false;
-      });
-      emit(FetchProductsState(products: products));
+      List<Products> products = [];
+      try {
+        if (apiResponse.status == 200) {
+          for (var productData in apiResponse.body) {
+            Products product = Products.fromJson(productData);
+            products.add(product);
+          }
+          final prefs = await SharedPreferences.getInstance();
+          products.forEach((element) async {
+            element.isFavorite = prefs.getBool(element.title!) ?? false;
+            element.isAddedToCart = prefs.getBool(element.image!) ?? false;
+          });
+          emit(FetchProductsState(products: products));
+        } else if (apiResponse.status == 404 || apiResponse.status == 502) {
+          emit(ApiErrorState());
+        }
+      } catch (e) {}
     });
   }
 }

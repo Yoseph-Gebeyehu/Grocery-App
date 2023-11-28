@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/models/products.dart';
+import '../../widgets/no_internet.dart';
 import '../Home/bloc/home_bloc.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -59,6 +60,8 @@ class _CategoryPageState extends State<CategoryPage> {
                   divider(),
                 ],
               );
+            } else if (state is NetworkErrorState) {
+              return const NoConnectionPage();
             }
             return const Center(
               child: CircularProgressIndicator(),

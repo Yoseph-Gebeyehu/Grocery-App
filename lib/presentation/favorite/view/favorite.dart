@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/data/models/products.dart';
 
+import '../../../data/models/products.dart';
+import '../../../widgets/no_internet.dart';
 import '../../../presentation/Home/bloc/home_bloc.dart';
 import '../../item-detail/item_detail.dart';
 
@@ -204,6 +205,8 @@ class _FavoriteState extends State<Favorite> {
                 : const Center(
                     child: Text('There is no favorite product'),
                   );
+          } else if (state is NetworkErrorState) {
+            return const NoConnectionPage();
           }
           return const Center(
             child: CircularProgressIndicator(),

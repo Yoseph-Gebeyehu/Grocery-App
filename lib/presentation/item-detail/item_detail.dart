@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:grocery/data/models/products.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../data/Models/home_model.dart';
+import '../../../data/models/products.dart';
 
 class ItemDetail extends StatefulWidget {
   final Products products;

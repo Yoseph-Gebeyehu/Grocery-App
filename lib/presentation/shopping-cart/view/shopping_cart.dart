@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../widgets/no_internet.dart';
 import '../../../data/models/products.dart';
 import '../../../presentation/shopping-cart/widget/check_out_widget.dart';
 import '../../Home/bloc/home_bloc.dart';
@@ -283,6 +284,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
                               },
                               itemCount: cartProducts.length,
                             );
+                    } else if (state is NetworkErrorState) {
+                      return const NoConnectionPage();
                     }
                     return const Center(
                       child: CircularProgressIndicator(),
