@@ -9,4 +9,8 @@ class Repository {
   ) async {
     return apiClient.postData(apiRequest);
   }
+
+  Future getProducts() async {
+    return apiClient.getProduct();
+  }
 }

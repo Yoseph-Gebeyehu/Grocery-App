@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery/data/models/products.dart';
 
 import '../../../data/Models/home_model.dart';
 import '../../../presentation/auth/view/signin.dart';
@@ -13,11 +14,11 @@ import '../../../presentation/thank_you.dart';
 
 class AppRoute {
   Route? onGenerateRoute(RouteSettings routeSettings) {
-    Fruit? fruit;
+    Products? products;
     String? amount;
 
     if (routeSettings.name == ItemDetail.itemDetail) {
-      fruit = routeSettings.arguments as Fruit;
+      products = routeSettings.arguments as Products;
     }
     switch (routeSettings.name) {
       case SplashScreen.splashScreen:
@@ -43,7 +44,7 @@ class AppRoute {
       case ItemDetail.itemDetail:
         return MaterialPageRoute(
           builder: (_) => ItemDetail(
-            fruit: fruit!,
+            products: products!,
           ),
         );
       case ShoppingCart.shoppingCart:

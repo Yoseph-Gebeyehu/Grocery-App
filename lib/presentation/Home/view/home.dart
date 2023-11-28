@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery/data/models/products.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Home/bloc/home_bloc.dart';
@@ -20,29 +21,35 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    fetchFruits();
+    BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
   }
 
-  List<Fruit> fruitList = List.generate(
-    HomeImages2.images.length,
-    (index) => Fruit(
-      image: HomeImages2.images[index],
-      name: HomeFruitNames.fruitNames[index],
-      amout: index.toDouble(),
-      category: CategoryNames.fruitName[index],
-    ),
-  );
-
-  Future<List<Fruit>> fetchFruits() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      fruitList.forEach((element) async {
-        element.isFavorite = prefs.getBool(element.name) ?? false;
-        element.isAddedToCart = prefs.getBool(element.image) ?? false;
-      });
-    });
-    return fruitList;
+  @override
+  void dispose() {
+    HomeBloc().close();
+    super.dispose();
   }
+
+  // List<Fruit> fruitList = List.generate(
+  //   HomeImages2.images.length,
+  //   (index) => Fruit(
+  //     image: HomeImages2.images[index],
+  //     name: HomeFruitNames.fruitNames[index],
+  //     amout: index.toDouble(),
+  //     category: CategoryNames.fruitName[index],
+  //   ),
+  // );
+
+  // Future<List<Fruit>> fetchFruits() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  // fruitList.forEach((element) async {
+  //   element.isFavorite = prefs.getBool(element.name) ?? false;
+  //   element.isAddedToCart = prefs.getBool(element.image) ?? false;
+  // });
+  //   });
+  //   return fruitList;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +77,7 @@ class _HomeState extends State<Home> {
               ),
               const SizedBox(height: 10),
               Text(
-                'Rafatul Islam',
+                'John Zabede',
                 style: TextStyle(
                   fontSize: deviceSize.width * 0.045,
                   color: Colors.black,
@@ -93,10 +100,12 @@ class _HomeState extends State<Home> {
         body: BlocListener<HomeBloc, HomeState>(
           listener: (context, state) async {
             if (state is AddedToFavoriteState) {
-              await fetchFruits();
+              // await fetchFruits();
+              BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
             } else if (state is AddedToCartState) {
-              await fetchFruits();
-            }
+              // await fetchFruits();
+              BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
+            } else if (state is FetchProductsState) {}
           },
           child: BlocBuilder<HomeBloc, HomeState>(
             builder: (context, state) {
@@ -164,131 +173,169 @@ class _HomeState extends State<Home> {
                     ),
                     SizedBox(height: deviceSize.height * 0.02),
                     Expanded(
-                      child: Padding(
-                        padding:
-                            EdgeInsets.only(right: deviceSize.width * 0.08),
-                        child: GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                            childAspectRatio: 2 / 3,
-                          ),
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: Colors.white,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        IconButton(
-                                          padding: const EdgeInsets.all(0),
-                                          onPressed: () async {
-                                            context.read<HomeBloc>().add(
-                                                  AddToFavorite(
-                                                    fruit: fruitList[index],
-                                                  ),
-                                                );
-                                          },
-                                          icon: Icon(
-                                            Icons.favorite,
-                                            color: fruitList[index].isFavorite
-                                                ? const Color(0xFFFF2E6C)
-                                                : const Color(0xFFB1B1B1),
+                      child: state is FetchProductsState
+                          ? Padding(
+                              padding: EdgeInsets.only(
+                                  right: deviceSize.width * 0.08),
+                              child: GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10,
+                                  childAspectRatio: 2 / 3,
+                                ),
+                                itemBuilder: (context, index) {
+                                  var product = state.products[index];
+                                  return Column(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            color: Colors.white,
                                           ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () async {
-                                            var pageResponse =
-                                                await Navigator.pushNamed(
-                                              context,
-                                              ItemDetail.itemDetail,
-                                              arguments: fruitList[index],
-                                            );
-                                            if (pageResponse is bool) {
-                                              BlocProvider.of<HomeBloc>(context)
-                                                  .add(CartInitial());
-                                            } else {
-                                              BlocProvider.of<HomeBloc>(context)
-                                                  .add(CartInitial());
-                                            }
-                                          },
-                                          child: Image.asset(
-                                            fruitList[index].image,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Text(
-                                          HomeFruitNames.fruitNames[index],
-                                          style: TextStyle(
-                                            fontSize: deviceSize.width * 0.036,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              fruitList[index].amout.toString(),
-                                              style: TextStyle(
-                                                fontSize:
-                                                    deviceSize.width * 0.036,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () async {
-                                                fruitList[index].isAddedToCart
-                                                    ? null
-                                                    : context
-                                                        .read<HomeBloc>()
-                                                        .add(
-                                                          AddToCartEvent(
-                                                            fruit: fruitList[
-                                                                index],
-                                                          ),
-                                                        );
-                                              },
-                                              child: Text(
-                                                fruitList[index].isAddedToCart
-                                                    ? 'Added to cart'
-                                                    : 'Add to cart',
-                                                style: TextStyle(
-                                                  fontSize:
-                                                      deviceSize.width * 0.03,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: fruitList[index]
-                                                          .isAddedToCart
-                                                      ? const Color(
-                                                          0xFFB1B1B1,
-                                                        )
-                                                      : const Color(
-                                                          0xFFFF0000,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              IconButton(
+                                                padding:
+                                                    const EdgeInsets.all(0),
+                                                onPressed: () async {
+                                                  context.read<HomeBloc>().add(
+                                                        AddToFavorite(
+                                                          products: product,
                                                         ),
+                                                      );
+                                                  BlocProvider.of<HomeBloc>(
+                                                          context)
+                                                      .add(
+                                                          FetchProductsEvent());
+                                                },
+                                                icon: Icon(
+                                                  Icons.favorite,
+                                                  // color: fruitList[index].isFavorite
+                                                  //     ? const Color(0xFFFF2E6C)
+                                                  //     : const Color(0xFFB1B1B1),
+                                                  color: product.isFavorite
+                                                      ? const Color(0xFFFF2E6C)
+                                                      : const Color(0xFFB1B1B1),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                          itemCount: fruitList.length,
-                        ),
-                      ),
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  var pageResponse =
+                                                      await Navigator.pushNamed(
+                                                    context,
+                                                    ItemDetail.itemDetail,
+                                                    arguments: product,
+                                                  );
+                                                  if (pageResponse is bool) {
+                                                    BlocProvider.of<HomeBloc>(
+                                                            context)
+                                                        .add(CartInitial());
+                                                  } else {
+                                                    BlocProvider.of<HomeBloc>(
+                                                            context)
+                                                        .add(CartInitial());
+                                                  }
+                                                },
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  height:
+                                                      deviceSize.height * 0.15,
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: NetworkImage(
+                                                        product.image!,
+                                                      ),
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Text(
+                                                // HomeFruitNames
+                                                //     .fruitNames[index],
+                                                product.title!.substring(0, 5),
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      deviceSize.width * 0.036,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    // fruitList[index].amout.toString(),
+                                                    product.price!.toString(),
+                                                    style: TextStyle(
+                                                      fontSize:
+                                                          deviceSize.width *
+                                                              0.036,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () async {
+                                                      product.isAddedToCart
+                                                          ? null
+                                                          : context
+                                                              .read<HomeBloc>()
+                                                              .add(
+                                                                AddToCartEvent(
+                                                                  products:
+                                                                      product,
+                                                                ),
+                                                              );
+                                                    },
+                                                    child: Text(
+                                                      // fruitList[index].isAddedToCart
+                                                      //     ? 'Added to cart'
+                                                      //     : 'Add to cart',
+                                                      product.isAddedToCart
+                                                          ? 'Added to cart'
+                                                          : 'Add to cart',
+
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            deviceSize.width *
+                                                                0.03,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: product
+                                                                .isAddedToCart
+                                                            ? const Color(
+                                                                0xFFB1B1B1,
+                                                              )
+                                                            : const Color(
+                                                                0xFFFF0000,
+                                                              ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                                itemCount: state.products.length,
+                              ),
+                            )
+                          : const Center(
+                              child: CircularProgressIndicator(),
+                            ),
                     ),
                   ],
                 ),

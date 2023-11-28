@@ -2,6 +2,7 @@ import "dart:convert";
 
 import 'package:grocery/data/models/api_request.dart';
 import 'package:grocery/data/models/api_response.dart';
+import 'package:grocery/data/models/products.dart';
 import "package:http/http.dart" as http;
 
 class ApiClient {
@@ -24,5 +25,21 @@ class ApiClient {
     );
 
     return ApiResponse.fromResponse(response);
+  }
+
+  Future getProduct() async {
+    String baseUrl = 'https://fakestoreapi.com/products';
+    var url = Uri.parse(baseUrl);
+    var response = await http.get(url);
+    List<Products> products = [];
+
+    if (response.statusCode == 200) {
+      var responseBody = json.decode(response.body);
+      for (var productData in responseBody) {
+        Products product = Products.fromJson(productData);
+        products.add(product);
+      }
+      return products;
+    }
   }
 }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:grocery/data/models/products.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/Models/home_model.dart';
 
 class ItemDetail extends StatefulWidget {
-  final Fruit fruit;
+  final Products products;
   static const itemDetail = 'item-detail';
 
-   ItemDetail({required this.fruit});
+  ItemDetail({required this.products});
 
   @override
   State<ItemDetail> createState() => _ItemDetailState();
@@ -21,14 +22,14 @@ class _ItemDetailState extends State<ItemDetail> {
 
   bool isAddedToCart = false;
 
-  Future<void> addToCart(Fruit fruit) async {
+  Future<void> addToCart(Products products) async {
     final prefs = await SharedPreferences.getInstance();
-    final newValue = !fruit.isAddedToCart;
+    final newValue = !products.isAddedToCart;
     setState(() {
-      fruit.isAddedToCart = newValue;
+      products.isAddedToCart = newValue;
       isAddedToCart = true;
     });
-    await prefs.setBool(fruit.image, newValue);
+    await prefs.setBool(products.image!, newValue);
   }
 
   @override
@@ -46,9 +47,17 @@ class _ItemDetailState extends State<ItemDetail> {
                   width: double.infinity,
                   color: Colors.white,
                   padding: const EdgeInsets.all(60),
-                  child: Image.asset(
-                    widget.fruit.image,
-                    fit: BoxFit.cover,
+                  child: Container(
+                    width: deviceSize.width * 0.2,
+                    height: deviceSize.height * 0.15,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          widget.products.image!,
+                        ),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                   ),
                 ),
                 Positioned(
@@ -89,7 +98,7 @@ class _ItemDetailState extends State<ItemDetail> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                widget.fruit.name,
+                                widget.products.title!.substring(0, 10),
                                 style: TextStyle(
                                   fontSize: deviceSize.width * 0.06,
                                   fontWeight: FontWeight.w600,
@@ -103,7 +112,7 @@ class _ItemDetailState extends State<ItemDetail> {
                                       borderRadius: BorderRadius.circular(30),
                                     ),
                                   ),
-                                  backgroundColor: widget.fruit.isAddedToCart
+                                  backgroundColor: widget.products.isAddedToCart
                                       ? MaterialStateProperty.all<Color>(
                                           const Color.fromARGB(
                                               255, 215, 209, 209))
@@ -115,12 +124,12 @@ class _ItemDetailState extends State<ItemDetail> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  widget.fruit.isAddedToCart
+                                  widget.products.isAddedToCart
                                       ? null
-                                      : addToCart(widget.fruit);
+                                      : addToCart(widget.products);
                                 },
                                 child: Text(
-                                  widget.fruit.isAddedToCart
+                                  widget.products.isAddedToCart
                                       ? 'Added to cart'
                                       : 'Add to cart',
                                   style: TextStyle(
@@ -134,7 +143,7 @@ class _ItemDetailState extends State<ItemDetail> {
                           Row(
                             children: [
                               Text(
-                                widget.fruit.amout.toString(),
+                                widget.products.price.toString(),
                                 style: TextStyle(
                                   fontSize: deviceSize.width * 0.05,
                                   color: const Color(0xFFFEC54B),

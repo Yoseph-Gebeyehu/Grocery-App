@@ -23,3 +23,8 @@ class AddedToCartState extends HomeState {}
 class FavoriteInitialState extends HomeState {}
 
 class AddedToFavoriteState extends HomeState {}
+
+class FetchProductsState extends HomeState {
+  List<Products> products;
+  FetchProductsState({required this.products});
+}

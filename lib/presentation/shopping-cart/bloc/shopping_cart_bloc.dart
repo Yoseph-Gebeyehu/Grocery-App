@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:grocery/data/models/api_request.dart';
-import 'package:grocery/data/repositories/remote-request/repository.dart';
-
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../data/models/api_request.dart';
+import '../../../data/repositories/remote-request/repository.dart';
 
 part 'shopping_cart_event.dart';
 part 'shopping_cart_state.dart';

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:grocery/data/models/products.dart';
 
 import '../../../presentation/Home/bloc/home_bloc.dart';
-import '../../../data/Models/home_model.dart';
-import '../../../domain/Constants/Images/home_images2.dart';
-import '../../../domain/Constants/names/category_fruit_names.dart';
-import '../../../domain/Constants/names/home_fruit_names.dart';
 import '../../item_detail.dart';
 
 class Favorite extends StatefulWidget {
@@ -20,33 +16,7 @@ class _FavoriteState extends State<Favorite> {
   @override
   void initState() {
     super.initState();
-    loadFavoriteFruits();
-  }
-
-  List<Fruit> fruitList = List.generate(
-    HomeImages2.images.length,
-    (index) => Fruit(
-      image: HomeImages2.images[index],
-      name: HomeFruitNames.fruitNames[index],
-      amout: index.toDouble(),
-      category: CategoryNames.fruitName[index],
-    ),
-  );
-
-  List<Fruit> favortieFruits = [];
-
-  Future<void> loadFavoriteFruits() async {
-    favortieFruits = [];
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      fruitList.forEach((fruit) {
-        fruit.isFavorite = prefs.getBool(fruit.name) ?? false;
-        fruit.isAddedToCart = prefs.getBool(fruit.image) ?? false;
-        if (fruit.isFavorite == true) {
-          favortieFruits.add(fruit);
-        }
-      });
-    });
+    BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
   }
 
   @override
@@ -70,23 +40,22 @@ class _FavoriteState extends State<Favorite> {
           ),
         ),
       ),
-      body: favortieFruits.isEmpty
-          ? const Center(
-              child: Text('There is no favorite fruits!'),
-            )
-          : BlocListener<HomeBloc, HomeState>(
-              listener: (context, state) async {
-                if (state is AddedToFavoriteState) {
-                  await loadFavoriteFruits();
-                } else if (state is AddedToCartState) {
-                  await loadFavoriteFruits();
-                }
-              },
-              child: BlocBuilder<HomeBloc, HomeState>(
-                builder: (context, state) {
-                  return ListView.builder(
+      body: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) async {
+          if (state is AddedToFavoriteState) {
+            BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
+          } else if (state is AddedToCartState) {
+            BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
+          } else {}
+        },
+        child: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+          if (state is FetchProductsState) {
+            List<Products> favProducts =
+                state.products.where((product) => product.isFavorite).toList();
+
+            return favProducts.isNotEmpty
+                ? ListView.builder(
                     itemBuilder: (context, index) {
-                      var fruits = favortieFruits[index];
                       return Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: deviceSize.width * 0.08,
@@ -103,18 +72,26 @@ class _FavoriteState extends State<Favorite> {
                                   var pageResponse = await Navigator.pushNamed(
                                     context,
                                     ItemDetail.itemDetail,
-                                    arguments: fruits,
+                                    arguments: favProducts[index],
                                   );
                                   if (pageResponse is bool) {
-                                    await loadFavoriteFruits();
+                                    BlocProvider.of<HomeBloc>(context)
+                                        .add(FetchProductsEvent());
                                   } else {
-                                    await loadFavoriteFruits();
+                                    BlocProvider.of<HomeBloc>(context)
+                                        .add(FetchProductsEvent());
                                   }
                                 },
-                                child: SizedBox(
-                                  child: Image.asset(
-                                    fruits.image,
-                                    fit: BoxFit.cover,
+                                child: Container(
+                                  width: deviceSize.width * 0.2,
+                                  height: deviceSize.height * 0.15,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        favProducts[index].image!,
+                                      ),
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -133,11 +110,14 @@ class _FavoriteState extends State<Favorite> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            fruits.name,
+                                            favProducts[index]
+                                                .title!
+                                                .substring(0, 10),
                                             style: TextStyle(
                                               fontSize: deviceSize.width * 0.05,
                                               color: Colors.black,
                                             ),
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                           const Spacer(),
                                           IconButton(
@@ -145,7 +125,7 @@ class _FavoriteState extends State<Favorite> {
                                               BlocProvider.of<HomeBloc>(context)
                                                   .add(
                                                 AddToFavorite(
-                                                  fruit: fruits,
+                                                  products: favProducts[index],
                                                 ),
                                               );
                                             },
@@ -160,7 +140,7 @@ class _FavoriteState extends State<Favorite> {
                                     Row(
                                       children: [
                                         Text(
-                                          fruits.amout.toString(),
+                                          favProducts[index].price.toString(),
                                           style: TextStyle(
                                             fontSize: deviceSize.width * 0.05,
                                             color: const Color(0xFFE67F1E),
@@ -169,18 +149,20 @@ class _FavoriteState extends State<Favorite> {
                                         const Spacer(),
                                         GestureDetector(
                                           onTap: () async {
-                                            fruits.isAddedToCart
+                                            favProducts[index].isAddedToCart
                                                 ? null
                                                 : context.read<HomeBloc>().add(
                                                       AddToCartEvent(
-                                                        fruit: fruits,
+                                                        products:
+                                                            favProducts[index],
                                                       ),
                                                     );
                                           },
                                           child: Container(
                                             padding: const EdgeInsets.all(12),
                                             decoration: BoxDecoration(
-                                              color: fruits.isAddedToCart
+                                              color: favProducts[index]
+                                                      .isAddedToCart
                                                   ? const Color(0xFFEFEFEF)
                                                   : const Color(0xFFFEC54B),
                                               borderRadius:
@@ -190,7 +172,8 @@ class _FavoriteState extends State<Favorite> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    fruits.isAddedToCart
+                                                    favProducts[index]
+                                                            .isAddedToCart
                                                         ? 'Added to cart'
                                                         : 'Add to cart',
                                                     style: TextStyle(
@@ -216,11 +199,17 @@ class _FavoriteState extends State<Favorite> {
                         ),
                       );
                     },
-                    itemCount: favortieFruits.length,
+                    itemCount: favProducts.length,
+                  )
+                : const Center(
+                    child: Text('There is no favorite product'),
                   );
-                },
-              ),
-            ),
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }),
+      ),
     );
   }
 }
