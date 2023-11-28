@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery/data/models/products.dart';
 
 import '../../../presentation/Home/bloc/home_bloc.dart';
-import '../../item_detail.dart';
+import '../../item-detail/item_detail.dart';
 
 class Favorite extends StatefulWidget {
   const Favorite({Key? key}) : super(key: key);

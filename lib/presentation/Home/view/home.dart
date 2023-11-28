@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/data/models/products.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Home/bloc/home_bloc.dart';
-import '../../../presentation/item_detail.dart';
-import '../../../data/Models/home_model.dart';
 import '../../../domain/Constants/Images/home_images.dart';
-import '../../../domain/Constants/Images/home_images2.dart';
-import '../../../domain/Constants/names/category_fruit_names.dart';
-import '../../../domain/Constants/names/home_fruit_names.dart';
+import '../../item-detail/item_detail.dart';
 
 class Home extends StatefulWidget {
   static const home = 'home';
@@ -29,27 +23,6 @@ class _HomeState extends State<Home> {
     HomeBloc().close();
     super.dispose();
   }
-
-  // List<Fruit> fruitList = List.generate(
-  //   HomeImages2.images.length,
-  //   (index) => Fruit(
-  //     image: HomeImages2.images[index],
-  //     name: HomeFruitNames.fruitNames[index],
-  //     amout: index.toDouble(),
-  //     category: CategoryNames.fruitName[index],
-  //   ),
-  // );
-
-  // Future<List<Fruit>> fetchFruits() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  // fruitList.forEach((element) async {
-  //   element.isFavorite = prefs.getBool(element.name) ?? false;
-  //   element.isAddedToCart = prefs.getBool(element.image) ?? false;
-  // });
-  //   });
-  //   return fruitList;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -100,12 +73,10 @@ class _HomeState extends State<Home> {
         body: BlocListener<HomeBloc, HomeState>(
           listener: (context, state) async {
             if (state is AddedToFavoriteState) {
-              // await fetchFruits();
               BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
             } else if (state is AddedToCartState) {
-              // await fetchFruits();
               BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
-            } else if (state is FetchProductsState) {}
+            }
           },
           child: BlocBuilder<HomeBloc, HomeState>(
             builder: (context, state) {
@@ -217,9 +188,6 @@ class _HomeState extends State<Home> {
                                                 },
                                                 icon: Icon(
                                                   Icons.favorite,
-                                                  // color: fruitList[index].isFavorite
-                                                  //     ? const Color(0xFFFF2E6C)
-                                                  //     : const Color(0xFFB1B1B1),
                                                   color: product.isFavorite
                                                       ? const Color(0xFFFF2E6C)
                                                       : const Color(0xFFB1B1B1),
@@ -258,8 +226,6 @@ class _HomeState extends State<Home> {
                                                 ),
                                               ),
                                               Text(
-                                                // HomeFruitNames
-                                                //     .fruitNames[index],
                                                 product.title!.substring(0, 5),
                                                 style: TextStyle(
                                                   fontSize:
@@ -273,7 +239,6 @@ class _HomeState extends State<Home> {
                                                         .spaceBetween,
                                                 children: [
                                                   Text(
-                                                    // fruitList[index].amout.toString(),
                                                     product.price!.toString(),
                                                     style: TextStyle(
                                                       fontSize:
@@ -297,13 +262,9 @@ class _HomeState extends State<Home> {
                                                               );
                                                     },
                                                     child: Text(
-                                                      // fruitList[index].isAddedToCart
-                                                      //     ? 'Added to cart'
-                                                      //     : 'Add to cart',
                                                       product.isAddedToCart
                                                           ? 'Added to cart'
                                                           : 'Add to cart',
-
                                                       style: TextStyle(
                                                         fontSize:
                                                             deviceSize.width *

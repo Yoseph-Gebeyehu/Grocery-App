@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/Models/category_model.dart';
-import '../../data/Models/home_model.dart';
-import '../../domain/Constants/Images/category_images.dart';
-import '../../domain/Constants/Images/home_images2.dart';
-import '../../domain/Constants/names/category_fruit_names.dart';
-import '../../domain/Constants/names/home_fruit_names.dart';
+import '../../data/models/products.dart';
+import '../Home/bloc/home_bloc.dart';
 
 class CategoryPage extends StatefulWidget {
   static const category = 'category';
@@ -18,31 +15,7 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   initState() {
     super.initState();
-  }
-
-  List<Category> categoryList = List.generate(
-    CategoryImages.images.length,
-    (index) => Category(
-      image: CategoryImages.images[index],
-      name: CategoryNames.fruitName[index],
-    ),
-  );
-
-  List<Fruit> fruitList = List.generate(
-    HomeImages2.images.length,
-    (index) => Fruit(
-      image: HomeImages2.images[index],
-      name: HomeFruitNames.fruitNames[index],
-      amout: index * 1.78,
-      category: CategoryNames.fruitName[index],
-    ),
-  );
-  List<Fruit> fruitTypeList() {
-    return fruitList.where((fruit) => fruit.category == 'Fruits').toList();
-  }
-
-  List<Fruit> vegetableTypeList() {
-    return fruitList.where((fruit) => fruit.category == 'Vegetable').toList();
+    BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
   }
 
   @override
@@ -59,70 +32,108 @@ class _CategoryPageState extends State<CategoryPage> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: deviceSize.width * 0.05,
-        ),
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: const Color(0xFFFBFBFB),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: deviceSize.height * 0.01),
-              SizedBox(height: deviceSize.height * 0.009),
-              Text(
-                categoryList[0].name,
-                style: TextStyle(
-                  color: const Color(0xFFE67F1E),
-                  fontWeight: FontWeight.bold,
-                  fontSize: deviceSize.width * 0.05,
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(fruitTypeList()[index].name),
-                      leading: CircleAvatar(
-                        backgroundImage:
-                            AssetImage(fruitTypeList()[index].image),
-                      ),
-                    );
-                  },
-                  itemCount: fruitTypeList().length,
-                ),
-              ),
-              SizedBox(height: deviceSize.height * 0.009),
-              Text(
-                categoryList[1].name,
-                style: TextStyle(
-                  color: const Color(0xFFE67F1E),
-                  fontWeight: FontWeight.bold,
-                  fontSize: deviceSize.width * 0.05,
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(vegetableTypeList()[index].name),
-                      leading: CircleAvatar(
-                        backgroundImage:
-                            AssetImage(vegetableTypeList()[index].image),
-                      ),
-                    );
-                  },
-                  itemCount: vegetableTypeList().length,
-                ),
-              ),
-            ],
-          ),
+      body: BlocListener<HomeBloc, HomeState>(
+        listener: (context, state) async {
+          BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
+        },
+        child: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if (state is FetchProductsState) {
+              return Column(
+                children: [
+                  Expanded(
+                    child: products(state.products, 'women\'s clothing'),
+                  ),
+                  divider(),
+                  Expanded(
+                    child: products(state.products, 'electronics'),
+                  ),
+                  divider(),
+                  Expanded(
+                    child: products(state.products, 'women\'s clothing'),
+                  ),
+                  divider(),
+                  Expanded(
+                    child: products(state.products, 'jewelery'),
+                  ),
+                  divider(),
+                ],
+              );
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         ),
       ),
+    );
+  }
+
+  Widget products(List<Products> products, String categoryName) {
+    Size deviceSize = MediaQuery.of(context).size;
+
+    List<Products> allProducts = products
+        .where((products) => products.category == categoryName)
+        .toList();
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: deviceSize.width * 0.05,
+      ),
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: const Color(0xFFFBFBFB),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: deviceSize.height * 0.01),
+            SizedBox(height: deviceSize.height * 0.009),
+            Text(
+              allProducts[0].category!.toUpperCase(),
+              style: TextStyle(
+                color: const Color(0xFFE67F1E),
+                fontWeight: FontWeight.bold,
+                fontSize: deviceSize.width * 0.05,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  final products = allProducts[index];
+                  return ListTile(
+                    title: Text(products.title!),
+                    leading: Container(
+                      width: deviceSize.width * 0.2,
+                      height: deviceSize.height * 0.15,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            products.image!,
+                          ),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                itemCount: allProducts.length,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget divider() {
+    Size deviceSize = MediaQuery.of(context).size;
+
+    return Divider(
+      thickness: 1,
+      indent: deviceSize.width * 0.1,
+      endIndent: deviceSize.width * 0.1,
     );
   }
 }
