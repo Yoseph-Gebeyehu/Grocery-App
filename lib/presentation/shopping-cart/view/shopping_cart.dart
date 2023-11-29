@@ -19,13 +19,11 @@ class _ShoppingCartState extends State<ShoppingCart> {
     super.initState();
     BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
     total();
-    forSpecificCouts();
   }
 
   List<Products> cartProducts = [];
 
   double all = 0;
-  List<int> counts = [];
   List<int> specificCount = [];
   double total() {
     all = 0;
@@ -35,8 +33,13 @@ class _ShoppingCartState extends State<ShoppingCart> {
     return all;
   }
 
-  forSpecificCouts() {
-    specificCount = List.generate(cartProducts.length, (index) => 1);
+  counts() {
+    if (specificCount.isEmpty) {
+      specificCount = List.generate(cartProducts.length, (index) => 1);
+    } else {
+      specificCount =
+          List.generate(cartProducts.length, (index) => specificCount[index]);
+    }
   }
 
   @override
@@ -65,26 +68,22 @@ class _ShoppingCartState extends State<ShoppingCart> {
           children: [
             BlocListener<HomeBloc, HomeState>(
               listener: (context, state) {
-                print('state $state');
                 if (state is AddedToCartState) {
                   BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
+                  total();
                 } else {
-                  BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
-                  forSpecificCouts();
                   total();
                 }
               },
               child: Expanded(
-                flex: 11,
+                flex: 15,
                 child: BlocBuilder<HomeBloc, HomeState>(
                   builder: (context, state) {
                     if (state is FetchProductsState) {
                       cartProducts = state.products
                           .where((product) => product.isAddedToCart)
                           .toList();
-                      // forSpecificCouts();
-                      // total();
-                      counts = List.generate(cartProducts.length, (index) => 1);
+                      counts();
                       return cartProducts.isEmpty
                           ? const Center(
                               child: Text('Product is not added to cart yet!'),
@@ -165,6 +164,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                                         const Spacer(),
                                                         IconButton(
                                                           onPressed: () async {
+                                                            total();
                                                             BlocProvider.of<
                                                                         HomeBloc>(
                                                                     context)
@@ -298,51 +298,35 @@ class _ShoppingCartState extends State<ShoppingCart> {
               ),
             ),
             Expanded(
-              flex: 3,
+              flex: 2,
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: deviceSize.width * 0.08,
                   vertical: deviceSize.height * 0.015,
                 ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Text(
-                        total().toString(),
-                        style: TextStyle(
-                          fontSize: deviceSize.width * 0.05,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    _showCustomerInfoSheet(context);
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
                       ),
-                      SizedBox(height: deviceSize.height * 0.009),
-                      ElevatedButton(
-                        onPressed: () {
-                          _showCustomerInfoSheet(context);
-                        },
-                        style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                          ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              const Color(0xFFFEC54B)),
-                          minimumSize: MaterialStateProperty.all(
-                            const Size(double.infinity, 50),
-                          ),
-                        ),
-                        child: Text(
-                          'PLACE ORDER',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: deviceSize.width * 0.04,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        const Color(0xFFFEC54B)),
+                    minimumSize: MaterialStateProperty.all(
+                      const Size(double.infinity, 50),
+                    ),
+                  ),
+                  child: Text(
+                    'PLACE ORDER',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: deviceSize.width * 0.04,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),

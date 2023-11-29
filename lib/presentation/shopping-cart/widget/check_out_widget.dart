@@ -43,7 +43,7 @@ class _CheckOutWidgetState extends State<CheckOutWidget> {
               ),
               child: Container(
                 color: Colors.white,
-                height: deviceSize.height * 0.3,
+                height: deviceSize.height * 0.35,
                 padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom,
                   left: deviceSize.width * 0.05,
@@ -74,6 +74,13 @@ class _CheckOutWidgetState extends State<CheckOutWidget> {
                         ),
                       ),
                     ),
+                    Text(
+                      'Total: ${widget.amount} Birr',
+                      style: TextStyle(
+                        fontSize: deviceSize.width * 0.05,
+                        color: Colors.black,
+                      ),
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -100,9 +107,11 @@ class _CheckOutWidgetState extends State<CheckOutWidget> {
                               const Size(double.infinity, 50),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             'Buy',
-                            style: TextStyle(fontSize: 16.0),
+                            style: TextStyle(
+                              fontSize: deviceSize.width * 0.05,
+                            ),
                           ),
                         ),
                       ],
