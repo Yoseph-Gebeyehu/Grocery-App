@@ -32,17 +32,5 @@ class ApiClient {
     var url = Uri.parse(baseUrl);
     var response = await http.get(url);
     return ApiResponse.fromResponse(response);
-    // List<Products> products = [];
-    // if (response.statusCode == 200) {
-    //   var responseBody = json.decode(response.body);
-    // for (var productData in responseBody) {
-    //   Products product = Products.fromJson(productData);
-    //   products.add(product);
-    // }
-    //   return products;
-    // } else {
-    //
-    //   return response.statusCode;
-    // }
   }
 }

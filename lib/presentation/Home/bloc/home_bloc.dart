@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/models/products.dart';
@@ -35,13 +37,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     on<FetchProductsEvent>((event, emit) async {
       var connectivityResult = await (Connectivity().checkConnectivity());
-      if (connectivityResult == ConnectivityResult.none) {
+      if (connectivityResult == ConnectivityResult.none && Platform.isAndroid) {
         emit(NetworkErrorState());
+        return;
       }
       ApiClient apiClient = ApiClient();
       var apiResponse = await apiClient.getProduct();
 
       List<Products> products = [];
+
       try {
         if (apiResponse.status == 200) {
           for (var productData in apiResponse.body) {
@@ -57,7 +61,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         } else if (apiResponse.status == 404 || apiResponse.status == 502) {
           emit(ApiErrorState());
         }
-      } catch (e) {}
+      } catch (e) {
+        if (kDebugMode) {
+          print(e.toString());
+        }
+      }
     });
   }
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../presentation/Home/bloc/home_bloc.dart';
 
 class NoConnectionPage extends StatelessWidget {
   const NoConnectionPage({Key? key}) : super(key: key);
@@ -38,6 +41,20 @@ class NoConnectionPage extends StatelessWidget {
                   fontWeight: FontWeight.w200,
                   fontSize: deviceSize.width * 0.04,
                   wordSpacing: 5,
+                ),
+              ),
+            ),
+            BlocListener<HomeBloc, HomeState>(
+              listener: (context, state) {},
+              child: TextButton(
+                onPressed: () {
+                  BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
+                },
+                child: Text(
+                  'Refresh',
+                  style: TextStyle(
+                      fontSize: deviceSize.width * 0.06,
+                      color: const Color(0xFFE67F1E)),
                 ),
               ),
             ),

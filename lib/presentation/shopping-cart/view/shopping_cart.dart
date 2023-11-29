@@ -65,9 +65,11 @@ class _ShoppingCartState extends State<ShoppingCart> {
           children: [
             BlocListener<HomeBloc, HomeState>(
               listener: (context, state) {
+                print('state $state');
                 if (state is AddedToCartState) {
                   BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
                 } else {
+                  BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
                   forSpecificCouts();
                   total();
                 }
@@ -80,7 +82,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       cartProducts = state.products
                           .where((product) => product.isAddedToCart)
                           .toList();
-
+                      // forSpecificCouts();
+                      // total();
                       counts = List.generate(cartProducts.length, (index) => 1);
                       return cartProducts.isEmpty
                           ? const Center(

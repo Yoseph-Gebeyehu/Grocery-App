@@ -18,9 +18,13 @@ class ApiResponse {
 
     try {
       body = jsonDecode(response.body);
-      checkoutUrl = body['data']['checkout_url'];
     } catch (e) {
       body = null;
+    }
+
+    try {
+      checkoutUrl = body['data']['checkout_url'];
+    } catch (e) {
       checkoutUrl = '';
     }
 
