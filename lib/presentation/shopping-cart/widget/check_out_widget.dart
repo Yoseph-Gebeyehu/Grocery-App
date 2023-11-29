@@ -77,7 +77,7 @@ class _CheckOutWidgetState extends State<CheckOutWidget> {
                     Text(
                       'Total: ${widget.amount} Birr',
                       style: TextStyle(
-                        fontSize: deviceSize.width * 0.05,
+                        fontSize: deviceSize.width * 0.04,
                         color: Colors.black,
                       ),
                     ),

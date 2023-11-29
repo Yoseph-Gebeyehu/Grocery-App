@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../widgets/no_internet.dart';
 import '../../../data/models/products.dart';
 import '../../../presentation/shopping-cart/widget/check_out_widget.dart';
+import '../../../widgets/snack_bar.dart';
 import '../../Home/bloc/home_bloc.dart';
 
 class ShoppingCart extends StatefulWidget {
@@ -70,6 +71,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
               listener: (context, state) {
                 if (state is AddedToCartState) {
                   BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
+                  SnackBarWidget().showSnack(context, 'Item removed from cart');
                   total();
                 } else {
                   total();
@@ -88,205 +90,13 @@ class _ShoppingCartState extends State<ShoppingCart> {
                           ? const Center(
                               child: Text('Product is not added to cart yet!'),
                             )
-                          : ListView.builder(
-                              itemBuilder: (context, index) {
-                                final cart = cartProducts[index];
-                                return Column(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: deviceSize.width * 0.08,
-                                        vertical: deviceSize.height * 0.015,
-                                      ),
-                                      child: SizedBox(
-                                        height: deviceSize.height * 0.15,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          children: [
-                                            Container(
-                                              width: deviceSize.width * 0.2,
-                                              height: deviceSize.height * 0.15,
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: NetworkImage(
-                                                    cart.image!,
-                                                  ),
-                                                  fit: BoxFit.contain,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: deviceSize.width * 0.05,
-                                            ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  SizedBox(
-                                                    child: Row(
-                                                      children: [
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              cart.category!,
-                                                              style: TextStyle(
-                                                                fontSize: deviceSize
-                                                                        .width *
-                                                                    0.03,
-                                                                color: Colors
-                                                                    .black,
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              cart.title!
-                                                                  .substring(
-                                                                      0, 10),
-                                                              style: TextStyle(
-                                                                fontSize: deviceSize
-                                                                        .width *
-                                                                    0.05,
-                                                                color: Colors
-                                                                    .black,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        const Spacer(),
-                                                        IconButton(
-                                                          onPressed: () async {
-                                                            total();
-                                                            BlocProvider.of<
-                                                                        HomeBloc>(
-                                                                    context)
-                                                                .add(
-                                                              AddToCartEvent(
-                                                                products: cart,
-                                                              ),
-                                                            );
-                                                            BlocProvider.of<
-                                                                        HomeBloc>(
-                                                                    context)
-                                                                .add(
-                                                                    FetchProductsEvent());
-                                                          },
-                                                          icon: const Icon(
-                                                            Icons.delete,
-                                                            color: Colors.red,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        (cart.price! *
-                                                                specificCount[
-                                                                    index])
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          fontSize:
-                                                              deviceSize.width *
-                                                                  0.05,
-                                                          color: const Color(
-                                                              0xFFE67F1E),
-                                                        ),
-                                                      ),
-                                                      const Spacer(),
-                                                      Container(
-                                                        height:
-                                                            deviceSize.height *
-                                                                0.04,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: const Color(
-                                                              0xFFEFEFEF),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      100),
-                                                        ),
-                                                        child: Center(
-                                                          child: Row(
-                                                            children: [
-                                                              IconButton(
-                                                                onPressed: () {
-                                                                  if (specificCount[
-                                                                          index] >
-                                                                      1) {
-                                                                    setState(
-                                                                        () {
-                                                                      specificCount[
-                                                                          index] -= 1;
-                                                                    });
-                                                                  }
-                                                                },
-                                                                icon:
-                                                                    const Icon(
-                                                                  Icons.remove,
-                                                                  color: Color(
-                                                                      0xFFB1B1B1),
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                specificCount[
-                                                                        index]
-                                                                    .toString(),
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      deviceSize
-                                                                              .width *
-                                                                          0.05,
-                                                                ),
-                                                              ),
-                                                              IconButton(
-                                                                onPressed: () {
-                                                                  setState(() {
-                                                                    specificCount[
-                                                                        index] += 1;
-                                                                  });
-                                                                },
-                                                                icon:
-                                                                    const Icon(
-                                                                  Icons.add,
-                                                                  color: Color(
-                                                                      0xFFB1B1B1),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Divider(
-                                      thickness: 1,
-                                      indent: deviceSize.width * 0.1,
-                                      endIndent: deviceSize.width * 0.1,
-                                    ),
-                                  ],
-                                );
-                              },
-                              itemCount: cartProducts.length,
-                            );
+                          : shoppingCart(deviceSize);
+                    } else if (state is AddedToCartState) {
+                      return cartProducts.isEmpty
+                          ? const Center(
+                              child: Text('Product is not added to cart yet!'),
+                            )
+                          : shoppingCart(deviceSize);
                     } else if (state is NetworkErrorState) {
                       return const NoConnectionPage();
                     }
@@ -334,6 +144,161 @@ class _ShoppingCartState extends State<ShoppingCart> {
           ],
         ),
       ),
+    );
+  }
+
+  ListView shoppingCart(Size deviceSize) {
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        final cart = cartProducts[index];
+        return Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: deviceSize.width * 0.08,
+                vertical: deviceSize.height * 0.015,
+              ),
+              child: SizedBox(
+                height: deviceSize.height * 0.15,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      width: deviceSize.width * 0.2,
+                      height: deviceSize.height * 0.15,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            cart.image!,
+                          ),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: deviceSize.width * 0.05,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SizedBox(
+                            child: Row(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      cart.category!,
+                                      style: TextStyle(
+                                        fontSize: deviceSize.width * 0.03,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Text(
+                                      cart.title!.substring(0, 10),
+                                      style: TextStyle(
+                                        fontSize: deviceSize.width * 0.05,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Spacer(),
+                                IconButton(
+                                  onPressed: () async {
+                                    total();
+                                    counts();
+                                    BlocProvider.of<HomeBloc>(context).add(
+                                      AddToCartEvent(
+                                        products: cart,
+                                      ),
+                                    );
+                                    BlocProvider.of<HomeBloc>(context)
+                                        .add(FetchProductsEvent());
+                                  },
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                (cart.price! * specificCount[index])
+                                    .toStringAsFixed(2),
+                                style: TextStyle(
+                                  fontSize: deviceSize.width * 0.05,
+                                  color: const Color(0xFFE67F1E),
+                                ),
+                              ),
+                              const Spacer(),
+                              Container(
+                                height: deviceSize.height * 0.04,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFEFEFEF),
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                child: Center(
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          if (specificCount[index] > 1) {
+                                            setState(() {
+                                              specificCount[index] -= 1;
+                                            });
+                                          }
+                                        },
+                                        icon: const Icon(
+                                          Icons.remove,
+                                          color: Color(0xFFB1B1B1),
+                                        ),
+                                      ),
+                                      Text(
+                                        specificCount[index].toString(),
+                                        style: TextStyle(
+                                          fontSize: deviceSize.width * 0.05,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            specificCount[index] += 1;
+                                          });
+                                        },
+                                        icon: const Icon(
+                                          Icons.add,
+                                          color: Color(0xFFB1B1B1),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Divider(
+              thickness: 1,
+              indent: deviceSize.width * 0.1,
+              endIndent: deviceSize.width * 0.1,
+            ),
+          ],
+        );
+      },
+      itemCount: cartProducts.length,
     );
   }
 

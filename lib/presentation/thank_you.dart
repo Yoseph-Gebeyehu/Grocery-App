@@ -51,29 +51,29 @@ class ThankYouPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: deviceSize.height * 0.1),
-            ElevatedButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(const Color(0xFFFEC54B)),
-                minimumSize: MaterialStateProperty.all(
-                  const Size(double.infinity, 50),
-                ),
-              ),
-              child: Text(
-                'PLACE ORDER',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: deviceSize.width * 0.04,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            // ElevatedButton(
+            //   onPressed: () {},
+            //   style: ButtonStyle(
+            //     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            //       RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(30.0),
+            //       ),
+            //     ),
+            //     backgroundColor:
+            //         MaterialStateProperty.all<Color>(const Color(0xFFFEC54B)),
+            //     minimumSize: MaterialStateProperty.all(
+            //       const Size(double.infinity, 50),
+            //     ),
+            //   ),
+            //   child: Text(
+            //     'PLACE ORDER',
+            //     style: TextStyle(
+            //       color: Colors.black,
+            //       fontSize: deviceSize.width * 0.04,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

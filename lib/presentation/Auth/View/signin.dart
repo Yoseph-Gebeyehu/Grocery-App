@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery/widgets/snack_bar.dart';
 
 import '../../../presentation/Auth/bloc/auth_bloc.dart';
 import '../../../presentation/base-home-page/View/base_home.dart';
@@ -19,49 +20,49 @@ class _SigninPageState extends State<SigninPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) async {
-          if (state is AuthErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Invalid username/password'),
-                duration: Duration(seconds: 2),
-              ),
-            );
-          } else if (state is AuthLoadedState) {
-            await Navigator.pushNamed(
-              context,
-              BaseHomePage.baseHomePage,
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state is AuthLoadingState) {
-            return Stack(
-              children: [
-                buildScreen(context),
-                Center(
-                  child: Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    color: Colors.grey.withOpacity(0.55),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CircularProgressIndicator(),
-                        SizedBox(width: 10),
-                        Text("Loading..."),
-                      ],
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) async {
+            if (state is AuthErrorState) {
+              SnackBarWidget().showSnack(context, 'Invalid username/password');
+            } else if (state is AuthLoadedState) {
+              await Navigator.pushNamed(
+                context,
+                BaseHomePage.baseHomePage,
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthLoadingState) {
+              return Stack(
+                children: [
+                  buildScreen(context),
+                  Center(
+                    child: Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      color: Colors.grey.withOpacity(0.55),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          CircularProgressIndicator(),
+                          SizedBox(width: 10),
+                          Text("Loading..."),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            );
-          }
-          return buildScreen(context);
-        },
+                ],
+              );
+            }
+            return buildScreen(context);
+          },
+        ),
       ),
     );
   }
