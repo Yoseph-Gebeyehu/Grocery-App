@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../data/models/api_request.dart';
@@ -9,8 +10,22 @@ part 'shopping_cart_event.dart';
 part 'shopping_cart_state.dart';
 
 class ShoppingCartBloc extends Bloc<ShoppingCartEvent, ShoppingCartState> {
+  List<String> _txRef = [];
   ShoppingCartBloc() : super(ShoppingCartInitial()) {
     Repository repository = Repository();
+
+    // ************ Shared preference **************** //
+    Future<void> loadTxRef() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      _txRef = prefs.getStringList('txns') ?? [];
+    }
+
+    Future<void> saveTxRef() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setStringList('txns', _txRef);
+    }
+
+    loadTxRef();
 
     on<BuyEvent>((event, emit) async {
       ApiRequest apiRequest = ApiRequest(
@@ -21,7 +36,8 @@ class ShoppingCartBloc extends Bloc<ShoppingCartEvent, ShoppingCartState> {
         phoneNumber: "0918292773",
         txRef: event.txRef,
         currency: event.currency,
-        callbackUrl: "https://your-callback-url.com",
+        callbackUrl:
+            "https://webhook.site/077164d6-29cb-40df-ba29-8a00e59a7e60",
         returnUrl: "https://your-return-url.com",
         customization: Customization(
           title: "title",
@@ -36,6 +52,9 @@ class ShoppingCartBloc extends Bloc<ShoppingCartEvent, ShoppingCartState> {
         if (!await launchUrl(Uri.parse(checkoutUrl!))) {
           throw Exception('Could not launch ${Uri.parse(checkoutUrl)}');
         }
+        _txRef.add(event.txRef);
+        saveTxRef();
+        print('inside shopping cart ${_txRef.length}');
       }
 
       emit(BuySuccessState());

@@ -47,6 +47,7 @@ dependencies:
   webview_flutter_wkwebview: ^3.1.1
   shimmer: ^3.0.0
   connectivity_plus: ^2.3.9
+  intl: ^0.18.1
 
 
 
@@ -108,6 +109,11 @@ flutter:
     - assets/thank_you.png
 
     - assets/splash_logo.png
+
+    - assets/electrinics.jpg
+    - assets/jewelery.jpg
+    - assets/mens_cloth.jpg
+    - assets/womens_cloth.jpg
 
 
 

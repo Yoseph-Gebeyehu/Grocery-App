@@ -6,6 +6,7 @@ import '../presentation/Auth/bloc/auth_bloc.dart';
 import '../presentation/base-home-page/bloc/base_home_page_bloc.dart';
 import '../presentation/Home/bloc/home_bloc.dart';
 import '../domain/Constants/router/app_route.dart';
+import 'presentation/transaction-history/bloc/transaction_history_bloc.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ShoppingCartBloc(),
+        ),
+        BlocProvider(
+          create: (context) => TransactionHistoryBloc(),
         ),
       ],
       child: MaterialApp(

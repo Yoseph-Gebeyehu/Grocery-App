@@ -309,7 +309,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return CheckOutWidget(
-          amount: total().toString(),
+          amount: total().toStringAsFixed(2),
         );
       },
     );

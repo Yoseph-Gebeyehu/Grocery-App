@@ -10,7 +10,11 @@ class Repository {
     return apiClient.postData(apiRequest);
   }
 
-  Future getProducts() async {
+  Future<ApiResponse> getProducts() async {
     return apiClient.getProduct();
+  }
+
+  Future<ApiResponse> getVerify(String txnRef) async {
+    return apiClient.getVerify(txnRef);
   }
 }

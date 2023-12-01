@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery/data/models/products.dart';
+import 'package:grocery/domain/constants/names/home_fruit_names.dart';
 
 import '../../Home/bloc/home_bloc.dart';
 import '../../item-detail/item_detail.dart';
@@ -126,28 +127,47 @@ class _HomeState extends State<Home> {
             ],
           ),
           SizedBox(
-            height: deviceSize.height * 0.13,
+            height: deviceSize.height * 0.15,
             child: ListView.builder(
               itemBuilder: (context, index) => Row(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: const Color(
-                        0xFFFBFBFB,
-                      ),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x42000000),
-                          offset: Offset(9, 0),
-                          blurRadius: 10,
-                          spreadRadius: 2,
+                  Column(
+                    children: [
+                      SizedBox(height: deviceSize.height * 0.005),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: const Color(
+                            0xFFFBFBFB,
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x42000000),
+                              offset: Offset(9, 0),
+                              blurRadius: 10,
+                              spreadRadius: 2,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    width: deviceSize.width * 0.25,
-                    height: deviceSize.height * 0.1,
-                    child: Image.asset(HomeImages.images[index]),
+                        width: deviceSize.width * 0.25,
+                        height: deviceSize.height * 0.1,
+                        child: Container(
+                          width: double.infinity,
+                          height: deviceSize.height * 0.15,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            image: DecorationImage(
+                              image: AssetImage(
+                                HomeImages.images[index],
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: deviceSize.height * 0.02),
+                      Text(HomeFruitNames.categoryName[index]),
+                    ],
                   ),
                   SizedBox(width: deviceSize.width * 0.02)
                 ],

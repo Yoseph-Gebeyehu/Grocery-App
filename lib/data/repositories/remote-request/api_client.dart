@@ -2,7 +2,6 @@ import "dart:convert";
 
 import 'package:grocery/data/models/api_request.dart';
 import 'package:grocery/data/models/api_response.dart';
-import 'package:grocery/data/models/products.dart';
 import "package:http/http.dart" as http;
 
 class ApiClient {
@@ -31,6 +30,22 @@ class ApiClient {
     String baseUrl = 'https://fakestoreapi.com/products';
     var url = Uri.parse(baseUrl);
     var response = await http.get(url);
+    return ApiResponse.fromResponse(response);
+  }
+
+  Future<ApiResponse> getVerify(String txnRef) async {
+    // String baseUrl = 'https://api.chapa.co/v1/transaction/verify/$txRef';
+    String baseUrl = 'https://api.chapa.co/v1/transaction/verify/$txnRef';
+    String key = "CHASECK_TEST-KzqTmzYnjSL5UDnlA7YuiAZY3OoeujYo";
+
+    var headers = {
+      "Authorization": "Bearer $key",
+      "Content-Type": "application/json"
+    };
+
+    var url = Uri.parse(baseUrl);
+    var response = await http.get(url, headers: headers);
+
     return ApiResponse.fromResponse(response);
   }
 }

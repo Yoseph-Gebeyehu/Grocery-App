@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:randomstring_dart/randomstring_dart.dart';
 
-import '../../../domain/constants/images/chapa_images.dart';
 import '../bloc/shopping_cart_bloc.dart';
 
 class CheckOutWidget extends StatefulWidget {
@@ -38,83 +37,65 @@ class _CheckOutWidgetState extends State<CheckOutWidget> {
           return SingleChildScrollView(
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
+                topLeft: Radius.circular(50.0),
+                topRight: Radius.circular(50.0),
               ),
               child: Container(
                 color: Colors.white,
-                height: deviceSize.height * 0.35,
+                height: deviceSize.height * 0.3,
                 padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom,
-                  left: deviceSize.width * 0.05,
-                  right: deviceSize.width * 0.05,
+                  left: deviceSize.width * 0.1,
+                  right: deviceSize.width * 0.1,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'Complete action via',
+                      'Order details',
                       style: TextStyle(
-                        fontSize: deviceSize.width * 0.04,
+                        fontSize: deviceSize.width * 0.045,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    ListTile(
-                      leading: const Icon(Icons.star),
-                      title: Text(
-                        'Chapa Financial Technologies',
-                        style: TextStyle(fontSize: deviceSize.width * 0.04),
-                        textAlign: TextAlign.center,
-                      ),
-                      trailing: SizedBox(
-                        width: deviceSize.width * 0.2,
-                        child: Image.asset(
-                          ChapaImage.chapa,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      'Total: ${widget.amount} Birr',
-                      style: TextStyle(
-                        fontSize: deviceSize.width * 0.04,
-                        color: Colors.black,
-                      ),
-                    ),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        ElevatedButton(
-                          onPressed: () async {
-                            BlocProvider.of<ShoppingCartBloc>(context).add(
-                              BuyEvent(
-                                amount: widget.amount,
-                                txRef: txRef,
-                                currency: currency,
-                              ),
-                            );
-                          },
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                const Color(0xFFFEC54B)),
-                            minimumSize: MaterialStateProperty.all(
-                              const Size(double.infinity, 50),
-                            ),
+                        rowText('Price of items', widget.amount),
+                        SizedBox(height: deviceSize.height * 0.007),
+                        rowText('Delivery fee', '0'),
+                        SizedBox(height: deviceSize.height * 0.007),
+                        rowText('Total fee', widget.amount),
+                      ],
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        BlocProvider.of<ShoppingCartBloc>(context).add(
+                          BuyEvent(
+                            amount: widget.amount,
+                            txRef: txRef,
+                            currency: currency,
                           ),
-                          child: Text(
-                            'Buy',
-                            style: TextStyle(
-                              fontSize: deviceSize.width * 0.05,
-                            ),
+                        );
+                      },
+                      style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
-                      ],
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color(0xFFFEC54B)),
+                        minimumSize: MaterialStateProperty.all(
+                          const Size(double.infinity, 50),
+                        ),
+                      ),
+                      child: Text(
+                        'Checkout',
+                        style: TextStyle(
+                          fontSize: deviceSize.width * 0.05,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -123,6 +104,29 @@ class _CheckOutWidgetState extends State<CheckOutWidget> {
           );
         },
       ),
+    );
+  }
+
+  rowText(String title, String amount) {
+    Size deviceSize = MediaQuery.of(context).size;
+    return Row(
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: deviceSize.width * 0.04,
+            color: Colors.black,
+          ),
+        ),
+        const Spacer(),
+        Text(
+          '$amount br',
+          style: TextStyle(
+            fontSize: deviceSize.width * 0.04,
+            color: Colors.black,
+          ),
+        )
+      ],
     );
   }
 }

@@ -9,7 +9,7 @@ import '../../../presentation/favorite/view/favorite.dart';
 import '../../../presentation/item-detail/item_detail.dart';
 import '../../../presentation/onboarding.dart';
 import '../../../presentation/shopping-cart/view/shopping_cart.dart';
-import '../../../presentation/thank_you.dart';
+import '../../../presentation/transaction-history/view/transaction_history.dart';
 
 class AppRoute {
   Route? onGenerateRoute(RouteSettings routeSettings) {
@@ -54,9 +54,9 @@ class AppRoute {
         return MaterialPageRoute(
           builder: (_) => const SigninPage(),
         );
-      case ThankYouPage.thankyou:
+      case TransactionHistoryPage.txnHistory:
         return MaterialPageRoute(
-          builder: (_) => const ThankYouPage(),
+          builder: (_) => TransactionHistoryPage(),
         );
       default:
         return null;

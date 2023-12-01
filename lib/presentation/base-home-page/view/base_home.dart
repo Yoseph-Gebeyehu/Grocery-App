@@ -6,7 +6,7 @@ import '../../../presentation/Category/categories.dart';
 import '../../../presentation/Home/view/home.dart';
 import '../../favorite/view/favorite.dart';
 import '../../shopping-cart/view/shopping_cart.dart';
-import '../../thank_you.dart';
+import '../../transaction-history/view/transaction_history.dart';
 
 class BaseHomePage extends StatefulWidget {
   const BaseHomePage({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class _BaseHomePageState extends State<BaseHomePage> {
     CategoryPage(),
     const ShoppingCart(),
     const Favorite(),
-    const ThankYouPage(),
+    TransactionHistoryPage(),
   ];
   @override
   Widget build(BuildContext context) {
