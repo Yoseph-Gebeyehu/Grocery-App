@@ -121,7 +121,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
                     ),
                     backgroundColor: MaterialStateProperty.all<Color>(

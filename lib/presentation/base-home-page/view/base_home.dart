@@ -90,7 +90,7 @@ class _BaseHomePageState extends State<BaseHomePage> {
                 ),
                 BottomNavigationBarItem(
                   label: '',
-                  icon: Icon(Icons.person),
+                  icon: Icon(Icons.history),
                 ),
               ],
             );

@@ -10,7 +10,7 @@ class SnackBarWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: deviceSize.height * 0.03,
+              height: deviceSize.height * 0.025,
               child: Image.asset('assets/splash.png'),
             ),
             SizedBox(width: deviceSize.width * 0.1),
@@ -26,7 +26,7 @@ class SnackBarWidget {
           vertical: 10,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(200),
         ),
       ),
     );

@@ -7,9 +7,19 @@ class TransactionHistoryState extends Equatable {
   List<Object> get props => [];
 }
 
-class TransactionHistoryInitial extends TransactionHistoryState {}
+class TransactionHistoryInitialState extends TransactionHistoryState {}
 
 class FetchTransactionHistoryState extends TransactionHistoryState {
-  List<TransactionHistory> trxnHistoryList;
+  // List<TransactionHistory> trxnHistoryList;
+  List<String> trxnHistoryList;
   FetchTransactionHistoryState({required this.trxnHistoryList});
 }
+
+class FetchTransactionDetailState extends TransactionHistoryState {
+  TransactionHistory transactionHistory;
+  FetchTransactionDetailState({required this.transactionHistory});
+}
+
+class NetworkErrorState extends TransactionHistoryState {}
+
+class ApiErrorSatate extends TransactionHistoryState {}

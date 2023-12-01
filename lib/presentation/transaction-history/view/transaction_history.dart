@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
+import 'package:grocery/widgets/no_internet.dart';
 
+import '../../transaction-detail/transaction_detail.dart';
 import '../bloc/transaction_history_bloc.dart';
 
 class TransactionHistoryPage extends StatefulWidget {
@@ -15,6 +16,8 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<TransactionHistoryBloc>(context)
+        .add(TransactionHistoryInitialEvent());
     BlocProvider.of<TransactionHistoryBloc>(context)
         .add(FetchTransactionHistoryEvent());
   }
@@ -41,12 +44,7 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
         ),
       ),
       body: BlocListener<TransactionHistoryBloc, TransactionHistoryState>(
-        listener: (context, state) {
-          if (state is FetchTransactionHistoryState) {
-            BlocProvider.of<TransactionHistoryBloc>(context)
-                .add(FetchTransactionHistoryEvent());
-          }
-        },
+        listener: (context, state) {},
         child: BlocBuilder<TransactionHistoryBloc, TransactionHistoryState>(
           builder: (context, state) {
             if (state is FetchTransactionHistoryState) {
@@ -57,10 +55,7 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                 },
                 child: ListView.builder(
                   itemBuilder: (context, index) {
-                    var txnHistory = state.trxnHistoryList[index].data;
-                    DateTime date = DateTime.parse(txnHistory!.createdAt!);
-                    String dateString =
-                        DateFormat('yyyy-MMM-dd HH:mm').format(date);
+                    var txRef = state.trxnHistoryList[index];
                     return Column(
                       children: [
                         ListTile(
@@ -73,12 +68,26 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                               ),
                             ),
                           ),
-                          title: Text(
-                            txnHistory.txRef.toString(),
-                          ),
-                          subtitle: Text(dateString),
-                          trailing: Text(
-                            txnHistory.amount.toString(),
+                          title: GestureDetector(
+                            onTap: () async {
+                              BlocProvider.of<TransactionHistoryBloc>(context)
+                                  .add(
+                                FetchTransactionDetailEvent(txnRef: txRef),
+                              );
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const TransactionDetail(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              txRef,
+                              style: const TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.blue,
+                              ),
+                            ),
                           ),
                         ),
                         Divider(
@@ -92,6 +101,12 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                   itemCount: state.trxnHistoryList.length,
                 ),
               );
+            } else if (state is TransactionHistoryInitialState) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is NetworkErrorState) {
+              return const NoConnectionPage();
             }
             return const Center(
               child: CircularProgressIndicator(),

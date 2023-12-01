@@ -7,4 +7,11 @@ class TransactionHistoryEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class TransactionHistoryInitialEvent extends TransactionHistoryEvent {}
+
 class FetchTransactionHistoryEvent extends TransactionHistoryEvent {}
+
+class FetchTransactionDetailEvent extends TransactionHistoryEvent {
+  String txnRef;
+  FetchTransactionDetailEvent({required this.txnRef});
+}

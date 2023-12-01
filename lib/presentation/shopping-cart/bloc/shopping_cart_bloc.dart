@@ -25,8 +25,6 @@ class ShoppingCartBloc extends Bloc<ShoppingCartEvent, ShoppingCartState> {
       prefs.setStringList('txns', _txRef);
     }
 
-    loadTxRef();
-
     on<BuyEvent>((event, emit) async {
       ApiRequest apiRequest = ApiRequest(
         email: "yosephgebeyehu73@gmail.com",
@@ -52,8 +50,9 @@ class ShoppingCartBloc extends Bloc<ShoppingCartEvent, ShoppingCartState> {
         if (!await launchUrl(Uri.parse(checkoutUrl!))) {
           throw Exception('Could not launch ${Uri.parse(checkoutUrl)}');
         }
+        await loadTxRef();
         _txRef.add(event.txRef);
-        saveTxRef();
+        await saveTxRef();
         print('inside shopping cart ${_txRef.length}');
       }
 

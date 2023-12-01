@@ -48,6 +48,7 @@ dependencies:
   shimmer: ^3.0.0
   connectivity_plus: ^2.3.9
   intl: ^0.18.1
+  abushakir: ^1.0.0
 
 
 
