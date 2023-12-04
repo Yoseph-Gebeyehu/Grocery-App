@@ -62,9 +62,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           emit(ApiErrorState());
         }
       } catch (e) {
-        if (kDebugMode) {
-          print(e.toString());
-        }
+        if (kDebugMode) {}
       }
     });
   }

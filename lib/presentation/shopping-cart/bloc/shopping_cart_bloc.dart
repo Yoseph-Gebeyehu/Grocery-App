@@ -14,7 +14,6 @@ class ShoppingCartBloc extends Bloc<ShoppingCartEvent, ShoppingCartState> {
   ShoppingCartBloc() : super(ShoppingCartInitial()) {
     Repository repository = Repository();
 
-    // ************ Shared preference **************** //
     Future<void> loadTxRef() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       _txRef = prefs.getStringList('txns') ?? [];
@@ -53,7 +52,6 @@ class ShoppingCartBloc extends Bloc<ShoppingCartEvent, ShoppingCartState> {
         await loadTxRef();
         _txRef.add(event.txRef);
         await saveTxRef();
-        print('inside shopping cart ${_txRef.length}');
       }
 
       emit(BuySuccessState());

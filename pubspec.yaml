@@ -49,6 +49,7 @@ dependencies:
   connectivity_plus: ^2.3.9
   intl: ^0.18.1
   abushakir: ^1.0.0
+  flutter_vector_icons: ^2.0.0
 
 
 

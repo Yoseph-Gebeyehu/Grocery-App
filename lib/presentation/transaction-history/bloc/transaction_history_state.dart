@@ -10,7 +10,6 @@ class TransactionHistoryState extends Equatable {
 class TransactionHistoryInitialState extends TransactionHistoryState {}
 
 class FetchTransactionHistoryState extends TransactionHistoryState {
-  // List<TransactionHistory> trxnHistoryList;
   List<String> trxnHistoryList;
   FetchTransactionHistoryState({required this.trxnHistoryList});
 }

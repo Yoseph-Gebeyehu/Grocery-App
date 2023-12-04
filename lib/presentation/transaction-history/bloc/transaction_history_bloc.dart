@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/repositories/remote-request/repository.dart';
@@ -14,7 +13,7 @@ part 'transaction_history_state.dart';
 
 class TransactionHistoryBloc
     extends Bloc<TransactionHistoryEvent, TransactionHistoryState> {
-  TransactionHistoryBloc() : super(TransactionHistoryState()) {
+  TransactionHistoryBloc() : super(const TransactionHistoryState()) {
     List<String> _txRef = [];
     Future<void> loadTxRef() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -34,16 +33,6 @@ class TransactionHistoryBloc
       await loadTxRef();
 
       emit(FetchTransactionHistoryState(trxnHistoryList: _txRef));
-      // Repository repository = Repository();
-      // print(txnHistoryList.length);
-      // List<TransactionHistory> txnHistoryList = [];
-      // for (int i = 0; i < _txRef.length; i++) {
-      //   var response = await repository.getVerify(_txRef[i]);
-
-      //   TransactionHistory transactionHistory =
-      //       TransactionHistory.fromJson(response.body);
-      //   txnHistoryList.add(transactionHistory);
-      // }
     });
 
     on<FetchTransactionDetailEvent>((event, emit) async {

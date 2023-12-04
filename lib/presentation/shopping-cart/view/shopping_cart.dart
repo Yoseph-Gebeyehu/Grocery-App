@@ -238,49 +238,45 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                 ),
                               ),
                               const Spacer(),
-                              Container(
-                                height: deviceSize.height * 0.04,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFEFEFEF),
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                                child: Center(
-                                  child: Row(
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          if (specificCount[index] > 1) {
-                                            setState(() {
-                                              specificCount[index] -= 1;
-                                            });
-                                          }
-                                        },
-                                        icon: const Icon(
-                                          Icons.remove,
-                                          color: Color(0xFFB1B1B1),
-                                        ),
-                                      ),
-                                      Text(
-                                        specificCount[index].toString(),
-                                        style: TextStyle(
-                                          fontSize: deviceSize.width * 0.05,
-                                        ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
+                              Center(
+                                child: Row(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        if (specificCount[index] > 1) {
                                           setState(() {
-                                            specificCount[index] += 1;
+                                            specificCount[index] -= 1;
                                           });
-                                        },
-                                        icon: const Icon(
-                                          Icons.add,
-                                          color: Color(0xFFB1B1B1),
-                                        ),
+                                        }
+                                      },
+                                      icon: Icon(
+                                        Icons.remove,
+                                        color: specificCount[index] == 1
+                                            ? const Color(0xFFB1B1B1)
+                                            : const Color(0xFFFEC54B),
                                       ),
-                                    ],
-                                  ),
+                                      // : Colors.white,),
+                                    ),
+                                    Text(
+                                      specificCount[index].toString(),
+                                      style: TextStyle(
+                                        fontSize: deviceSize.width * 0.05,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          specificCount[index] += 1;
+                                        });
+                                      },
+                                      icon: const Icon(
+                                        Icons.add,
+                                        color: Color(0xFFFEC54B),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ],

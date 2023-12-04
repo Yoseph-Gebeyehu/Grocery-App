@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/widgets/no_internet.dart';
 
+import '../../../widgets/no_internet.dart';
 import '../../transaction-detail/transaction_detail.dart';
 import '../bloc/transaction_history_bloc.dart';
 

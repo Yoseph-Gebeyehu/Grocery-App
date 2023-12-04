@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/presentation/shopping-cart/bloc/shopping_cart_bloc.dart';
 
-import '../presentation/Auth/bloc/auth_bloc.dart';
-import '../presentation/base-home-page/bloc/base_home_page_bloc.dart';
-import '../presentation/Home/bloc/home_bloc.dart';
-import '../domain/Constants/router/app_route.dart';
+import 'presentation/shopping-cart/bloc/shopping_cart_bloc.dart';
+import 'presentation/Auth/bloc/auth_bloc.dart';
+import 'presentation/base-home-page/bloc/base_home_page_bloc.dart';
+import 'presentation/Home/bloc/home_bloc.dart';
+import 'domain/Constants/router/app_route.dart';
 import 'presentation/transaction-history/bloc/transaction_history_bloc.dart';
 
 void main() {

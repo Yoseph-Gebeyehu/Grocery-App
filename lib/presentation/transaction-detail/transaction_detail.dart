@@ -1,10 +1,9 @@
 import 'package:abushakir/abushakir.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/presentation/home/widgets/api_error_widget.dart';
-import 'package:grocery/presentation/transaction-detail/widget/txn_detail_api_error.dart';
-import 'package:grocery/presentation/transaction-history/bloc/transaction_history_bloc.dart';
 
+import '../../presentation/transaction-history/bloc/transaction_history_bloc.dart';
+import '../../presentation/transaction-detail/widget/txn_detail_api_error.dart';
 import '../../widgets/no_internet.dart';
 
 class TransactionDetail extends StatefulWidget {
@@ -66,7 +65,6 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     EtDatetime.fromMillisecondsSinceEpoch(
                   gregorianDate.millisecondsSinceEpoch,
                 );
-                // String dateString = DateFormat('yyyy-MMM-dd HH:mm').format(date);
                 return Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: deviceSize.width * 0.05,
