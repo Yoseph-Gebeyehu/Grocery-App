@@ -37,13 +37,13 @@ class ShoppingCartBloc extends Bloc<ShoppingCartEvent, ShoppingCartState> {
             "https://webhook.site/077164d6-29cb-40df-ba29-8a00e59a7e60",
         returnUrl: "https://your-return-url.com",
         customization: Customization(
-          title: "title",
-          description: "description",
+          title: 'Title',
+          description: 'Description',
         ),
       );
 
       var response = await repository.postData(apiRequest);
-
+      print(response.status);
       if (response.status == 200) {
         String? checkoutUrl = response.checkoutUrl;
         if (!await launchUrl(Uri.parse(checkoutUrl!))) {

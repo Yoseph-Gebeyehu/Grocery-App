@@ -11,9 +11,13 @@ class BuyEvent extends ShoppingCartEvent {
   String amount;
   String txRef;
   String currency;
+  String title;
+  String description;
   BuyEvent({
     required this.amount,
     required this.txRef,
     required this.currency,
+    required this.title,
+    required this.description,
   });
 }

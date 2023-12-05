@@ -142,7 +142,7 @@ class _ItemDetailState extends State<ItemDetail> {
                           Row(
                             children: [
                               Text(
-                                widget.products.price.toString(),
+                                '${widget.products.price.toString()} br',
                                 style: TextStyle(
                                   fontSize: deviceSize.width * 0.05,
                                   color: const Color(0xFFFEC54B),
@@ -150,32 +150,6 @@ class _ItemDetailState extends State<ItemDetail> {
                               ),
                               const Expanded(
                                 child: SizedBox(),
-                              ),
-                              SizedBox(
-                                child: Row(
-                                  children: [
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                        Icons.remove,
-                                        color: Color(0xFFFEC54B),
-                                      ),
-                                    ),
-                                    Text(
-                                      '3',
-                                      style: TextStyle(
-                                        fontSize: deviceSize.width * 0.05,
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                        Icons.add,
-                                        color: Color(0xFFFEC54B),
-                                      ),
-                                    ),
-                                  ],
-                                ),
                               ),
                             ],
                           ),
@@ -208,7 +182,8 @@ class _ItemDetailState extends State<ItemDetail> {
                             ),
                           ),
                           Text(
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                            widget.products.description![0].toUpperCase() +
+                                widget.products.description!.substring(1),
                             style: TextStyle(
                               fontSize: deviceSize.width * 0.04,
                               color: Colors.black,

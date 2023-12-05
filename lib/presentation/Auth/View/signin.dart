@@ -42,7 +42,12 @@ class _SigninPageState extends State<SigninPage> {
             if (state is AuthLoadingState) {
               return Stack(
                 children: [
-                  buildScreen(context),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 50,
+                      ),
+                      child: buildScreen(context)),
                   Center(
                     child: Container(
                       width: double.infinity,
@@ -61,7 +66,13 @@ class _SigninPageState extends State<SigninPage> {
                 ],
               );
             }
-            return buildScreen(context);
+            return Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 50,
+              ),
+              child: buildScreen(context),
+            );
           },
         ),
       ),
@@ -71,234 +82,209 @@ class _SigninPageState extends State<SigninPage> {
   Widget buildScreen(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25),
-                topRight: Radius.circular(25),
-              ),
+      body: ListView(
+        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Sign in',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: deviceSize.width * 0.06,
+              fontWeight: FontWeight.bold,
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 20,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Sign in',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: deviceSize.width * 0.06,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: deviceSize.height * 0.02),
-                  Text(
-                    'Email',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: deviceSize.width * 0.04,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: deviceSize.height * 0.02),
-                  SizedBox(
-                    height: deviceSize.height * 0.06,
-                    child: TextFormField(
-                      controller: userNameController,
-                      style: const TextStyle(color: Colors.black),
-                      cursorColor: const Color(0xFFFEC54B),
-                      decoration: InputDecoration(
-                        hintText: 'Email',
-                        hintStyle: const TextStyle(
-                          color: Color.fromARGB(255, 180, 174, 174),
-                        ),
-                        filled: true,
-                        fillColor: const Color.fromARGB(255, 239, 228, 203),
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: deviceSize.height * 0.02),
-                  Text(
-                    'Password',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: deviceSize.width * 0.04,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: deviceSize.height * 0.02),
-                  SizedBox(
-                    height: deviceSize.height * 0.06,
-                    child: TextFormField(
-                      controller: passwordController,
-                      obscureText: obscure,
-                      style: const TextStyle(color: Colors.black),
-                      cursorColor: const Color(0xFFFEC54B),
-                      decoration: InputDecoration(
-                        hintText: 'Password',
-                        hintStyle: const TextStyle(color: Colors.grey),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        filled: true,
-                        fillColor: const Color.fromARGB(255, 239, 228, 203),
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            obscure ? Icons.visibility_off : Icons.visibility,
-                            color: Colors.grey,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              obscure = !obscure;
-                            });
-                          },
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.transparent),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: deviceSize.height * 0.02),
-                  Row(
-                    children: [
-                      const SizedBox(),
-                      const Spacer(),
-                      Text('Forgot Password?',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: deviceSize.width * 0.035,
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ],
-                  ),
-                  SizedBox(height: deviceSize.height * 0.03),
-                  Container(
-                    height: deviceSize.height * 0.06,
-                    width: deviceSize.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color(0xFFFEC54B),
-                        ),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      ),
-                      onPressed: () {
-                        context.read<AuthBloc>().add(
-                              LoginEvent(
-                                username: userNameController.text,
-                                password: passwordController.text,
-                              ),
-                            );
-                      },
-                      child: Text(
-                        'Sign In',
-                        style: TextStyle(
-                          fontSize: deviceSize.width * 0.04,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: deviceSize.height * 0.1),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(
-                        width: deviceSize.width * 0.25,
-                        child: const Divider(
-                          thickness: 1,
-                          color: Color.fromARGB(255, 182, 174, 174),
-                        ),
-                      ),
-                      const Text('Or Login with'),
-                      SizedBox(
-                        width: deviceSize.width * 0.25,
-                        child: const Divider(
-                          thickness: 1,
-                          color: Color.fromARGB(255, 182, 174, 174),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: deviceSize.height * 0.02),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: const [
-                      Icon(
-                        Icons.facebook,
-                        color: Colors.blue,
-                      ),
-                      Icon(
-                        Icons.apple,
-                      ),
-                      Icon(
-                        FontAwesome.google,
-                        color: Color(0xFF4285F4),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: deviceSize.height * 0.02),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Don\'t have an account?',
-                        style: TextStyle(
-                          fontSize: deviceSize.width * 0.036,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Sign up',
-                          style: TextStyle(
-                            fontSize: deviceSize.width * 0.036,
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
+          ),
+          SizedBox(height: deviceSize.height * 0.02),
+          Text(
+            'Email',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: deviceSize.width * 0.04,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: deviceSize.height * 0.02),
+          SizedBox(
+            height: deviceSize.height * 0.06,
+            child: TextFormField(
+              controller: userNameController,
+              style: const TextStyle(color: Colors.black),
+              cursorColor: const Color(0xFFFEC54B),
+              decoration: InputDecoration(
+                hintText: 'Email',
+                hintStyle: const TextStyle(
+                  color: Color.fromARGB(255, 180, 174, 174),
+                ),
+                filled: true,
+                fillColor: const Color.fromARGB(255, 239, 228, 203),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.transparent),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.transparent),
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
             ),
           ),
-        ),
+          SizedBox(height: deviceSize.height * 0.02),
+          Text(
+            'Password',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: deviceSize.width * 0.04,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: deviceSize.height * 0.02),
+          SizedBox(
+            height: deviceSize.height * 0.06,
+            child: TextFormField(
+              controller: passwordController,
+              obscureText: obscure,
+              style: const TextStyle(color: Colors.black),
+              cursorColor: const Color(0xFFFEC54B),
+              decoration: InputDecoration(
+                hintText: 'Password',
+                hintStyle: const TextStyle(color: Colors.grey),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: const Color.fromARGB(255, 239, 228, 203),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    obscure ? Icons.visibility_off : Icons.visibility,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      obscure = !obscure;
+                    });
+                  },
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.transparent),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.transparent),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: deviceSize.height * 0.02),
+          Row(
+            children: [
+              const SizedBox(),
+              const Spacer(),
+              Text('Forgot Password?',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: deviceSize.width * 0.035,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ],
+          ),
+          SizedBox(height: deviceSize.height * 0.03),
+          Container(
+            height: deviceSize.height * 0.06,
+            width: deviceSize.width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  const Color(0xFFFEC54B),
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                context.read<AuthBloc>().add(
+                      LoginEvent(
+                        username: userNameController.text,
+                        password: passwordController.text,
+                      ),
+                    );
+              },
+              child: Text(
+                'Sign In',
+                style: TextStyle(
+                  fontSize: deviceSize.width * 0.04,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: deviceSize.height * 0.1),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                width: deviceSize.width * 0.25,
+                child: const Divider(
+                  thickness: 1,
+                  color: Color.fromARGB(255, 182, 174, 174),
+                ),
+              ),
+              const Text('Or Login with'),
+              SizedBox(
+                width: deviceSize.width * 0.25,
+                child: const Divider(
+                  thickness: 1,
+                  color: Color.fromARGB(255, 182, 174, 174),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: deviceSize.height * 0.02),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: const [
+              Icon(
+                Icons.facebook,
+                color: Colors.blue,
+              ),
+              Icon(
+                Icons.apple,
+              ),
+              Icon(
+                FontAwesome.google,
+                color: Color(0xFF4285F4),
+              ),
+            ],
+          ),
+          SizedBox(height: deviceSize.height * 0.02),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Don\'t have an account?',
+                style: TextStyle(
+                  fontSize: deviceSize.width * 0.036,
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Sign up',
+                  style: TextStyle(
+                    fontSize: deviceSize.width * 0.036,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/data/models/products.dart';
-import 'package:grocery/domain/constants/names/home_fruit_names.dart';
 
+import '../../../data/models/products.dart';
+import '../../../domain/constants/names/home_fruit_names.dart';
+import '../../../domain/Constants/Images/home_images.dart';
+import '../../../presentation/home/widgets/api_error_widget.dart';
+import '../../../presentation/auth/view/signin.dart';
+import '../../../widgets/no_internet.dart';
 import '../../Home/bloc/home_bloc.dart';
 import '../../item-detail/item_detail.dart';
-import '../../../presentation/home/widgets/api_error_widget.dart';
-import '../../../widgets/no_internet.dart';
-import '../../../domain/Constants/Images/home_images.dart';
 
 class Home extends StatefulWidget {
   static const home = 'home';
@@ -40,6 +41,7 @@ class _HomeState extends State<Home> {
         elevation: 0,
         backgroundColor: Colors.white,
         toolbarHeight: deviceSize.height * 0.1,
+        automaticallyImplyLeading: false,
         title: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -69,14 +71,22 @@ class _HomeState extends State<Home> {
               color: const Color(0xFF384144),
               size: deviceSize.height * 0.03,
             ),
-          )
+          ),
+          IconButton(
+            onPressed: () {
+              _dialog(context);
+            },
+            icon: Icon(
+              Icons.logout,
+              color: const Color(0xFF384144),
+              size: deviceSize.height * 0.03,
+            ),
+          ),
         ],
       ),
       body: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) async {
           if (state is AddedToFavoriteState) {
-            BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
-          } else if (state is AddedToCartState) {
             BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
           } else {
             BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
@@ -314,6 +324,65 @@ class _HomeState extends State<Home> {
           )),
         ],
       ),
+    );
+  }
+
+  void _dialog(BuildContext context) {
+    Size deviceSize = MediaQuery.of(context).size;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            height: deviceSize.height * 0.25,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Log out from this account ',
+                  style: TextStyle(
+                    fontSize: deviceSize.width * 0.05,
+                  ),
+                ),
+                const Divider(),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(SigninPage.signIn);
+                  },
+                  child: Text(
+                    'Log out ',
+                    style: TextStyle(
+                      fontSize: deviceSize.width * 0.04,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+                const Divider(),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(
+                      fontSize: deviceSize.width * 0.04,
+                    ),
+                  ),
+                ),
+                const Divider(),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

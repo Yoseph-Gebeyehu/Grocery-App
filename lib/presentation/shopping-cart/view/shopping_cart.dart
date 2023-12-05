@@ -107,39 +107,47 @@ class _ShoppingCartState extends State<ShoppingCart> {
                 ),
               ),
             ),
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: deviceSize.width * 0.08,
-                  vertical: deviceSize.height * 0.015,
-                ),
-                child: ElevatedButton(
-                  onPressed: () {
-                    _showCustomerInfoSheet(context);
-                  },
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
+            BlocBuilder<HomeBloc, HomeState>(
+              builder: (context, state) {
+                return Visibility(
+                  visible: cartProducts.isNotEmpty,
+                  child: Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: deviceSize.width * 0.08,
+                        vertical: deviceSize.height * 0.015,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _showCustomerInfoSheet(context);
+                        },
+                        style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                          ),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              const Color(0xFFFEC54B)),
+                          minimumSize: MaterialStateProperty.all(
+                            const Size(double.infinity, 50),
+                          ),
+                        ),
+                        child: Text(
+                          'PLACE ORDER',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: deviceSize.width * 0.04,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        const Color(0xFFFEC54B)),
-                    minimumSize: MaterialStateProperty.all(
-                      const Size(double.infinity, 50),
-                    ),
                   ),
-                  child: Text(
-                    'PLACE ORDER',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: deviceSize.width * 0.04,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
+                );
+              },
             ),
           ],
         ),
@@ -299,6 +307,13 @@ class _ShoppingCartState extends State<ShoppingCart> {
   }
 
   void _showCustomerInfoSheet(BuildContext context) {
+    List title = [];
+    List description = [];
+    for (int i = 0; i < cartProducts.length; i++) {
+      title.add(cartProducts[i].title);
+      description.add(cartProducts[i].description);
+    }
+    print(title);
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -306,6 +321,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
       builder: (BuildContext context) {
         return CheckOutWidget(
           amount: total().toStringAsFixed(2),
+          title: title.toString(),
+          description: description.toString(),
         );
       },
     );

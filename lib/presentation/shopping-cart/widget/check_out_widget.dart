@@ -7,16 +7,21 @@ import '../bloc/shopping_cart_bloc.dart';
 class CheckOutWidget extends StatefulWidget {
   static const customerInfo = 'customer-info';
   String amount;
-  CheckOutWidget({required this.amount});
+  String title;
+  String description;
+  CheckOutWidget({
+    required this.amount,
+    required this.title,
+    required this.description,
+  });
 
   @override
   _CheckOutWidgetState createState() => _CheckOutWidgetState();
 }
 
 class _CheckOutWidgetState extends State<CheckOutWidget> {
-  String? title;
-  String? description;
   String currency = 'ETB';
+
   String key = 'CHASECK_TEST-KzqTmzYnjSL5UDnlA7YuiAZY3OoeujYo';
 
   var rs = RandomString();
@@ -74,6 +79,8 @@ class _CheckOutWidgetState extends State<CheckOutWidget> {
                             amount: widget.amount,
                             txRef: txRef,
                             currency: currency,
+                            title: widget.title,
+                            description: widget.description,
                           ),
                         );
                       },

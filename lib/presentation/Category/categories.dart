@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../presentation/item-detail/item_detail.dart';
 import '../../data/models/products.dart';
 import '../../widgets/no_internet.dart';
 import '../Home/bloc/home_bloc.dart';
@@ -40,24 +41,13 @@ class _CategoryPageState extends State<CategoryPage> {
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             if (state is FetchProductsState) {
-              return Column(
+              return ListView(
+                shrinkWrap: true,
                 children: [
-                  Expanded(
-                    child: products(state.products, 'women\'s clothing'),
-                  ),
-                  divider(),
-                  Expanded(
-                    child: products(state.products, 'electronics'),
-                  ),
-                  divider(),
-                  Expanded(
-                    child: products(state.products, 'women\'s clothing'),
-                  ),
-                  divider(),
-                  Expanded(
-                    child: products(state.products, 'jewelery'),
-                  ),
-                  divider(),
+                  products(state.products, 'women\'s clothing'),
+                  products(state.products, 'electronics'),
+                  products(state.products, 'women\'s clothing'),
+                  products(state.products, 'jewelery'),
                 ],
               );
             } else if (state is NetworkErrorState) {
@@ -91,8 +81,7 @@ class _CategoryPageState extends State<CategoryPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: deviceSize.height * 0.01),
-            SizedBox(height: deviceSize.height * 0.009),
+            SizedBox(height: deviceSize.height * 0.05),
             Text(
               allProducts[0].category!.toUpperCase(),
               style: TextStyle(
@@ -101,28 +90,42 @@ class _CategoryPageState extends State<CategoryPage> {
                 fontSize: deviceSize.width * 0.05,
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  final products = allProducts[index];
-                  return ListTile(
-                    title: Text(products.title!),
-                    leading: Container(
-                      width: deviceSize.width * 0.2,
-                      height: deviceSize.height * 0.15,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            products.image!,
+            SizedBox(height: deviceSize.height * 0.025),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final products = allProducts[index];
+                return Column(
+                  children: [
+                    ListTile(
+                      title: Text(products.title!),
+                      leading: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            ItemDetail.itemDetail,
+                            arguments: products,
+                          );
+                        },
+                        child: Container(
+                          width: deviceSize.width * 0.2,
+                          height: deviceSize.height * 0.15,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                products.image!,
+                              ),
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
-                  );
-                },
-                itemCount: allProducts.length,
-              ),
+                    divider(),
+                  ],
+                );
+              },
+              itemCount: allProducts.length,
             ),
           ],
         ),
@@ -135,8 +138,8 @@ class _CategoryPageState extends State<CategoryPage> {
 
     return Divider(
       thickness: 1,
-      indent: deviceSize.width * 0.1,
-      endIndent: deviceSize.width * 0.1,
+      indent: deviceSize.width * 0.05,
+      endIndent: deviceSize.width * 0.05,
     );
   }
 }
