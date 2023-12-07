@@ -44,7 +44,7 @@ class _CategoryPageState extends State<CategoryPage> {
               return ListView(
                 shrinkWrap: true,
                 children: [
-                  products(state.products, 'women\'s clothing'),
+                  products(state.products, 'men\'s clothing'),
                   products(state.products, 'electronics'),
                   products(state.products, 'women\'s clothing'),
                   products(state.products, 'jewelery'),

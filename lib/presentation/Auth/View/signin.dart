@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:grocery/presentation/auth/view/signup.dart';
+import 'package:grocery/presentation/auth/widgets/custom_button.dart';
+import 'package:grocery/presentation/auth/widgets/form_field.dart';
 
 import '../../../widgets/snack_bar.dart';
 import '../../../presentation/Auth/bloc/auth_bloc.dart';
@@ -15,7 +18,7 @@ class SigninPage extends StatefulWidget {
 }
 
 class _SigninPageState extends State<SigninPage> {
-  TextEditingController userNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool obscure = false;
 
@@ -57,7 +60,7 @@ class _SigninPageState extends State<SigninPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           CircularProgressIndicator(),
-                          SizedBox(width: 10),
+                          SizedBox(width: 15),
                           Text("Loading..."),
                         ],
                       ),
@@ -83,8 +86,6 @@ class _SigninPageState extends State<SigninPage> {
     Size deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       body: ListView(
-        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Sign in',
@@ -94,135 +95,68 @@ class _SigninPageState extends State<SigninPage> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: deviceSize.height * 0.02),
-          Text(
-            'Email',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: deviceSize.width * 0.04,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          SizedBox(height: deviceSize.height * 0.03),
+          text('Email'),
           SizedBox(height: deviceSize.height * 0.02),
           SizedBox(
             height: deviceSize.height * 0.06,
-            child: TextFormField(
-              controller: userNameController,
-              style: const TextStyle(color: Colors.black),
-              cursorColor: const Color(0xFFFEC54B),
-              decoration: InputDecoration(
-                hintText: 'Email',
-                hintStyle: const TextStyle(
-                  color: Color.fromARGB(255, 180, 174, 174),
-                ),
-                filled: true,
-                fillColor: const Color.fromARGB(255, 239, 228, 203),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
+            child: CustomFormField(
+              controller: emailController,
+              hintText: 'email',
             ),
           ),
           SizedBox(height: deviceSize.height * 0.02),
-          Text(
-            'Password',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: deviceSize.width * 0.04,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          text('Password'),
           SizedBox(height: deviceSize.height * 0.02),
           SizedBox(
             height: deviceSize.height * 0.06,
-            child: TextFormField(
+            child: CustomFormField(
               controller: passwordController,
-              obscureText: obscure,
-              style: const TextStyle(color: Colors.black),
-              cursorColor: const Color(0xFFFEC54B),
-              decoration: InputDecoration(
-                hintText: 'Password',
-                hintStyle: const TextStyle(color: Colors.grey),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                filled: true,
-                fillColor: const Color.fromARGB(255, 239, 228, 203),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    obscure ? Icons.visibility_off : Icons.visibility,
-                    color: Colors.grey,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      obscure = !obscure;
-                    });
-                  },
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
+              obscure: obscure,
+              hintText: 'Password',
+              function: () {
+                setState(() {
+                  setState(() {
+                    obscure = !obscure;
+                  });
+                });
+              },
             ),
           ),
-          SizedBox(height: deviceSize.height * 0.02),
           Row(
             children: [
               const SizedBox(),
               const Spacer(),
-              Text('Forgot Password?',
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Forgot Password?',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: const Color(0xFFFEC54B),
                     fontSize: deviceSize.width * 0.035,
                     fontWeight: FontWeight.bold,
-                  )),
+                  ),
+                ),
+              ),
             ],
           ),
-          SizedBox(height: deviceSize.height * 0.03),
+          SizedBox(height: deviceSize.height * 0.01),
           Container(
             height: deviceSize.height * 0.06,
             width: deviceSize.width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
             ),
-            child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                  const Color(0xFFFEC54B),
-                ),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
-              onPressed: () {
+            child: CustomButton(
+              function: () {
                 context.read<AuthBloc>().add(
                       LoginEvent(
-                        username: userNameController.text,
+                        username: emailController.text,
                         password: passwordController.text,
                       ),
                     );
               },
-              child: Text(
-                'Sign In',
-                style: TextStyle(
-                  fontSize: deviceSize.width * 0.04,
-                  color: Colors.white,
-                ),
-              ),
+              text: 'Sign in',
             ),
           ),
           SizedBox(height: deviceSize.height * 0.1),
@@ -251,11 +185,12 @@ class _SigninPageState extends State<SigninPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: const [
               Icon(
-                Icons.facebook,
+                FontAwesome.facebook,
                 color: Colors.blue,
               ),
               Icon(
-                Icons.apple,
+                FontAwesome.twitter,
+                color: Colors.blue,
               ),
               Icon(
                 FontAwesome.google,
@@ -274,17 +209,33 @@ class _SigninPageState extends State<SigninPage> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, SignUpPage.signUp);
+                },
                 child: Text(
                   'Sign up',
                   style: TextStyle(
-                    fontSize: deviceSize.width * 0.036,
+                    fontSize: deviceSize.width * 0.04,
+                    color: const Color(0xFFFEC54B),
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               )
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  text(String text) {
+    Size deviceSize = MediaQuery.of(context).size;
+    return Text(
+      text,
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: deviceSize.width * 0.04,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
