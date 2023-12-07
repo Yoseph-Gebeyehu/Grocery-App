@@ -12,6 +12,8 @@ import '../../item-detail/item_detail.dart';
 
 class Home extends StatefulWidget {
   static const home = 'home';
+  String userName;
+  Home({required this.userName});
   @override
   State<Home> createState() => _HomeState();
 }
@@ -44,6 +46,7 @@ class _HomeState extends State<Home> {
         automaticallyImplyLeading: false,
         title: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               DateTime.now().hour < 12 ? 'Good Morning' : 'Good Afternoon',
@@ -54,7 +57,7 @@ class _HomeState extends State<Home> {
             ),
             const SizedBox(height: 10),
             Text(
-              'John Zabede',
+              widget.userName,
               style: TextStyle(
                 fontSize: deviceSize.width * 0.045,
                 color: Colors.black,

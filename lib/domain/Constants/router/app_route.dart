@@ -15,21 +15,29 @@ import '../../../presentation/transaction-history/view/transaction_history.dart'
 class AppRoute {
   Route? onGenerateRoute(RouteSettings routeSettings) {
     Products? products;
+    String? userName;
 
     if (routeSettings.name == ItemDetail.itemDetail) {
       products = routeSettings.arguments as Products;
+    }
+    if (routeSettings.name == BaseHomePage.baseHomePage) {
+      userName = routeSettings.arguments as String;
+    }
+    if (routeSettings.name == Home.home) {
+      userName = routeSettings.arguments as String;
     }
     switch (routeSettings.name) {
       case SplashScreen.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
       case BaseHomePage.baseHomePage:
-        return MaterialPageRoute(builder: (_) => const BaseHomePage());
+        return MaterialPageRoute(
+            builder: (_) => BaseHomePage(userName: userName!));
       case CategoryPage.category:
         return MaterialPageRoute(builder: (_) => CategoryPage());
       case Favorite.favorite:
         return MaterialPageRoute(builder: (_) => const Favorite());
       case Home.home:
-        return MaterialPageRoute(builder: (_) => Home());
+        return MaterialPageRoute(builder: (_) => Home(userName: userName!));
       case ItemDetail.itemDetail:
         return MaterialPageRoute(
           builder: (_) => ItemDetail(products: products!),

@@ -9,23 +9,29 @@ import '../../shopping-cart/view/shopping_cart.dart';
 import '../../transaction-history/view/transaction_history.dart';
 
 class BaseHomePage extends StatefulWidget {
-  const BaseHomePage({Key? key}) : super(key: key);
+  // const BaseHomePage({Key? key}) : super(key: key);
   static const baseHomePage = 'base-home-page';
+
+  String userName;
+  BaseHomePage({required this.userName});
+
   @override
   State<BaseHomePage> createState() => _BaseHomePageState();
 }
 
 class _BaseHomePageState extends State<BaseHomePage> {
-  int selectedIndex = 0;
-  List<Widget> pages = [
-    Home(),
-    CategoryPage(),
-    const ShoppingCart(),
-    const Favorite(),
-    TransactionHistoryPage(),
-  ];
   @override
   Widget build(BuildContext context) {
+    int selectedIndex = 0;
+    List<Widget> pages = [
+      Home(
+        userName: widget.userName,
+      ),
+      CategoryPage(),
+      const ShoppingCart(),
+      const Favorite(),
+      TransactionHistoryPage(),
+    ];
     Size deviceSize = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async {

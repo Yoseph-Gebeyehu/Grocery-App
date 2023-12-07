@@ -38,6 +38,7 @@ class _SigninPageState extends State<SigninPage> {
               await Navigator.pushNamed(
                 context,
                 BaseHomePage.baseHomePage,
+                arguments: state.userName,
               );
             }
           },
@@ -152,7 +153,7 @@ class _SigninPageState extends State<SigninPage> {
               function: () {
                 context.read<AuthBloc>().add(
                       LoginEvent(
-                        username: emailController.text,
+                        email: emailController.text,
                         password: passwordController.text,
                       ),
                     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:grocery/data/models/user.dart';
+import 'package:grocery/data/service.dart';
 
 import '/presentation/auth/view/signin.dart';
 import '/presentation/auth/widgets/custom_button.dart';
@@ -127,13 +129,23 @@ class _SignUpPageState extends State<SignUpPage> {
               borderRadius: BorderRadius.circular(50),
             ),
             child: CustomButton(
-              function: () {
+              function: () async {
                 if (passwordController.text == confirmPasswordController.text &&
                     userNameController.text.isNotEmpty &&
                     emailController.text.isNotEmpty &&
                     passwordController.text.isNotEmpty) {
+                  Map<String, String> userMap = {
+                    'userName': userNameController.text,
+                    'email': emailController.text,
+                    'password': passwordController.text,
+                  };
+                  User user = User.fromJson(userMap);
+                  await UserServies().addUserToDB(user);
+
                   Navigator.pushNamed(context, SigninPage.signIn);
                 }
+                List<User> b = await UserServies.getUserFromDB();
+                print(b[0].password);
               },
               text: 'Sign up',
             ),
