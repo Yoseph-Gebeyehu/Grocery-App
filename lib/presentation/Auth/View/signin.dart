@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:grocery/presentation/auth/view/signup.dart';
-import 'package:grocery/presentation/auth/widgets/custom_button.dart';
-import 'package:grocery/presentation/auth/widgets/form_field.dart';
 
-import '../../../widgets/snack_bar.dart';
-import '../../../presentation/Auth/bloc/auth_bloc.dart';
-import '../../../presentation/base-home-page/View/base_home.dart';
+import '/presentation/auth/view/signup.dart';
+import '/presentation/auth/widgets/custom_button.dart';
+import '/presentation/auth/widgets/form_field.dart';
+import '/presentation/base-home-page/View/base_home.dart';
+import '/presentation/Auth/bloc/auth_bloc.dart';
+import '/widgets/snack_bar.dart';
 
 class SigninPage extends StatefulWidget {
   const SigninPage({Key? key}) : super(key: key);
@@ -46,11 +46,12 @@ class _SigninPageState extends State<SigninPage> {
               return Stack(
                 children: [
                   Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 50,
-                      ),
-                      child: buildScreen(context)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 50,
+                    ),
+                    child: buildScreen(context),
+                  ),
                   Center(
                     child: Container(
                       width: double.infinity,
