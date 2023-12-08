@@ -54,7 +54,9 @@ class _CategoryPageState extends State<CategoryPage> {
               return const NoConnectionPage();
             }
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Color(0xFFE67F1E),
+              ),
             );
           },
         ),

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:grocery/data/models/products.dart';
-import 'package:grocery/presentation/auth/view/signup.dart';
 
-import '../../../presentation/auth/view/signin.dart';
-import '../../../presentation/base-home-page/view/base_home.dart';
-import '../../../presentation/Category/categories.dart';
-import '../../../presentation/Home/view/home.dart';
-import '../../../presentation/favorite/view/favorite.dart';
-import '../../../presentation/item-detail/item_detail.dart';
-import '../../../presentation/splash.dart';
-import '../../../presentation/shopping-cart/view/shopping_cart.dart';
-import '../../../presentation/transaction-history/view/transaction_history.dart';
+import '/presentation/auth/view/signup.dart';
+import '/presentation/auth/view/signin.dart';
+import '/presentation/base-home-page/view/base_home.dart';
+import '/presentation/Category/categories.dart';
+import '/presentation/Home/view/home.dart';
+import '/presentation/favorite/view/favorite.dart';
+import '/presentation/item-detail/item_detail.dart';
+import '/presentation/splash.dart';
+import '/presentation/shopping-cart/view/shopping_cart.dart';
+import '/presentation/transaction-history/view/transaction_history.dart';
+import '/data/models/products.dart';
 
 class AppRoute {
   Route? onGenerateRoute(RouteSettings routeSettings) {

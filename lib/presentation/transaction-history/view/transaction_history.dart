@@ -103,13 +103,17 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
               );
             } else if (state is TransactionHistoryInitialState) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Color(0xFFE67F1E),
+                ),
               );
             } else if (state is NetworkErrorState) {
               return const NoConnectionPage();
             }
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Color(0xFFE67F1E),
+              ),
             );
           },
         ),

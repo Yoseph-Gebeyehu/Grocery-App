@@ -101,7 +101,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
                       return const NoConnectionPage();
                     }
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        color: Color(0xFFE67F1E),
+                      ),
                     );
                   },
                 ),

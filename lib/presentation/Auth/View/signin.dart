@@ -43,35 +43,8 @@ class _SigninPageState extends State<SigninPage> {
             }
           },
           builder: (context, state) {
-            if (state is AuthLoadingState) {
-              return Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 50,
-                    ),
-                    child: buildScreen(context),
-                  ),
-                  Center(
-                    child: Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      color: Colors.grey.withOpacity(0.55),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          CircularProgressIndicator(),
-                          SizedBox(width: 15),
-                          Text("Loading..."),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            }
             return Container(
+              color: Colors.white,
               padding: const EdgeInsets.symmetric(
                 horizontal: 20,
                 vertical: 50,
@@ -87,8 +60,22 @@ class _SigninPageState extends State<SigninPage> {
   Widget buildScreen(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: ListView(
         children: [
+          Container(
+            width: deviceSize.width * 0.2,
+            height: deviceSize.height * 0.15,
+            decoration: const BoxDecoration(
+              color: Colors.transparent,
+              image: DecorationImage(
+                image: AssetImage(
+                  'assets/ic_launcher.jpg',
+                ),
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
           Text(
             'Sign in',
             style: TextStyle(
@@ -149,16 +136,21 @@ class _SigninPageState extends State<SigninPage> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
             ),
-            child: CustomButton(
-              function: () {
-                context.read<AuthBloc>().add(
-                      LoginEvent(
-                        email: emailController.text,
-                        password: passwordController.text,
-                      ),
-                    );
+            child: BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return CustomButton(
+                  stateChecker: state is AuthLoadingState,
+                  function: () {
+                    context.read<AuthBloc>().add(
+                          LoginEvent(
+                            email: emailController.text,
+                            password: passwordController.text,
+                          ),
+                        );
+                  },
+                  text: 'Sign in',
+                );
               },
-              text: 'Sign in',
             ),
           ),
           SizedBox(height: deviceSize.height * 0.1),

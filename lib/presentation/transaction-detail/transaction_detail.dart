@@ -93,7 +93,9 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 return const TxnDetailApiErrorWidget();
               }
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Color(0xFFE67F1E),
+                ),
               );
             },
           ),

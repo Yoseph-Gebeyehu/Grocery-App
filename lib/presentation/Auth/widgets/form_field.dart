@@ -13,9 +13,18 @@ class CustomFormField extends StatelessWidget {
     this.function,
   });
 
+  String? validate(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your $hintText';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) => validate(value),
       controller: controller,
       obscureText: hintText == 'Password' ? obscure! : false,
       style: const TextStyle(color: Colors.black),
@@ -37,9 +46,6 @@ class CustomFormField extends StatelessWidget {
                 ),
                 onPressed: () {
                   function!();
-                  // setState(() {
-                  //   obscure = !obscure;
-                  // });
                 },
               )
             : null,

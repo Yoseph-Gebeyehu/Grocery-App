@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatelessWidget {
   Function function;
   String text;
+  bool stateChecker;
   CustomButton({
     required this.function,
     required this.text,
+    this.stateChecker = false,
   });
   @override
   Widget build(BuildContext context) {
@@ -25,12 +27,30 @@ class CustomButton extends StatelessWidget {
       onPressed: () {
         function();
       },
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: deviceSize.width * 0.04,
-          color: Colors.white,
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Visibility(
+            visible: stateChecker,
+            // visible: true,
+            child: SizedBox(
+              height: deviceSize.width * 0.04,
+              width: deviceSize.width * 0.04,
+              child: const CircularProgressIndicator(
+                strokeWidth: 2.5,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          SizedBox(width: deviceSize.width * 0.04),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: deviceSize.width * 0.04,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
     );
   }

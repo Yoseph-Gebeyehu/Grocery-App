@@ -109,7 +109,9 @@ class _HomeState extends State<Home> {
             return const NoConnectionPage();
           }
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: Color(0xFFE67F1E),
+            ),
           );
         }),
       ),
@@ -349,15 +351,16 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Log out from this account ',
+                  'Log out from this account?',
                   style: TextStyle(
                     fontSize: deviceSize.width * 0.05,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 const Divider(),
                 TextButton(
-                  onPressed: () {
-                    Navigator.of(context)
+                  onPressed: () async {
+                    await Navigator.of(context)
                         .pushReplacementNamed(SigninPage.signIn);
                   },
                   child: Text(
