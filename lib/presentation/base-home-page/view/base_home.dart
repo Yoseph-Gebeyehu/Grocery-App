@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/models/user.dart';
 import '../../../presentation/base-home-page/bloc/base_home_page_bloc.dart';
 import '../../../presentation/Category/categories.dart';
 import '../../../presentation/Home/view/home.dart';
@@ -12,8 +13,8 @@ class BaseHomePage extends StatefulWidget {
   // const BaseHomePage({Key? key}) : super(key: key);
   static const baseHomePage = 'base-home-page';
 
-  String userName;
-  BaseHomePage({required this.userName});
+  User user;
+  BaseHomePage({required this.user});
 
   @override
   State<BaseHomePage> createState() => _BaseHomePageState();
@@ -25,7 +26,7 @@ class _BaseHomePageState extends State<BaseHomePage> {
     int selectedIndex = 0;
     List<Widget> pages = [
       Home(
-        userName: widget.userName,
+        user: widget.user,
       ),
       CategoryPage(),
       const ShoppingCart(),

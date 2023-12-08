@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery/data/models/user.dart';
 
-import '../../../data/models/products.dart';
-import '../../../domain/constants/names/home_fruit_names.dart';
-import '../../../domain/Constants/Images/home_images.dart';
-import '../../../presentation/home/widgets/api_error_widget.dart';
-import '../../../presentation/auth/view/signin.dart';
-import '../../../widgets/no_internet.dart';
+import '../../home/widgets/custom_drawer.dart';
+import '/domain/constants/names/home_fruit_names.dart';
+import '/domain/Constants/Images/home_images.dart';
+import '/presentation/home/widgets/api_error_widget.dart';
+import '/presentation/auth/view/signin.dart';
+import '/widgets/no_internet.dart';
+import '/data/models/products.dart';
 import '../../Home/bloc/home_bloc.dart';
 import '../../item-detail/item_detail.dart';
 
 class Home extends StatefulWidget {
   static const home = 'home';
-  String userName;
-  Home({required this.userName});
+  User user;
+  Home({required this.user});
   @override
   State<Home> createState() => _HomeState();
 }
@@ -37,13 +39,20 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
     return Scaffold(
+      drawer: Drawer(
+        child: CustomDrawer(user: widget.user),
+      ),
       backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
-        centerTitle: false,
+        // leading: IconButton(
+        //   onPressed: () {},
+        //   icon: Icon(Icons.menu),
+        // ),
+        iconTheme: const IconThemeData(color: Colors.black),
+        centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
         toolbarHeight: deviceSize.height * 0.1,
-        automaticallyImplyLeading: false,
         title: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +66,7 @@ class _HomeState extends State<Home> {
             ),
             const SizedBox(height: 10),
             Text(
-              widget.userName,
+              widget.user.userName!,
               style: TextStyle(
                 fontSize: deviceSize.width * 0.045,
                 color: Colors.black,

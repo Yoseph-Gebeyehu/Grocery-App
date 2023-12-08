@@ -25,6 +25,7 @@ class _CategoryPageState extends State<CategoryPage> {
     Size deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0,
         toolbarHeight: deviceSize.height * 0.08,
         backgroundColor: const Color(0xFFFFFFFF),

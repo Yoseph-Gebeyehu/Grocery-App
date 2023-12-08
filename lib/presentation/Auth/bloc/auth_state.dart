@@ -9,6 +9,6 @@ class AuthLoadingState extends AuthState {}
 class AuthErrorState extends AuthState {}
 
 class AuthLoadedState extends AuthState {
-  String userName;
-  AuthLoadedState({required this.userName});
+  User user;
+  AuthLoadedState({required this.user});
 }

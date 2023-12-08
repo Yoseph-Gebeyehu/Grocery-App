@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery/data/models/user.dart';
 
 import '/presentation/auth/view/signup.dart';
 import '/presentation/auth/view/signin.dart';
@@ -15,29 +16,28 @@ import '/data/models/products.dart';
 class AppRoute {
   Route? onGenerateRoute(RouteSettings routeSettings) {
     Products? products;
-    String? userName;
+    User? user;
 
     if (routeSettings.name == ItemDetail.itemDetail) {
       products = routeSettings.arguments as Products;
     }
     if (routeSettings.name == BaseHomePage.baseHomePage) {
-      userName = routeSettings.arguments as String;
+      user = routeSettings.arguments as User;
     }
     if (routeSettings.name == Home.home) {
-      userName = routeSettings.arguments as String;
+      user = routeSettings.arguments as User;
     }
     switch (routeSettings.name) {
       case SplashScreen.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
       case BaseHomePage.baseHomePage:
-        return MaterialPageRoute(
-            builder: (_) => BaseHomePage(userName: userName!));
+        return MaterialPageRoute(builder: (_) => BaseHomePage(user: user!));
       case CategoryPage.category:
         return MaterialPageRoute(builder: (_) => CategoryPage());
       case Favorite.favorite:
         return MaterialPageRoute(builder: (_) => const Favorite());
       case Home.home:
-        return MaterialPageRoute(builder: (_) => Home(userName: userName!));
+        return MaterialPageRoute(builder: (_) => Home(user: user!));
       case ItemDetail.itemDetail:
         return MaterialPageRoute(
           builder: (_) => ItemDetail(products: products!),

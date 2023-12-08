@@ -16,7 +16,7 @@ class CustomButton extends StatelessWidget {
       style: ButtonStyle(
         elevation: MaterialStateProperty.all<double>(0),
         backgroundColor: MaterialStateProperty.all<Color>(
-          const Color(0xFFFEC54B),
+          Color(0xFFE67F1E),
         ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(

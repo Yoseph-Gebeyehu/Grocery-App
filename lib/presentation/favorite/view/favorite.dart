@@ -29,10 +29,11 @@ class _FavoriteState extends State<Favorite> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0,
         toolbarHeight: deviceSize.height * 0.08,
         backgroundColor: const Color(0xFFFFFFFF),
-        centerTitle: false,
+        centerTitle: true,
         title: Padding(
           padding: EdgeInsets.only(left: deviceSize.width * 0.1),
           child: const Text(

@@ -20,7 +20,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
           emit(AuthLoadingState());
           await Future.delayed(const Duration(seconds: 2));
-          emit(AuthLoadedState(userName: matchedUser.userName!));
+          emit(AuthLoadedState(user: matchedUser));
         } catch (e) {
           emit(AuthErrorState());
         }

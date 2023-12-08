@@ -35,11 +35,8 @@ class _SigninPageState extends State<SigninPage> {
             if (state is AuthErrorState) {
               SnackBarWidget().showSnack(context, 'Invalid username/password');
             } else if (state is AuthLoadedState) {
-              await Navigator.pushNamed(
-                context,
-                BaseHomePage.baseHomePage,
-                arguments: state.userName,
-              );
+              await Navigator.pushNamed(context, BaseHomePage.baseHomePage,
+                  arguments: state.user);
             }
           },
           builder: (context, state) {
@@ -121,7 +118,7 @@ class _SigninPageState extends State<SigninPage> {
                 child: Text(
                   'Forgot Password?',
                   style: TextStyle(
-                    color: const Color(0xFFFEC54B),
+                    color: Color(0xFFE67F1E),
                     fontSize: deviceSize.width * 0.035,
                     fontWeight: FontWeight.bold,
                   ),
@@ -210,7 +207,7 @@ class _SigninPageState extends State<SigninPage> {
                   'Sign up',
                   style: TextStyle(
                     fontSize: deviceSize.width * 0.04,
-                    color: const Color(0xFFFEC54B),
+                    color: Color(0xFFE67F1E),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
