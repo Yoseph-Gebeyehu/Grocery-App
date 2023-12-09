@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:grocery/data/models/user.dart';
 import 'package:grocery/presentation/auth/widgets/custom_button.dart';
+import 'package:grocery/presentation/update-profile/update-profile.dart';
 
 import '../../auth/view/signin.dart';
 
@@ -59,7 +60,13 @@ class CustomDrawer extends StatelessWidget {
           ),
           divider(deviceSize),
           InkWell(
-            onTap: () {},
+            onTap: () async {
+              await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => UpdateProfilePage(user: user),
+                ),
+              );
+            },
             child: const ListTile(
               leading: Icon(
                 Icons.edit_outlined,

@@ -28,4 +28,20 @@ class UserServies {
     }
     return user;
   }
+
+  static Future<void> updateUserInDB(User user) async {
+    Map<String, dynamic> data = user.toJson();
+
+    Database db = await SQLDatabaseService.openDatabase();
+
+    await db.update(
+      SQLDatabaseService.user,
+      data,
+      where: 'userName = ?',
+      whereArgs: [user.userName],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+
+    print(data);
+  }
 }
