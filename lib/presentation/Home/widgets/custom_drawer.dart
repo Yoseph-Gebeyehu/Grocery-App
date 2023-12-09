@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:grocery/data/models/user.dart';
-import 'package:grocery/presentation/auth/widgets/custom_button.dart';
-import 'package:grocery/presentation/update-profile/update-profile.dart';
 
 import '../../auth/view/signin.dart';
+import '../../../data/models/user.dart';
+import '../../../presentation/auth/widgets/custom_button.dart';
+import '../../../presentation/update-profile/update-profile.dart';
 
 class CustomDrawer extends StatelessWidget {
   User user;
@@ -153,7 +153,7 @@ class CustomDrawer extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
           child: Container(
-            height: deviceSize.height * 0.25,
+            height: deviceSize.height * 0.2,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
             ),
@@ -167,9 +167,11 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
+                SizedBox(height: deviceSize.height * 0.005),
                 const Divider(),
-                TextButton(
-                  onPressed: () async {
+                SizedBox(height: deviceSize.height * 0.005),
+                InkWell(
+                  onTap: () async {
                     await Navigator.of(context)
                         .pushReplacementNamed(SigninPage.signIn);
                   },
@@ -181,18 +183,22 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(height: deviceSize.height * 0.005),
                 const Divider(),
-                TextButton(
-                  onPressed: () {
+                SizedBox(height: deviceSize.height * 0.005),
+                InkWell(
+                  onTap: () {
                     Navigator.of(context).pop();
                   },
                   child: Text(
                     'Cancel',
                     style: TextStyle(
                       fontSize: deviceSize.width * 0.04,
+                      color: Colors.blue,
                     ),
                   ),
                 ),
+                SizedBox(height: deviceSize.height * 0.005),
                 const Divider(),
               ],
             ),

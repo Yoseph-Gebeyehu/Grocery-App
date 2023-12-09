@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../widgets/no_internet.dart';
-import '../../../data/models/products.dart';
-import '../../../presentation/shopping-cart/widget/check_out_widget.dart';
-import '../../../widgets/snack_bar.dart';
+import '/presentation/auth/widgets/custom_button.dart';
+import '/presentation/shopping-cart/widget/check_out_widget.dart';
 import '../../Home/bloc/home_bloc.dart';
+import '../../../widgets/no_internet.dart';
+import '../../../widgets/snack_bar.dart';
+import '../../../data/models/products.dart';
 
 class ShoppingCart extends StatefulWidget {
   const ShoppingCart({Key? key}) : super(key: key);
@@ -117,37 +118,16 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   child: Expanded(
                     flex: 2,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: deviceSize.width * 0.08,
-                        vertical: deviceSize.height * 0.015,
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _showCustomerInfoSheet(context);
-                        },
-                        style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                          ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              const Color(0xFFFEC54B)),
-                          minimumSize: MaterialStateProperty.all(
-                            const Size(double.infinity, 50),
-                          ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: deviceSize.width * 0.08,
+                          vertical: deviceSize.height * 0.015,
                         ),
-                        child: Text(
-                          'PLACE ORDER',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: deviceSize.width * 0.04,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
+                        child: CustomButton(
+                          function: () {
+                            _showCustomerInfoSheet(context);
+                          },
+                          text: 'PLACE ORDER',
+                        )),
                   ),
                 );
               },
@@ -220,6 +200,10 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                 const Spacer(),
                                 IconButton(
                                   onPressed: () async {
+                                    setState(() {
+                                      cartProducts.removeAt(index);
+                                      specificCount.removeAt(index);
+                                    });
                                     total();
                                     counts();
                                     BlocProvider.of<HomeBloc>(context).add(
@@ -266,7 +250,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                             ? const Color(0xFFB1B1B1)
                                             : const Color(0xFFFEC54B),
                                       ),
-                                      // : Colors.white,),
                                     ),
                                     Text(
                                       specificCount[index].toString(),
@@ -316,7 +299,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
       title.add(cartProducts[i].title);
       description.add(cartProducts[i].description);
     }
-    print(title);
+
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,

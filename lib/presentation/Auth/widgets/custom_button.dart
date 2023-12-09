@@ -16,7 +16,7 @@ class CustomButton extends StatelessWidget {
       style: ButtonStyle(
         elevation: MaterialStateProperty.all<double>(0),
         backgroundColor: MaterialStateProperty.all<Color>(
-          Color(0xFFE67F1E),
+          const Color(0xFFE67F1E),
         ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -32,7 +32,6 @@ class CustomButton extends StatelessWidget {
         children: [
           Visibility(
             visible: stateChecker,
-            // visible: true,
             child: SizedBox(
               height: deviceSize.width * 0.04,
               width: deviceSize.width * 0.04,

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:grocery/data/models/user.dart';
 import 'package:grocery/data/service.dart';
 
-import '/presentation/auth/view/signin.dart';
-import '/presentation/auth/widgets/custom_button.dart';
-import '/presentation/auth/widgets/form_field.dart';
+import '../widgets/form_field.dart';
+import '../../Auth/View/signin.dart';
+import '../../Auth/widgets/custom_button.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);

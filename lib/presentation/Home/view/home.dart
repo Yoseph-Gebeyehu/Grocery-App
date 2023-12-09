@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/data/models/user.dart';
 
-import '../../home/widgets/custom_drawer.dart';
+import '/data/models/user.dart';
 import '/domain/constants/names/home_fruit_names.dart';
 import '/domain/Constants/Images/home_images.dart';
 import '/presentation/home/widgets/api_error_widget.dart';
 import '/presentation/auth/view/signin.dart';
 import '/widgets/no_internet.dart';
 import '/data/models/products.dart';
+import '../../home/widgets/custom_drawer.dart';
 import '../../Home/bloc/home_bloc.dart';
 import '../../item-detail/item_detail.dart';
 
@@ -44,10 +44,6 @@ class _HomeState extends State<Home> {
       ),
       backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
-        // leading: IconButton(
-        //   onPressed: () {},
-        //   icon: Icon(Icons.menu),
-        // ),
         iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true,
         elevation: 0,
@@ -80,7 +76,6 @@ class _HomeState extends State<Home> {
             onPressed: () {},
             icon: Icon(
               Icons.notifications,
-              color: const Color(0xFF384144),
               size: deviceSize.height * 0.03,
             ),
           ),
@@ -90,7 +85,6 @@ class _HomeState extends State<Home> {
             },
             icon: Icon(
               Icons.logout,
-              color: const Color(0xFF384144),
               size: deviceSize.height * 0.03,
             ),
           ),
@@ -352,7 +346,7 @@ class _HomeState extends State<Home> {
             borderRadius: BorderRadius.circular(20),
           ),
           child: Container(
-            height: deviceSize.height * 0.25,
+            height: deviceSize.height * 0.2,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
             ),
@@ -366,9 +360,11 @@ class _HomeState extends State<Home> {
                   ),
                   textAlign: TextAlign.center,
                 ),
+                SizedBox(height: deviceSize.height * 0.005),
                 const Divider(),
-                TextButton(
-                  onPressed: () async {
+                SizedBox(height: deviceSize.height * 0.005),
+                InkWell(
+                  onTap: () async {
                     await Navigator.of(context)
                         .pushReplacementNamed(SigninPage.signIn);
                   },
@@ -380,18 +376,22 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
+                SizedBox(height: deviceSize.height * 0.005),
                 const Divider(),
-                TextButton(
-                  onPressed: () {
+                SizedBox(height: deviceSize.height * 0.005),
+                InkWell(
+                  onTap: () {
                     Navigator.of(context).pop();
                   },
                   child: Text(
                     'Cancel',
                     style: TextStyle(
                       fontSize: deviceSize.width * 0.04,
+                      color: Colors.blue,
                     ),
                   ),
                 ),
+                SizedBox(height: deviceSize.height * 0.005),
                 const Divider(),
               ],
             ),

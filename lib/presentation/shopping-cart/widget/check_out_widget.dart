@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery/presentation/auth/widgets/custom_button.dart';
 import 'package:randomstring_dart/randomstring_dart.dart';
 
 import '../bloc/shopping_cart_bloc.dart';
@@ -72,8 +73,8 @@ class _CheckOutWidgetState extends State<CheckOutWidget> {
                         rowText('Total fee', widget.amount),
                       ],
                     ),
-                    ElevatedButton(
-                      onPressed: () async {
+                    CustomButton(
+                      function: () async {
                         BlocProvider.of<ShoppingCartBloc>(context).add(
                           BuyEvent(
                             amount: widget.amount,
@@ -84,26 +85,8 @@ class _CheckOutWidgetState extends State<CheckOutWidget> {
                           ),
                         );
                       },
-                      style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(0xFFFEC54B)),
-                        minimumSize: MaterialStateProperty.all(
-                          const Size(double.infinity, 50),
-                        ),
-                      ),
-                      child: Text(
-                        'Checkout',
-                        style: TextStyle(
-                          fontSize: deviceSize.width * 0.05,
-                        ),
-                      ),
-                    ),
+                      text: 'Checkout',
+                    )
                   ],
                 ),
               ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:grocery/data/service.dart';
-import 'package:grocery/presentation/auth/widgets/custom_button.dart';
-import 'package:grocery/presentation/auth/widgets/form_field.dart';
-import 'package:grocery/presentation/base-home-page/view/base_home.dart';
 
+import '../../presentation/auth/widgets/custom_button.dart';
+import '../../presentation/auth/widgets/form_field.dart';
+import '../../presentation/base-home-page/view/base_home.dart';
+import '../../data/service.dart';
 import '../../data/models/user.dart';
 
 class UpdateProfilePage extends StatefulWidget {
@@ -20,15 +20,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-        ),
+        iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
         backgroundColor: Colors.white,
         title: const Text(
@@ -66,10 +58,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     );
     if (userNameController.text.isNotEmpty) {
       await UserServies.updateUserInDB(updatedUser);
-      var a = await UserServies.getUserFromDB();
-      for (int i = 0; i < a.length; i++) {
-        print(a[i].userName);
-      }
+      // var a = await UserServies.getUserFromDB();
+      // for (int i = 0; i < a.length; i++) {
+      //   print(a[i].userName);
+      // }
       await Navigator.of(context).pushNamed(
         BaseHomePage.baseHomePage,
         arguments: updatedUser,
