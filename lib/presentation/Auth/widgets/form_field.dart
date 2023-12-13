@@ -5,12 +5,14 @@ class CustomFormField extends StatelessWidget {
   bool? obscure;
   String hintText;
   Function? function;
+  TextInputType? keyboardType;
 
   CustomFormField({
     required this.controller,
     this.obscure,
     required this.hintText,
     this.function,
+    required this.keyboardType,
   });
 
   String? validate(String? value) {
@@ -23,8 +25,14 @@ class CustomFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: keyboardType,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: (value) => validate(value),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "This field is required";
+        }
+        return null;
+      },
       controller: controller,
       obscureText: hintText == 'Password' ? obscure! : false,
       style: const TextStyle(color: Colors.black),

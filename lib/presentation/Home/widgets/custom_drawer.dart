@@ -42,6 +42,13 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 SizedBox(height: deviceSize.height * 0.02),
                 Text(
+                  DateTime.now().hour < 12 ? 'Good Morning' : 'Good Afternoon',
+                  style: TextStyle(
+                    fontSize: deviceSize.width * 0.04,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
                   user.userName!,
                   style: TextStyle(
                     fontSize: deviceSize.width * 0.04,
@@ -152,56 +159,63 @@ class CustomDrawer extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          child: Container(
-            height: deviceSize.height * 0.2,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Log out from this account?',
-                  style: TextStyle(
-                    fontSize: deviceSize.width * 0.05,
-                  ),
-                  textAlign: TextAlign.center,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: deviceSize.height * 0.032),
+              Text(
+                'Log out from this account?',
+                style: TextStyle(
+                  fontSize: deviceSize.width * 0.05,
                 ),
-                SizedBox(height: deviceSize.height * 0.005),
-                const Divider(),
-                SizedBox(height: deviceSize.height * 0.005),
-                InkWell(
-                  onTap: () async {
-                    await Navigator.of(context)
-                        .pushReplacementNamed(SigninPage.signIn);
-                  },
-                  child: Text(
-                    'Log out ',
-                    style: TextStyle(
-                      fontSize: deviceSize.width * 0.04,
-                      color: Colors.red,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: deviceSize.height * 0.02),
+              const Divider(
+                height: 1,
+                thickness: 1,
+              ),
+              IntrinsicHeight(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () async {
+                          await Navigator.of(context)
+                              .pushReplacementNamed(SigninPage.signIn);
+                        },
+                        child: Text(
+                          'Log out ',
+                          style: TextStyle(
+                            fontSize: deviceSize.width * 0.04,
+                            color: const Color(0xFFE67F1E),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                SizedBox(height: deviceSize.height * 0.005),
-                const Divider(),
-                SizedBox(height: deviceSize.height * 0.005),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    'Cancel',
-                    style: TextStyle(
-                      fontSize: deviceSize.width * 0.04,
-                      color: Colors.blue,
+                    const VerticalDivider(
+                      thickness: 1,
                     ),
-                  ),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            fontSize: deviceSize.width * 0.04,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: deviceSize.height * 0.005),
-                const Divider(),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

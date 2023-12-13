@@ -29,7 +29,7 @@ class _SigninPageState extends State<SigninPage> {
         return false;
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        // resizeToAvoidBottomInset: true,
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) async {
             if (state is AuthErrorState) {
@@ -55,6 +55,8 @@ class _SigninPageState extends State<SigninPage> {
   }
 
   Widget buildScreen(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+
     Size deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -87,6 +89,7 @@ class _SigninPageState extends State<SigninPage> {
           SizedBox(
             height: deviceSize.height * 0.06,
             child: CustomFormField(
+              keyboardType: TextInputType.emailAddress,
               controller: emailController,
               hintText: 'email',
             ),
@@ -97,6 +100,7 @@ class _SigninPageState extends State<SigninPage> {
           SizedBox(
             height: deviceSize.height * 0.06,
             child: CustomFormField(
+              keyboardType: TextInputType.visiblePassword,
               controller: passwordController,
               obscure: obscure,
               hintText: 'Password',
@@ -144,6 +148,8 @@ class _SigninPageState extends State<SigninPage> {
                             password: passwordController.text,
                           ),
                         );
+                    // if (formKey.currentState!.validate()) {
+                    // }
                   },
                   text: 'Sign in',
                 );

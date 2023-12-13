@@ -39,6 +39,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
         child: Column(
           children: [
             CustomFormField(
+              keyboardType: TextInputType.name,
               controller: userNameController,
               hintText: 'Enter user name',
             ),

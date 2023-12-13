@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:grocery/data/models/user.dart';
-import 'package:grocery/data/service.dart';
 
+import '/data/models/user.dart';
+import '/data/service.dart';
 import '../widgets/form_field.dart';
 import '../../Auth/View/signin.dart';
 import '../../Auth/widgets/custom_button.dart';
@@ -53,6 +53,8 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget buildScreen(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+
     Size deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       body: ListView(
@@ -71,6 +73,7 @@ class _SignUpPageState extends State<SignUpPage> {
           SizedBox(
             height: deviceSize.height * 0.06,
             child: CustomFormField(
+              keyboardType: TextInputType.name,
               controller: userNameController,
               hintText: 'user name',
             ),
@@ -81,6 +84,7 @@ class _SignUpPageState extends State<SignUpPage> {
           SizedBox(
             height: deviceSize.height * 0.06,
             child: CustomFormField(
+              keyboardType: TextInputType.emailAddress,
               controller: emailController,
               hintText: 'email',
             ),
@@ -91,6 +95,7 @@ class _SignUpPageState extends State<SignUpPage> {
           SizedBox(
             height: deviceSize.height * 0.06,
             child: CustomFormField(
+              keyboardType: TextInputType.visiblePassword,
               controller: passwordController,
               obscure: obscure,
               hintText: 'Password',
@@ -109,6 +114,7 @@ class _SignUpPageState extends State<SignUpPage> {
           SizedBox(
             height: deviceSize.height * 0.06,
             child: CustomFormField(
+              keyboardType: TextInputType.visiblePassword,
               controller: confirmPasswordController,
               obscure: obscure,
               hintText: 'Password',
@@ -134,6 +140,16 @@ class _SignUpPageState extends State<SignUpPage> {
                     userNameController.text.isNotEmpty &&
                     emailController.text.isNotEmpty &&
                     passwordController.text.isNotEmpty) {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  );
+
                   Map<String, String> userMap = {
                     'userName': userNameController.text,
                     'email': emailController.text,
@@ -141,11 +157,14 @@ class _SignUpPageState extends State<SignUpPage> {
                   };
                   User user = User.fromJson(userMap);
                   await UserServies().addUserToDB(user);
+                  await Future.delayed(const Duration(seconds: 2));
+
+                  Navigator.pop(context);
 
                   Navigator.pushNamed(context, SigninPage.signIn);
                 }
-                List<User> b = await UserServies.getUserFromDB();
-                print(b[0].password);
+                // List<User> b = await UserServies.getUserFromDB();
+                // print(b[0].password);
               },
               text: 'Sign up',
             ),

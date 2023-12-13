@@ -50,6 +50,7 @@ dependencies:
   intl: ^0.18.1
   abushakir: ^1.0.0
   flutter_vector_icons: ^2.0.0
+  cached_network_image: ^3.2.1
 
 
 dev_dependencies:

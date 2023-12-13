@@ -6,11 +6,11 @@ import '../../../presentation/base-home-page/bloc/base_home_page_bloc.dart';
 import '../../../presentation/Category/categories.dart';
 import '../../../presentation/Home/view/home.dart';
 import '../../favorite/view/favorite.dart';
+import '../../home/widgets/custom_drawer.dart';
 import '../../shopping-cart/view/shopping_cart.dart';
 import '../../transaction-history/view/transaction_history.dart';
 
 class BaseHomePage extends StatefulWidget {
-  // const BaseHomePage({Key? key}) : super(key: key);
   static const baseHomePage = 'base-home-page';
 
   User user;
@@ -24,10 +24,16 @@ class _BaseHomePageState extends State<BaseHomePage> {
   @override
   Widget build(BuildContext context) {
     int selectedIndex = 0;
+    List<String> appBarTitle = [
+      'Home',
+      'Categories',
+      'Cart',
+      'Favorites',
+      'Transaction History'
+    ];
+
     List<Widget> pages = [
-      Home(
-        user: widget.user,
-      ),
+      Home(user: widget.user),
       CategoryPage(),
       const ShoppingCart(),
       const Favorite(),
@@ -38,68 +44,109 @@ class _BaseHomePageState extends State<BaseHomePage> {
       onWillPop: () async {
         return false;
       },
-      child: Scaffold(
-        body: BlocConsumer<BaseHomePageBloc, BaseHomeState>(
-          listener: (context, state) {
-            if (state is BHomeState) {
-              selectedIndex = 0;
-            } else if (state is BCategoryState) {
-              selectedIndex = 1;
-            } else if (state is BCartState) {
-              selectedIndex = 2;
-            } else if (state is BFavoriteState) {
-              selectedIndex = 3;
-            } else if (state is BProfileState) {
-              selectedIndex = 4;
-            }
-          },
+      child: BlocListener<BaseHomePageBloc, BaseHomeState>(
+        listener: (context, state) {
+          if (state is BHomeState) {
+            selectedIndex = 0;
+          } else if (state is BCategoryState) {
+            selectedIndex = 1;
+          } else if (state is BCartState) {
+            selectedIndex = 2;
+          } else if (state is BFavoriteState) {
+            selectedIndex = 3;
+          } else if (state is BProfileState) {
+            selectedIndex = 4;
+          }
+        },
+        child: BlocBuilder<BaseHomePageBloc, BaseHomeState>(
           builder: (context, state) {
-            return pages[selectedIndex];
-          },
-        ),
-        bottomNavigationBar: BlocConsumer<BaseHomePageBloc, BaseHomeState>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            return BottomNavigationBar(
-              selectedItemColor: const Color(0xFFE67F1E),
-              unselectedItemColor: const Color(0xFFB1B1B1),
-              iconSize: deviceSize.width * 0.08,
-              currentIndex: selectedIndex,
-              onTap: (value) {
-                if (value == 0) {
-                  context.read<BaseHomePageBloc>().add(BHomeEvent());
-                } else if (value == 1) {
-                  context.read<BaseHomePageBloc>().add(BCategoryEvent());
-                } else if (value == 2) {
-                  context.read<BaseHomePageBloc>().add(BCartEvent());
-                } else if (value == 3) {
-                  context.read<BaseHomePageBloc>().add(BFavoriteEvent());
-                } else if (value == 4) {
-                  context.read<BaseHomePageBloc>().add(BProfileEvent());
-                }
-              },
-              items: const [
-                BottomNavigationBarItem(
-                  label: '',
-                  icon: Icon(Icons.home),
+            return Scaffold(
+              drawer: Drawer(
+                child: CustomDrawer(user: widget.user),
+              ),
+              backgroundColor: const Color(0xFFF5F5F5),
+              appBar: AppBar(
+                iconTheme: const IconThemeData(color: Colors.black),
+                centerTitle: false,
+                elevation: 0,
+                backgroundColor: Colors.white,
+                toolbarHeight: deviceSize.height * 0.08,
+                title: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      appBarTitle[selectedIndex],
+                      style: TextStyle(
+                        fontSize: deviceSize.width * 0.045,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-                BottomNavigationBarItem(
-                  label: '',
-                  icon: Icon(Icons.arrow_back),
+                actions: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.notifications,
+                      size: deviceSize.height * 0.03,
+                    ),
+                  ),
+                ],
+              ),
+              body: pages[selectedIndex],
+              bottomNavigationBar: Container(
+                decoration: const BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      color: Colors.grey,
+                      width: 0.1,
+                    ),
+                  ),
                 ),
-                BottomNavigationBarItem(
-                  label: '',
-                  icon: Icon(Icons.shopping_cart),
+                child: BottomNavigationBar(
+                  selectedItemColor: const Color(0xFFE67F1E),
+                  unselectedItemColor: const Color(0xFFB1B1B1),
+                  iconSize: deviceSize.width * 0.08,
+                  currentIndex: selectedIndex,
+                  onTap: (value) {
+                    if (value == 0) {
+                      context.read<BaseHomePageBloc>().add(BHomeEvent());
+                    } else if (value == 1) {
+                      context.read<BaseHomePageBloc>().add(BCategoryEvent());
+                    } else if (value == 2) {
+                      context.read<BaseHomePageBloc>().add(BCartEvent());
+                    } else if (value == 3) {
+                      context.read<BaseHomePageBloc>().add(BFavoriteEvent());
+                    } else if (value == 4) {
+                      context.read<BaseHomePageBloc>().add(BProfileEvent());
+                    }
+                  },
+                  items: const [
+                    BottomNavigationBarItem(
+                      label: '',
+                      icon: Icon(Icons.home),
+                    ),
+                    BottomNavigationBarItem(
+                      label: '',
+                      icon: Icon(Icons.arrow_back),
+                    ),
+                    BottomNavigationBarItem(
+                      label: '',
+                      icon: Icon(Icons.shopping_cart),
+                    ),
+                    BottomNavigationBarItem(
+                      label: '',
+                      icon: Icon(Icons.favorite),
+                    ),
+                    BottomNavigationBarItem(
+                      label: '',
+                      icon: Icon(Icons.history),
+                    ),
+                  ],
                 ),
-                BottomNavigationBarItem(
-                  label: '',
-                  icon: Icon(Icons.favorite),
-                ),
-                BottomNavigationBarItem(
-                  label: '',
-                  icon: Icon(Icons.history),
-                ),
-              ],
+              ),
             );
           },
         ),

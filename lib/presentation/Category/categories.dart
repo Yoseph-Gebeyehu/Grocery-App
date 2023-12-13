@@ -23,44 +23,31 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        toolbarHeight: deviceSize.height * 0.08,
-        backgroundColor: const Color(0xFFFFFFFF),
-        centerTitle: true,
-        title: const Text(
-          'Categories',
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
-      body: BlocListener<HomeBloc, HomeState>(
-        listener: (context, state) async {
-          BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
-        },
-        child: BlocBuilder<HomeBloc, HomeState>(
-          builder: (context, state) {
-            if (state is FetchProductsState) {
-              return ListView(
-                shrinkWrap: true,
-                children: [
-                  products(state.products, 'men\'s clothing'),
-                  products(state.products, 'electronics'),
-                  products(state.products, 'women\'s clothing'),
-                  products(state.products, 'jewelery'),
-                ],
-              );
-            } else if (state is NetworkErrorState) {
-              return const NoConnectionPage();
-            }
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Color(0xFFE67F1E),
-              ),
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) async {
+        BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
+      },
+      child: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          if (state is FetchProductsState) {
+            return ListView(
+              shrinkWrap: true,
+              children: [
+                products(state.products, 'men\'s clothing'),
+                products(state.products, 'electronics'),
+                products(state.products, 'women\'s clothing'),
+                products(state.products, 'jewelery'),
+              ],
             );
-          },
-        ),
+          } else if (state is NetworkErrorState) {
+            return const NoConnectionPage();
+          }
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Color(0xFFE67F1E),
+            ),
+          );
+        },
       ),
     );
   }
@@ -101,16 +88,16 @@ class _CategoryPageState extends State<CategoryPage> {
                 final products = allProducts[index];
                 return Column(
                   children: [
-                    ListTile(
-                      title: Text(products.title!),
-                      leading: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(
-                            ItemDetail.itemDetail,
-                            arguments: products,
-                          );
-                        },
-                        child: Container(
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          ItemDetail.itemDetail,
+                          arguments: products,
+                        );
+                      },
+                      child: ListTile(
+                        title: Text(products.title!),
+                        leading: Container(
                           width: deviceSize.width * 0.2,
                           height: deviceSize.height * 0.15,
                           decoration: BoxDecoration(

@@ -38,86 +38,33 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
-    return Scaffold(
-      drawer: Drawer(
-        child: CustomDrawer(user: widget.user),
-      ),
-      backgroundColor: const Color(0xFFF5F5F5),
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Colors.white,
-        toolbarHeight: deviceSize.height * 0.1,
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              DateTime.now().hour < 12 ? 'Good Morning' : 'Good Afternoon',
-              style: TextStyle(
-                fontSize: deviceSize.width * 0.04,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              widget.user.userName!,
-              style: TextStyle(
-                fontSize: deviceSize.width * 0.045,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.notifications,
-              size: deviceSize.height * 0.03,
-            ),
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) async {
+        if (state is AddedToFavoriteState) {
+          BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
+        } else {
+          BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
+        }
+      },
+      child: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+        if (state is FetchProductsState) {
+          products = state.products;
+          return homeWidget(deviceSize, products);
+        } else if (state is AddedToCartState) {
+          return homeWidget(deviceSize, products);
+        } else if (state is AddedToFavoriteState) {
+          return homeWidget(deviceSize, products);
+        } else if (state is ApiErrorState) {
+          return const ApiErrorWidget();
+        } else if (state is NetworkErrorState) {
+          return const NoConnectionPage();
+        }
+        return const Center(
+          child: CircularProgressIndicator(
+            color: Color(0xFFE67F1E),
           ),
-          IconButton(
-            onPressed: () {
-              _dialog(context);
-            },
-            icon: Icon(
-              Icons.logout,
-              size: deviceSize.height * 0.03,
-            ),
-          ),
-        ],
-      ),
-      body: BlocListener<HomeBloc, HomeState>(
-        listener: (context, state) async {
-          if (state is AddedToFavoriteState) {
-            BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
-          } else {
-            BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
-          }
-        },
-        child: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-          if (state is FetchProductsState) {
-            products = state.products;
-            return homeWidget(deviceSize, products);
-          } else if (state is AddedToCartState) {
-            return homeWidget(deviceSize, products);
-          } else if (state is AddedToFavoriteState) {
-            return homeWidget(deviceSize, products);
-          } else if (state is ApiErrorState) {
-            return const ApiErrorWidget();
-          } else if (state is NetworkErrorState) {
-            return const NoConnectionPage();
-          }
-          return const Center(
-            child: CircularProgressIndicator(
-              color: Color(0xFFE67F1E),
-            ),
-          );
-        }),
-      ),
+        );
+      }),
     );
   }
 
