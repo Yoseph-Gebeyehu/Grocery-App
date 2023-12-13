@@ -41,42 +41,46 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                   var txRef = state.trxnHistoryList[index];
                   return Column(
                     children: [
-                      ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: const Color(0xFFE67F1E),
-                          child: Text(
-                            (index + 1).toString(),
-                            style: const TextStyle(
-                              color: Colors.white,
+                      SizedBox(height: deviceSize.height * 0.01),
+                      InkWell(
+                        onTap: () async {
+                          BlocProvider.of<TransactionHistoryBloc>(context).add(
+                            FetchTransactionDetailEvent(txnRef: txRef),
+                          );
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const TransactionDetail(),
                             ),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
                           ),
-                        ),
-                        title: GestureDetector(
-                          onTap: () async {
-                            BlocProvider.of<TransactionHistoryBloc>(context)
-                                .add(
-                              FetchTransactionDetailEvent(txnRef: txRef),
-                            );
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const TransactionDetail(),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: deviceSize.width * 0.01),
+                          child: Card(
+                            child: ListTile(
+                              leading: const Icon(
+                                Icons.person,
+                                color: Color(0xFFE67F1E),
                               ),
-                            );
-                          },
-                          child: Text(
-                            txRef,
-                            style: const TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.blue,
+                              title: Text(
+                                txRef,
+                                style: const TextStyle(
+                                  // decoration: TextDecoration.underline,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      Divider(
-                        thickness: 1,
-                        indent: deviceSize.width * 0.1,
-                        endIndent: deviceSize.width * 0.1,
-                      ),
+                      // Divider(
+                      //   thickness: 1,
+                      //   indent: deviceSize.width * 0.1,
+                      //   endIndent: deviceSize.width * 0.1,
+                      // ),
                     ],
                   );
                 },

@@ -68,7 +68,7 @@ class _BaseHomePageState extends State<BaseHomePage> {
               appBar: AppBar(
                 iconTheme: const IconThemeData(color: Colors.black),
                 centerTitle: false,
-                elevation: 0,
+                elevation: 1,
                 backgroundColor: Colors.white,
                 toolbarHeight: deviceSize.height * 0.08,
                 title: Column(
@@ -130,7 +130,7 @@ class _BaseHomePageState extends State<BaseHomePage> {
                     ),
                     BottomNavigationBarItem(
                       label: '',
-                      icon: Icon(Icons.arrow_back),
+                      icon: Icon(Icons.category),
                     ),
                     BottomNavigationBarItem(
                       label: '',

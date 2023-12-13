@@ -30,14 +30,17 @@ class _CategoryPageState extends State<CategoryPage> {
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state is FetchProductsState) {
-            return ListView(
-              shrinkWrap: true,
-              children: [
-                products(state.products, 'men\'s clothing'),
-                products(state.products, 'electronics'),
-                products(state.products, 'women\'s clothing'),
-                products(state.products, 'jewelery'),
-              ],
+            return Container(
+              color: Colors.white,
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  products(state.products, 'men\'s clothing'),
+                  products(state.products, 'electronics'),
+                  products(state.products, 'women\'s clothing'),
+                  products(state.products, 'jewelery'),
+                ],
+              ),
             );
           } else if (state is NetworkErrorState) {
             return const NoConnectionPage();
@@ -66,12 +69,11 @@ class _CategoryPageState extends State<CategoryPage> {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: const Color(0xFFFBFBFB),
+          color: Colors.white,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: deviceSize.height * 0.05),
             Text(
               allProducts[0].category!.toUpperCase(),
               style: TextStyle(
@@ -117,6 +119,7 @@ class _CategoryPageState extends State<CategoryPage> {
               },
               itemCount: allProducts.length,
             ),
+            SizedBox(height: deviceSize.height * 0.05),
           ],
         ),
       ),
