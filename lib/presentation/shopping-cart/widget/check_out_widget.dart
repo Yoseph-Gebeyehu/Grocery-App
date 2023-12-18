@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery/presentation/auth/widgets/custom_button.dart';
 import 'package:randomstring_dart/randomstring_dart.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../bloc/shopping_cart_bloc.dart';
 
@@ -40,6 +41,21 @@ class _CheckOutWidgetState extends State<CheckOutWidget> {
       listener: (context, state) {},
       child: BlocBuilder<ShoppingCartBloc, ShoppingCartState>(
         builder: (context, state) {
+          // if (state is BuySuccessState) {
+          //   final controller = WebViewController()
+          //     ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          //     ..loadRequest(Uri.parse(
+          //       state.checkoutUrl,
+          //     ));
+          //   return Scaffold(
+          //     appBar: AppBar(
+          //       title: const Text('Chapa Checkout'),
+          //     ),
+          //     body: WebViewWidget(
+          //       controller: controller,
+          //     ),
+          //   );
+          // }
           return SingleChildScrollView(
             child: ClipRRect(
               borderRadius: const BorderRadius.only(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../Home/bloc/home_bloc.dart';
 import '../../presentation/item-detail/item_detail.dart';
 import '../../data/models/products.dart';
 import '../../widgets/no_internet.dart';
-import '../Home/bloc/home_bloc.dart';
 
 class CategoryPage extends StatefulWidget {
   static const category = 'category';
@@ -32,6 +32,7 @@ class _CategoryPageState extends State<CategoryPage> {
           if (state is FetchProductsState) {
             return Container(
               color: Colors.white,
+              padding: EdgeInsets.only(top: deviceSize.height * 0.025),
               child: ListView(
                 shrinkWrap: true,
                 children: [
@@ -74,52 +75,57 @@ class _CategoryPageState extends State<CategoryPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              allProducts[0].category!.toUpperCase(),
-              style: TextStyle(
-                color: const Color(0xFFE67F1E),
-                fontWeight: FontWeight.bold,
-                fontSize: deviceSize.width * 0.05,
+            ExpansionTile(
+              title: Text(
+                allProducts[0].category!.toUpperCase(),
+                style: TextStyle(
+                  color: const Color(0xFFE67F1E),
+                  fontWeight: FontWeight.bold,
+                  fontSize: deviceSize.width * 0.05,
+                ),
               ),
-            ),
-            SizedBox(height: deviceSize.height * 0.025),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                final products = allProducts[index];
-                return Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          ItemDetail.itemDetail,
-                          arguments: products,
-                        );
-                      },
-                      child: ListTile(
-                        title: Text(products.title!),
-                        leading: Container(
-                          width: deviceSize.width * 0.2,
-                          height: deviceSize.height * 0.15,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                products.image!,
+              children: [
+                SizedBox(height: deviceSize.height * 0.025),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final products = allProducts[index];
+                    return Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              ItemDetail.itemDetail,
+                              arguments: products,
+                            );
+                          },
+                          child: ListTile(
+                            title: Text(products.title!),
+                            leading: Container(
+                              width: deviceSize.width * 0.2,
+                              height: deviceSize.height * 0.15,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    products.image!,
+                                  ),
+                                  fit: BoxFit.contain,
+                                ),
                               ),
-                              fit: BoxFit.contain,
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    divider(),
-                  ],
-                );
-              },
-              itemCount: allProducts.length,
+                        divider(),
+                      ],
+                    );
+                  },
+                  itemCount: allProducts.length,
+                ),
+                SizedBox(height: deviceSize.height * 0.05),
+              ],
             ),
-            SizedBox(height: deviceSize.height * 0.05),
+            // divider(),
           ],
         ),
       ),

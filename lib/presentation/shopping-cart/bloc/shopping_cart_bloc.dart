@@ -52,9 +52,8 @@ class ShoppingCartBloc extends Bloc<ShoppingCartEvent, ShoppingCartState> {
         await loadTxRef();
         _txRef.add(event.txRef);
         await saveTxRef();
+        emit(BuySuccessState(checkoutUrl: response.checkoutUrl!));
       }
-
-      emit(BuySuccessState());
     });
   }
 }

@@ -47,74 +47,77 @@ class _ShoppingCartState extends State<ShoppingCart> {
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
-    return SizedBox(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          BlocListener<HomeBloc, HomeState>(
-            listener: (context, state) {
-              if (state is AddedToCartState) {
-                BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
-                SnackBarWidget().showSnack(context, 'Item removed from cart');
-                total();
-              } else {
-                total();
-              }
-            },
-            child: Expanded(
-              flex: 15,
-              child: BlocBuilder<HomeBloc, HomeState>(
-                builder: (context, state) {
-                  if (state is FetchProductsState) {
-                    cartProducts = state.products
-                        .where((product) => product.isAddedToCart)
-                        .toList();
-                    counts();
-                    return cartProducts.isEmpty
-                        ? const Center(
-                            child: Text('Product is not added to cart yet!'),
-                          )
-                        : shoppingCart(deviceSize);
-                  } else if (state is AddedToCartState) {
-                    return cartProducts.isEmpty
-                        ? const Center(
-                            child: Text('Product is not added to cart yet!'),
-                          )
-                        : shoppingCart(deviceSize);
-                  } else if (state is NetworkErrorState) {
-                    return const NoConnectionPage();
-                  }
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Color(0xFFE67F1E),
-                    ),
-                  );
-                },
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SizedBox(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            BlocListener<HomeBloc, HomeState>(
+              listener: (context, state) {
+                if (state is AddedToCartState) {
+                  BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
+                  SnackBarWidget().showSnack(context, 'Item removed from cart');
+                  total();
+                } else {
+                  total();
+                }
+              },
+              child: Expanded(
+                flex: 15,
+                child: BlocBuilder<HomeBloc, HomeState>(
+                  builder: (context, state) {
+                    if (state is FetchProductsState) {
+                      cartProducts = state.products
+                          .where((product) => product.isAddedToCart)
+                          .toList();
+                      counts();
+                      return cartProducts.isEmpty
+                          ? const Center(
+                              child: Text('Product is not added to cart yet!'),
+                            )
+                          : shoppingCart(deviceSize);
+                    } else if (state is AddedToCartState) {
+                      return cartProducts.isEmpty
+                          ? const Center(
+                              child: Text('Product is not added to cart yet!'),
+                            )
+                          : shoppingCart(deviceSize);
+                    } else if (state is NetworkErrorState) {
+                      return const NoConnectionPage();
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Color(0xFFE67F1E),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-          BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, state) {
-              return Visibility(
-                visible: cartProducts.isNotEmpty,
-                child: Expanded(
-                  flex: 2,
-                  child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: deviceSize.width * 0.08,
-                        vertical: deviceSize.height * 0.015,
-                      ),
-                      child: CustomButton(
-                        function: () {
-                          _showCustomerInfoSheet(context);
-                        },
-                        text: 'PLACE ORDER',
-                      )),
-                ),
-              );
-            },
-          ),
-        ],
+            BlocBuilder<HomeBloc, HomeState>(
+              builder: (context, state) {
+                return Visibility(
+                  visible: cartProducts.isNotEmpty,
+                  child: Expanded(
+                    flex: 2,
+                    child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: deviceSize.width * 0.08,
+                          vertical: deviceSize.height * 0.015,
+                        ),
+                        child: CustomButton(
+                          function: () {
+                            _showCustomerInfoSheet(context);
+                          },
+                          text: 'PLACE ORDER',
+                        )),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -14,7 +14,7 @@ class ApiResponse {
   factory ApiResponse.fromResponse(dynamic response) {
     int code = response.statusCode;
     dynamic body;
-    String checkoutUrl;
+    String? checkoutUrl;
 
     try {
       body = jsonDecode(response.body);
