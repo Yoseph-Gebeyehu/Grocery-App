@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery/presentation/auth/widgets/custom_button.dart';
+
+import '/presentation/auth/widgets/custom_button.dart';
 import 'package:randomstring_dart/randomstring_dart.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../bloc/shopping_cart_bloc.dart';
 
 class CheckOutWidget extends StatefulWidget {
   static const customerInfo = 'customer-info';
-  String amount;
-  String title;
-  String description;
-  CheckOutWidget({
+  final String amount;
+  final String title;
+  final String description;
+  const CheckOutWidget({
+    super.key,
     required this.amount,
     required this.title,
     required this.description,
   });
 
   @override
-  _CheckOutWidgetState createState() => _CheckOutWidgetState();
+  CheckOutWidgetState createState() => CheckOutWidgetState();
 }
 
-class _CheckOutWidgetState extends State<CheckOutWidget> {
+class CheckOutWidgetState extends State<CheckOutWidget> {
   String currency = 'ETB';
 
   String key = 'CHASECK_TEST-KzqTmzYnjSL5UDnlA7YuiAZY3OoeujYo';

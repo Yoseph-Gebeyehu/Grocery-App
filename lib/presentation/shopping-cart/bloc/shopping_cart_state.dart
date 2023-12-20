@@ -10,8 +10,8 @@ class ShoppingCartState extends Equatable {
 class ShoppingCartInitial extends ShoppingCartState {}
 
 class BuySuccessState extends ShoppingCartState {
-  String checkoutUrl;
-  BuySuccessState({required this.checkoutUrl});
+  final String checkoutUrl;
+  const BuySuccessState({required this.checkoutUrl});
 }
 
 class BuyErrorState extends ShoppingCartState {}

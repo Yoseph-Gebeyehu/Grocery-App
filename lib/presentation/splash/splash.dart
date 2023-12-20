@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../presentation/Auth/View/signin.dart';
+import '../Auth/View/signin.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -13,6 +13,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+    super.initState();
     Future.delayed(
       const Duration(seconds: 2),
       () => Navigator.pushReplacementNamed(context, SigninPage.signIn),
@@ -21,12 +22,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFEC54B),
-      body: Container(
-        margin: const EdgeInsets.only(bottom: 100),
-        alignment: Alignment.bottomCenter,
-        child: Image.asset('assets/splash.png'),
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: const Color(0xFFFEC54B),
+        body: Container(
+          margin: const EdgeInsets.only(bottom: 100),
+          alignment: Alignment.bottomCenter,
+          child: Image.asset('assets/splash.png'),
+        ),
       ),
     );
   }

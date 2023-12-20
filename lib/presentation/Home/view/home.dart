@@ -5,17 +5,15 @@ import '/data/models/user.dart';
 import '/domain/constants/names/home_fruit_names.dart';
 import '/domain/Constants/Images/home_images.dart';
 import '/presentation/home/widgets/api_error_widget.dart';
-import '/presentation/auth/view/signin.dart';
 import '/widgets/no_internet.dart';
 import '/data/models/products.dart';
-import '../../home/widgets/custom_drawer.dart';
 import '../../Home/bloc/home_bloc.dart';
 import '../../item-detail/item_detail.dart';
 
 class Home extends StatefulWidget {
   static const home = 'home';
-  User user;
-  Home({required this.user});
+  final User user;
+  const Home({super.key, required this.user});
   @override
   State<Home> createState() => _HomeState();
 }

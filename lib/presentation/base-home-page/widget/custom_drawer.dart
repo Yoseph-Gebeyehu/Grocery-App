@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import '../../auth/view/signin.dart';
+import '../../auth/widgets/custom_button.dart';
+import '../../update-profile/update-profile.dart';
 import '../../../data/models/user.dart';
-import '../../../presentation/auth/widgets/custom_button.dart';
-import '../../../presentation/update-profile/update-profile.dart';
 
 class CustomDrawer extends StatelessWidget {
-  User user;
-  CustomDrawer({required this.user});
+  final User user;
+  const CustomDrawer({super.key, required this.user});
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
@@ -23,7 +23,7 @@ class CustomDrawer extends StatelessWidget {
                 bottomStart: Radius.circular(50),
               ),
             ),
-            height: deviceSize.height * 0.3,
+            height: deviceSize.height * 0.32,
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,6 +60,7 @@ class CustomDrawer extends StatelessWidget {
                   style: TextStyle(
                     fontSize: deviceSize.width * 0.04,
                     color: Colors.white,
+                    overflow: TextOverflow.clip,
                   ),
                 ),
               ],

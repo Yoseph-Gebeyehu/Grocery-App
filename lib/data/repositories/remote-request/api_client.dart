@@ -1,8 +1,8 @@
 import "dart:convert";
+import "package:http/http.dart" as http;
 
 import 'package:grocery/data/models/api_request.dart';
 import 'package:grocery/data/models/api_response.dart';
-import "package:http/http.dart" as http;
 
 class ApiClient {
   Future<ApiResponse> postData(
@@ -34,7 +34,6 @@ class ApiClient {
   }
 
   Future<ApiResponse> getVerify(String txnRef) async {
-    // String baseUrl = 'https://api.chapa.co/v1/transaction/verify/$txRef';
     String baseUrl = 'https://api.chapa.co/v1/transaction/verify/$txnRef';
     String key = "CHASECK_TEST-KzqTmzYnjSL5UDnlA7YuiAZY3OoeujYo";
 

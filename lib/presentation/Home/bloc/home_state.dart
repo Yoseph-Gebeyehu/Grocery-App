@@ -11,8 +11,8 @@ class HomeInitial extends HomeState {}
 
 // ******* Cart ****************//
 class CartInitiaState extends HomeState {
-  List<Fruit> fruitList;
-  CartInitiaState({required this.fruitList});
+  final List<Fruit> fruitList;
+  const CartInitiaState({required this.fruitList});
 }
 
 class AddedToCartState extends HomeState {}
@@ -26,8 +26,8 @@ class AddedToFavoriteState extends HomeState {}
 // ******* Fetch Products ****************//
 
 class FetchProductsState extends HomeState {
-  List<Products> products;
-  FetchProductsState({required this.products});
+  final List<Products> products;
+  const FetchProductsState({required this.products});
 }
 
 // ******* Api Error ****************//

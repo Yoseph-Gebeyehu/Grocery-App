@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
 
 class CustomFormField extends StatelessWidget {
-  TextEditingController controller;
-  bool? obscure;
-  String hintText;
-  Function? function;
-  TextInputType? keyboardType;
+  final TextEditingController controller;
+  final bool? obscure;
+  final String hintText;
+  final Function? function;
+  final TextInputType? keyboardType;
 
-  CustomFormField({
+  const CustomFormField({
+    super.key,
     required this.controller,
     this.obscure,
     required this.hintText,
     this.function,
     required this.keyboardType,
   });
-
-  String? validate(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your $hintText';
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {

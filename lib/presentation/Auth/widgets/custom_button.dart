@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  Function function;
-  String text;
-  bool stateChecker;
-  CustomButton({
+  final Function function;
+  final String text;
+  final bool stateChecker;
+  const CustomButton({
+    super.key,
     required this.function,
     required this.text,
     this.stateChecker = false,

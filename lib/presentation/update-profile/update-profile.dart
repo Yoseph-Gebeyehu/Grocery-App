@@ -7,8 +7,8 @@ import '../../data/service.dart';
 import '../../data/models/user.dart';
 
 class UpdateProfilePage extends StatefulWidget {
-  User user;
-  UpdateProfilePage({required this.user});
+  final User user;
+  const UpdateProfilePage({super.key, required this.user});
 
   @override
   State<UpdateProfilePage> createState() => _UpdateProfilePageState();

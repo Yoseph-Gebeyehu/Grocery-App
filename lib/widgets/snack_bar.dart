@@ -13,10 +13,10 @@ class SnackBarWidget {
               height: deviceSize.height * 0.025,
               child: Image.asset('assets/splash.png'),
             ),
-            SizedBox(width: deviceSize.width * 0.1),
+            SizedBox(width: deviceSize.width * 0.05),
             Text(
               title,
-              style: TextStyle(fontSize: deviceSize.width * 0.04),
+              style: TextStyle(fontSize: deviceSize.width * 0.03),
             ),
           ],
         ),

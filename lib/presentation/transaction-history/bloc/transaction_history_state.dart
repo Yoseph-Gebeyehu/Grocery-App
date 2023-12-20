@@ -10,13 +10,13 @@ class TransactionHistoryState extends Equatable {
 class TransactionHistoryInitialState extends TransactionHistoryState {}
 
 class FetchTransactionHistoryState extends TransactionHistoryState {
-  List<String> trxnHistoryList;
-  FetchTransactionHistoryState({required this.trxnHistoryList});
+  final List<String> trxnHistoryList;
+  const FetchTransactionHistoryState({required this.trxnHistoryList});
 }
 
 class FetchTransactionDetailState extends TransactionHistoryState {
-  TransactionHistory transactionHistory;
-  FetchTransactionDetailState({required this.transactionHistory});
+  final TransactionHistory transactionHistory;
+  const FetchTransactionDetailState({required this.transactionHistory});
 }
 
 class NetworkErrorState extends TransactionHistoryState {}

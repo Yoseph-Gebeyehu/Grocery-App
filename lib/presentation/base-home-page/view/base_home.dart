@@ -6,15 +6,15 @@ import '../../../presentation/base-home-page/bloc/base_home_page_bloc.dart';
 import '../../../presentation/Category/categories.dart';
 import '../../../presentation/Home/view/home.dart';
 import '../../favorite/view/favorite.dart';
-import '../../home/widgets/custom_drawer.dart';
+import '../widget/custom_drawer.dart';
 import '../../shopping-cart/view/shopping_cart.dart';
 import '../../transaction-history/view/transaction_history.dart';
 
 class BaseHomePage extends StatefulWidget {
   static const baseHomePage = 'base-home-page';
 
-  User user;
-  BaseHomePage({required this.user});
+  final User user;
+  const BaseHomePage({super.key, required this.user});
 
   @override
   State<BaseHomePage> createState() => _BaseHomePageState();
@@ -40,10 +40,8 @@ class _BaseHomePageState extends State<BaseHomePage> {
       TransactionHistoryPage(),
     ];
     Size deviceSize = MediaQuery.of(context).size;
-    return WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
+    return PopScope(
+      canPop: false,
       child: BlocListener<BaseHomePageBloc, BaseHomeState>(
         listener: (context, state) {
           if (state is BHomeState) {
@@ -125,23 +123,23 @@ class _BaseHomePageState extends State<BaseHomePage> {
                   },
                   items: const [
                     BottomNavigationBarItem(
-                      label: '',
+                      label: 'Home',
                       icon: Icon(Icons.home),
                     ),
                     BottomNavigationBarItem(
-                      label: '',
+                      label: 'Categories',
                       icon: Icon(Icons.category),
                     ),
                     BottomNavigationBarItem(
-                      label: '',
+                      label: 'Cart',
                       icon: Icon(Icons.shopping_cart),
                     ),
                     BottomNavigationBarItem(
-                      label: '',
+                      label: 'Favorite',
                       icon: Icon(Icons.favorite),
                     ),
                     BottomNavigationBarItem(
-                      label: '',
+                      label: 'History',
                       icon: Icon(Icons.history),
                     ),
                   ],
