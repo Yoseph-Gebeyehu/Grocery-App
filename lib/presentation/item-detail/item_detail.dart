@@ -63,7 +63,7 @@ class _ItemDetailState extends State<ItemDetail> {
                   top: deviceSize.height * 0.05,
                   left: deviceSize.width * 0.02,
                   child: IconButton(
-                    iconSize: deviceSize.width * 0.1,
+                    iconSize: deviceSize.width * 0.06,
                     icon: const Icon(
                       Icons.arrow_back,
                       color: Colors.black,

@@ -7,10 +7,10 @@ class HomeFruitNames {
   // static const cabbage = 'Cabbabe';
   // static const tomato = 'Tomato';
   // static const potato = 'Potato';
-  static const electronics = 'Electronics';
-  static const jewelery = 'Jewelery';
-  static const men = 'Men\'s cloth';
-  static const women = 'Women\'s cloth';
+  static const electronics = 'electronics';
+  static const jewelery = 'jewelery';
+  static const men = 'men\'s clothing';
+  static const women = 'women\'s clothing';
 
   static const categoryName = [
     electronics,

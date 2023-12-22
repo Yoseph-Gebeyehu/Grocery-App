@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery/presentation/category-detail/category_detail.dart';
 
+import '../../domain/Constants/Images/home_images.dart';
+import '../../domain/constants/names/home_fruit_names.dart';
 import '../Home/bloc/home_bloc.dart';
-import '../../presentation/item-detail/item_detail.dart';
-import '../../data/models/products.dart';
 import '../../widgets/no_internet.dart';
 
 class CategoryPage extends StatefulWidget {
   static const category = 'category';
+
+  const CategoryPage({super.key});
 
   @override
   State<CategoryPage> createState() => _CategoryPageState();
@@ -30,17 +33,61 @@ class _CategoryPageState extends State<CategoryPage> {
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state is FetchProductsState) {
-            return Container(
-              color: Colors.white,
-              padding: EdgeInsets.only(top: deviceSize.height * 0.025),
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  products(state.products, 'men\'s clothing'),
-                  products(state.products, 'electronics'),
-                  products(state.products, 'women\'s clothing'),
-                  products(state.products, 'jewelery'),
-                ],
+            return Padding(
+              padding: const EdgeInsets.all(10),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: deviceSize.width * 0.0375,
+                  crossAxisSpacing: deviceSize.width * 0.0375,
+                  childAspectRatio: 1 / 1,
+                ),
+                itemBuilder: (context, index) {
+                  const image = HomeImages.images;
+                  final name = HomeFruitNames.categoryName[index];
+                  return Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => CategoryDetailPage(
+                                productsList: state.products
+                                    .where(
+                                      (product) =>
+                                          product.category ==
+                                          HomeFruitNames.categoryName[index],
+                                    )
+                                    .toList()),
+                          ));
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: deviceSize.height * 0.15,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                            image: DecorationImage(
+                              image: AssetImage(
+                                image[index],
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: deviceSize.height * 0.02),
+                      Text(name.toUpperCase()[0] + name.substring(1)),
+                    ],
+                  );
+                },
+                itemCount: HomeFruitNames.categoryName.length,
               ),
             );
           } else if (state is NetworkErrorState) {
@@ -52,82 +99,6 @@ class _CategoryPageState extends State<CategoryPage> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget products(List<Products> products, String categoryName) {
-    Size deviceSize = MediaQuery.of(context).size;
-
-    List<Products> allProducts = products
-        .where((products) => products.category == categoryName)
-        .toList();
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: deviceSize.width * 0.05,
-      ),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ExpansionTile(
-              title: Text(
-                allProducts[0].category!.toUpperCase(),
-                style: TextStyle(
-                  color: const Color(0xFFE67F1E),
-                  fontWeight: FontWeight.bold,
-                  fontSize: deviceSize.width * 0.05,
-                ),
-              ),
-              children: [
-                SizedBox(height: deviceSize.height * 0.025),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final products = allProducts[index];
-                    return Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(
-                              ItemDetail.itemDetail,
-                              arguments: products,
-                            );
-                          },
-                          child: ListTile(
-                            title: Text(products.title!),
-                            leading: Container(
-                              width: deviceSize.width * 0.2,
-                              height: deviceSize.height * 0.15,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                    products.image!,
-                                  ),
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        divider(),
-                      ],
-                    );
-                  },
-                  itemCount: allProducts.length,
-                ),
-                SizedBox(height: deviceSize.height * 0.05),
-              ],
-            ),
-            // divider(),
-          ],
-        ),
       ),
     );
   }

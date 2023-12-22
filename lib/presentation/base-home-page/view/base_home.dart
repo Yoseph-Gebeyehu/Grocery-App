@@ -66,7 +66,7 @@ class _BaseHomePageState extends State<BaseHomePage> {
               appBar: AppBar(
                 iconTheme: const IconThemeData(color: Colors.black),
                 centerTitle: false,
-                elevation: 1,
+                elevation: 10,
                 backgroundColor: Colors.white,
                 toolbarHeight: deviceSize.height * 0.08,
                 title: Column(

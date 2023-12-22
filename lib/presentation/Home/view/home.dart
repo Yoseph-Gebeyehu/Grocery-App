@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '/data/models/user.dart';
 import '/domain/constants/names/home_fruit_names.dart';
 import '/domain/Constants/Images/home_images.dart';
+import '/presentation/category-detail/category_detail.dart';
 import '/presentation/home/widgets/api_error_widget.dart';
-import '/widgets/no_internet.dart';
+import '/data/models/user.dart';
 import '/data/models/products.dart';
+import '/widgets/no_internet.dart';
 import '../../Home/bloc/home_bloc.dart';
 import '../../item-detail/item_detail.dart';
 
@@ -83,12 +84,9 @@ class _HomeState extends State<Home> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.arrow_forward),
-              ),
             ],
           ),
+          SizedBox(height: deviceSize.height * 0.01),
           SizedBox(
             height: deviceSize.height * 0.15,
             child: ListView.builder(
@@ -114,22 +112,38 @@ class _HomeState extends State<Home> {
                         ),
                         width: deviceSize.width * 0.25,
                         height: deviceSize.height * 0.1,
-                        child: Container(
-                          width: double.infinity,
-                          height: deviceSize.height * 0.15,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: DecorationImage(
-                              image: AssetImage(
-                                HomeImages.images[index],
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => CategoryDetailPage(
+                                  productsList: products
+                                      .where((product) =>
+                                          product.category ==
+                                          HomeFruitNames.categoryName[index])
+                                      .toList(),
+                                ),
                               ),
-                              fit: BoxFit.cover,
+                            );
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: deviceSize.height * 0.15,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  HomeImages.images[index],
+                                ),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
                       ),
                       SizedBox(height: deviceSize.height * 0.02),
-                      Text(HomeFruitNames.categoryName[index]),
+                      Text(HomeFruitNames.categoryName[index].toUpperCase()[0] +
+                          HomeFruitNames.categoryName[index].substring(1)),
                     ],
                   ),
                   SizedBox(width: deviceSize.width * 0.02)
@@ -141,7 +155,7 @@ class _HomeState extends State<Home> {
           ),
           SizedBox(height: deviceSize.height * 0.02),
           Text(
-            'Latest Products',
+            'All Products',
             style: TextStyle(
               fontSize: deviceSize.width * 0.045,
               color: Colors.black,
