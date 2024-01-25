@@ -57,7 +57,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
               listener: (context, state) {
                 if (state is AddedToCartState) {
                   BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
-                  SnackBarWidget().showSnack(context, 'Item removed from cart');
+
                   total();
                 } else {
                   total();
@@ -197,6 +197,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                     );
                                     BlocProvider.of<HomeBloc>(context)
                                         .add(FetchProductsEvent());
+                                    SnackBarWidget().showSnack(
+                                        context, 'Item removed from cart');
                                   },
                                   icon: const Icon(
                                     Icons.delete,

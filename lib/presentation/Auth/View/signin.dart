@@ -25,32 +25,37 @@ class SigninPageState extends State<SigninPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      child: Form(
-        key: formKey,
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          body: BlocConsumer<AuthBloc, AuthState>(
-            listener: (context, state) async {
-              if (state is AuthErrorState) {
-                SnackBarWidget()
-                    .showSnack(context, 'Invalid username/password');
-              } else if (state is AuthLoadedState) {
-                await Navigator.pushNamed(context, BaseHomePage.baseHomePage,
-                    arguments: state.user);
-              }
-            },
-            builder: (context, state) {
-              return Container(
-                color: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 50,
-                ),
-                child: buildScreen(context),
-              );
-            },
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: PopScope(
+        canPop: false,
+        child: Form(
+          key: formKey,
+          child: Scaffold(
+            resizeToAvoidBottomInset: true,
+            body: BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) async {
+                if (state is AuthErrorState) {
+                  SnackBarWidget()
+                      .showSnack(context, 'Invalid username/password');
+                } else if (state is AuthLoadedState) {
+                  await Navigator.pushNamed(context, BaseHomePage.baseHomePage,
+                      arguments: state.user);
+                }
+              },
+              builder: (context, state) {
+                return Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 50,
+                  ),
+                  child: buildScreen(context),
+                );
+              },
+            ),
           ),
         ),
       ),
@@ -216,7 +221,7 @@ class SigninPageState extends State<SigninPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ],

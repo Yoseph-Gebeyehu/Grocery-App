@@ -114,6 +114,31 @@ class SignUpPageState extends State<SignUpPage> {
             ),
           ),
           SizedBox(height: deviceSize.height * 0.02),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Already have an account?',
+                style: TextStyle(
+                  fontSize: deviceSize.width * 0.036,
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Signin',
+                  style: TextStyle(
+                    fontSize: deviceSize.width * 0.04,
+                    color: const Color(0xFFE67F1E),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: deviceSize.height * 0.02),
         ],
       ),
     );

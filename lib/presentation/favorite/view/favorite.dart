@@ -31,7 +31,6 @@ class _FavoriteState extends State<Favorite> {
       listener: (context, state) async {
         if (state is AddedToFavoriteState) {
           BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
-          SnackBarWidget().showSnack(context, 'Item removed from favorite');
         } else if (state is AddedToCartState) {
           BlocProvider.of<HomeBloc>(context).add(FetchProductsEvent());
         } else {}
@@ -142,6 +141,8 @@ class _FavoriteState extends State<Favorite> {
                                         products: favProducts[index],
                                       ),
                                     );
+                                    SnackBarWidget().showSnack(
+                                        context, 'Item removed from favorite');
                                   },
                                   icon: const Icon(
                                     Icons.favorite,

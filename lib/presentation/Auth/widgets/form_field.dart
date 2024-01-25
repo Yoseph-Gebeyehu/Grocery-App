@@ -37,8 +37,8 @@ class CustomFormField extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        filled: true,
-        fillColor: const Color.fromARGB(255, 239, 228, 203),
+        // filled: true,
+        // fillColor: const Color.fromARGB(255, 239, 228, 203),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
         suffixIcon: hintText == 'Password'
             ? IconButton(
@@ -52,11 +52,15 @@ class CustomFormField extends StatelessWidget {
               )
             : null,
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.transparent),
+          borderSide: const BorderSide(
+            color: Color(0xFFFEC54B),
+          ),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.transparent),
+          borderSide: const BorderSide(
+            color: Color(0xFFFEC54B),
+          ),
           borderRadius: BorderRadius.circular(8),
         ),
       ),

@@ -8,6 +8,8 @@ import '../bloc/transaction_history_bloc.dart';
 class TransactionHistoryPage extends StatefulWidget {
   static const txnHistory = 'trxn-history';
 
+  const TransactionHistoryPage({super.key});
+
   @override
   State<TransactionHistoryPage> createState() => _TransactionHistoryPageState();
 }
@@ -76,11 +78,6 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                           ),
                         ),
                       ),
-                      // Divider(
-                      //   thickness: 1,
-                      //   indent: deviceSize.width * 0.1,
-                      //   endIndent: deviceSize.width * 0.1,
-                      // ),
                     ],
                   );
                 },
