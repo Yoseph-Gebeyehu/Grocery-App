@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:grocery/data/local/shered_preference.dart';
+import 'package:grocery/main.dart';
 
 import '../../auth/view/signin.dart';
 import '../../auth/widgets/custom_button.dart';
 import '../../update-profile/update-profile.dart';
 import '../../../data/models/user.dart';
 
-class CustomDrawer extends StatelessWidget {
+enum SampleItem { am, en }
+
+class CustomDrawer extends StatefulWidget {
   final User user;
-  const CustomDrawer({super.key, required this.user});
+
+  CustomDrawer({super.key, required this.user});
+
+  @override
+  State<CustomDrawer> createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  SampleItem? selectedMenu;
+  String lang = 'en';
+
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
@@ -33,7 +48,7 @@ class CustomDrawer extends StatelessWidget {
                   backgroundColor: Colors.white,
                   radius: deviceSize.width * 0.08,
                   child: Text(
-                    user.userName![0],
+                    widget.user.userName![0],
                     style: TextStyle(
                       fontSize: deviceSize.width * 0.06,
                       color: const Color(0xFFE67F1E),
@@ -42,21 +57,23 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 SizedBox(height: deviceSize.height * 0.02),
                 Text(
-                  DateTime.now().hour < 12 ? 'Good Morning' : 'Good Afternoon',
+                  DateTime.now().hour < 12
+                      ? AppLocalizations.of(context)!.good_morning
+                      : AppLocalizations.of(context)!.good_afternoon,
                   style: TextStyle(
                     fontSize: deviceSize.width * 0.04,
                     color: Colors.white,
                   ),
                 ),
                 Text(
-                  user.userName!,
+                  widget.user.userName!,
                   style: TextStyle(
                     fontSize: deviceSize.width * 0.04,
                     color: Colors.white,
                   ),
                 ),
                 Text(
-                  user.email!,
+                  widget.user.email!,
                   style: TextStyle(
                     fontSize: deviceSize.width * 0.04,
                     color: Colors.white,
@@ -68,63 +85,97 @@ class CustomDrawer extends StatelessWidget {
           ),
           divider(deviceSize),
           InkWell(
+            onTap: () {},
+            child: ListTile(
+              leading: const Icon(
+                Icons.language,
+                color: Color(0xFFE67F1E),
+              ),
+              title: Text(AppLocalizations.of(context)!.change_language),
+              trailing: PopupMenuButton<SampleItem>(
+                iconColor: const Color(0xFFE67F1E),
+                initialValue: selectedMenu,
+                onSelected: (SampleItem item) {
+                  setState(() {
+                    selectedMenu = item;
+                    String lang = item == SampleItem.am ? 'am' : 'en';
+                    LocalStorage.setLanguage('language', lang);
+                  });
+                  MyApp.setLanguage(context);
+                },
+                itemBuilder: (BuildContext context) =>
+                    <PopupMenuEntry<SampleItem>>[
+                  const PopupMenuItem<SampleItem>(
+                    value: SampleItem.am,
+                    child: Text('አማርኛ'),
+                  ),
+                  const PopupMenuItem<SampleItem>(
+                    value: SampleItem.en,
+                    child: Text('English'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          divider(deviceSize),
+          InkWell(
             onTap: () async {
               await Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => UpdateProfilePage(user: user),
+                  builder: (context) => UpdateProfilePage(user: widget.user),
                 ),
               );
             },
-            child: const ListTile(
-              leading: Icon(
+            child: ListTile(
+              leading: const Icon(
                 Icons.edit_outlined,
                 color: Color(0xFFE67F1E),
               ),
-              title: Text('Update profile'),
+              title: Text(AppLocalizations.of(context)!.update_profile),
             ),
           ),
           divider(deviceSize),
           InkWell(
             onTap: () {},
-            child: const ListTile(
-              leading: Icon(
+            child: ListTile(
+              leading: const Icon(
                 Icons.lock_outline,
                 color: Color(0xFFE67F1E),
               ),
-              title: Text('Privacy'),
+              title: Text(AppLocalizations.of(context)!.privacy),
             ),
           ),
           divider(deviceSize),
           InkWell(
             onTap: () {},
-            child: const ListTile(
-              leading: Icon(
+            child: ListTile(
+              leading: const Icon(
                 FontAwesome.file_text_o,
                 color: Color(0xFFE67F1E),
               ),
-              title: Text('Terms and conditions'),
+              title: Text(AppLocalizations.of(context)!.terms_and_conditions),
             ),
           ),
           divider(deviceSize),
           InkWell(
             onTap: () {},
-            child: const ListTile(
-              leading: Icon(
+            child: ListTile(
+              leading: const Icon(
                 Icons.help_outline,
                 color: Color(0xFFE67F1E),
               ),
-              title: Text('Support'),
+              title: Text(AppLocalizations.of(context)!.support),
             ),
           ),
           divider(deviceSize),
           InkWell(
             onTap: () {},
-            child: const ListTile(
-              leading: Icon(
+            child: ListTile(
+              leading: const Icon(
                 Icons.info_outline,
                 color: Color(0xFFE67F1E),
               ),
-              title: Text('About us'),
+              title: Text(AppLocalizations.of(context)!.about_us),
             ),
           ),
           divider(deviceSize),
@@ -132,10 +183,11 @@ class CustomDrawer extends StatelessWidget {
           SizedBox(
             width: deviceSize.width * 0.5,
             child: CustomButton(
-                function: () {
-                  _dialog(context);
-                },
-                text: 'Log out'),
+              function: () {
+                _dialog(context);
+              },
+              text: AppLocalizations.of(context)!.log_out,
+            ),
           )
         ],
       ),
@@ -166,7 +218,7 @@ class CustomDrawer extends StatelessWidget {
             children: [
               SizedBox(height: deviceSize.height * 0.032),
               Text(
-                'Log out from this account?',
+                AppLocalizations.of(context)!.log_out_from_this_account,
                 style: TextStyle(
                   fontSize: deviceSize.width * 0.05,
                 ),
@@ -188,7 +240,7 @@ class CustomDrawer extends StatelessWidget {
                               .pushReplacementNamed(SigninPage.signIn);
                         },
                         child: Text(
-                          'Log out ',
+                          AppLocalizations.of(context)!.log_out,
                           style: TextStyle(
                             fontSize: deviceSize.width * 0.04,
                             color: const Color(0xFFE67F1E),
@@ -205,7 +257,7 @@ class CustomDrawer extends StatelessWidget {
                           Navigator.of(context).pop();
                         },
                         child: Text(
-                          'Cancel',
+                          AppLocalizations.of(context)!.cancel,
                           style: TextStyle(
                             fontSize: deviceSize.width * 0.04,
                             color: Colors.grey,

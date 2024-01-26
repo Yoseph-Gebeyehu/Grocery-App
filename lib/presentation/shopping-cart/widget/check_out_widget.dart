@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/presentation/auth/widgets/custom_button.dart';
 import 'package:randomstring_dart/randomstring_dart.dart';
@@ -75,7 +76,7 @@ class CheckOutWidgetState extends State<CheckOutWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'Order details',
+                      AppLocalizations.of(context)!.order_details,
                       style: TextStyle(
                         fontSize: deviceSize.width * 0.045,
                         fontWeight: FontWeight.bold,
@@ -83,11 +84,20 @@ class CheckOutWidgetState extends State<CheckOutWidget> {
                     ),
                     Column(
                       children: [
-                        rowText('Price of items', widget.amount),
+                        rowText(
+                          AppLocalizations.of(context)!.price_of_items,
+                          widget.amount,
+                        ),
                         SizedBox(height: deviceSize.height * 0.007),
-                        rowText('Delivery fee', '0'),
+                        rowText(
+                          AppLocalizations.of(context)!.delivery_fee,
+                          '0',
+                        ),
                         SizedBox(height: deviceSize.height * 0.007),
-                        rowText('Total fee', widget.amount),
+                        rowText(
+                          AppLocalizations.of(context)!.total_fee,
+                          widget.amount,
+                        ),
                       ],
                     ),
                     CustomButton(
@@ -102,7 +112,7 @@ class CheckOutWidgetState extends State<CheckOutWidget> {
                           ),
                         );
                       },
-                      text: 'Checkout',
+                      text: AppLocalizations.of(context)!.checkout,
                     )
                   ],
                 ),
@@ -127,7 +137,7 @@ class CheckOutWidgetState extends State<CheckOutWidget> {
         ),
         const Spacer(),
         Text(
-          '$amount br',
+          '$amount ${AppLocalizations.of(context)!.br}',
           style: TextStyle(
             fontSize: deviceSize.width * 0.04,
             color: Colors.black,

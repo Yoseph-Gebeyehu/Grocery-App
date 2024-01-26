@@ -11,4 +11,14 @@ class LocalStorage {
     SharedPreferences? prefs = await SharedPreferences.getInstance();
     return prefs.getBool(key);
   }
+
+  static setLanguage(String key, String value) async {
+    SharedPreferences? prefs = await SharedPreferences.getInstance();
+    prefs.setString(key, value);
+  }
+
+  static Future<String?> getLanguage(String key) async {
+    SharedPreferences? prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key);
+  }
 }

@@ -70,7 +70,6 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                               title: Text(
                                 txRef,
                                 style: const TextStyle(
-                                  // decoration: TextDecoration.underline,
                                   color: Colors.black,
                                 ),
                               ),

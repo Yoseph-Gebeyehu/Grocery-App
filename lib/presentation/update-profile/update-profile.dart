@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../presentation/auth/widgets/custom_button.dart';
 import '../../presentation/auth/widgets/form_field.dart';
@@ -23,9 +24,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
         iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
         backgroundColor: Colors.white,
-        title: const Text(
-          'Update profile',
-          style: TextStyle(
+        title: Text(
+          AppLocalizations.of(context)!.update,
+          style: const TextStyle(
             color: Colors.black,
           ),
         ),
@@ -41,10 +42,12 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             CustomFormField(
               keyboardType: TextInputType.name,
               controller: userNameController,
-              hintText: 'Enter user name',
+              hintText: AppLocalizations.of(context)!.enter_user_name,
             ),
             const SizedBox(height: 20),
-            CustomButton(function: updateUserName, text: 'Update')
+            CustomButton(
+                function: updateUserName,
+                text: AppLocalizations.of(context)!.update)
           ],
         ),
       ),

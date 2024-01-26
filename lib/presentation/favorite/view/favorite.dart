@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../data/models/products.dart';
 import '../../../widgets/no_internet.dart';
@@ -42,20 +43,26 @@ class _FavoriteState extends State<Favorite> {
 
           return favProducts.isNotEmpty
               ? favorite(deviceSize, favProducts)
-              : const Center(
-                  child: Text('There is no favorite product'),
+              : Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.there_is_no_favorite_product,
+                  ),
                 );
         } else if (state is AddedToFavoriteState) {
           return favProducts.isNotEmpty
               ? favorite(deviceSize, favProducts)
-              : const Center(
-                  child: Text('There is no favorite product'),
+              : Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.there_is_no_favorite_product,
+                  ),
                 );
         } else if (state is AddedToCartState) {
           return favProducts.isNotEmpty
               ? favorite(deviceSize, favProducts)
-              : const Center(
-                  child: Text('There is no favorite product'),
+              : Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.there_is_no_favorite_product,
+                  ),
                 );
         } else if (state is NetworkErrorState) {
           return const NoConnectionPage();
@@ -142,7 +149,10 @@ class _FavoriteState extends State<Favorite> {
                                       ),
                                     );
                                     SnackBarWidget().showSnack(
-                                        context, 'Item removed from favorite');
+                                      context,
+                                      AppLocalizations.of(context)!
+                                          .item_removed_from_favorite,
+                                    );
                                   },
                                   icon: const Icon(
                                     Icons.favorite,
@@ -185,8 +195,10 @@ class _FavoriteState extends State<Favorite> {
                                       children: [
                                         Text(
                                           favProducts[index].isAddedToCart
-                                              ? 'Added to cart'
-                                              : 'Add to cart',
+                                              ? AppLocalizations.of(context)!
+                                                  .added_to_cart
+                                              : AppLocalizations.of(context)!
+                                                  .add_to_cart,
                                           style: TextStyle(
                                             fontSize: deviceSize.width * 0.03,
                                             fontWeight: FontWeight.w500,

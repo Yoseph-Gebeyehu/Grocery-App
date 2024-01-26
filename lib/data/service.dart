@@ -42,6 +42,6 @@ class UserServies {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
-    print(data);
+    // print(data);
   }
 }

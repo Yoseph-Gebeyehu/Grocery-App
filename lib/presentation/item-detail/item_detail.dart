@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../data/models/products.dart';
 
@@ -129,8 +130,10 @@ class _ItemDetailState extends State<ItemDetail> {
                                 },
                                 child: Text(
                                   widget.products.isAddedToCart
-                                      ? 'Added to cart'
-                                      : 'Add to cart',
+                                      ? AppLocalizations.of(context)!
+                                          .added_to_cart
+                                      : AppLocalizations.of(context)!
+                                          .add_to_cart,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: deviceSize.width * 0.03,
@@ -142,7 +145,7 @@ class _ItemDetailState extends State<ItemDetail> {
                           Row(
                             children: [
                               Text(
-                                '${widget.products.price.toString()} br',
+                                '${widget.products.price.toString()} ${AppLocalizations.of(context)!.br}',
                                 style: TextStyle(
                                   fontSize: deviceSize.width * 0.05,
                                   color: const Color(0xFFFEC54B),
@@ -155,7 +158,7 @@ class _ItemDetailState extends State<ItemDetail> {
                           ),
                           SizedBox(height: deviceSize.height * 0.01),
                           Text(
-                            'Description',
+                            AppLocalizations.of(context)!.description,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: deviceSize.width * 0.05,
@@ -167,9 +170,9 @@ class _ItemDetailState extends State<ItemDetail> {
                             ),
                             height: deviceSize.height * 0.002,
                             width: double.infinity,
-                            child: ClipRect(
+                            child: const ClipRect(
                               child: Stack(
-                                children: const [
+                                children: [
                                   LinearProgressIndicator(
                                     value: 0.35,
                                     backgroundColor: Color(0xFFDDDDDD),

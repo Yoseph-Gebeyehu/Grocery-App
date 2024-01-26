@@ -1,6 +1,7 @@
 import 'package:abushakir/abushakir.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../presentation/transaction-history/bloc/transaction_history_bloc.dart';
 import '../../presentation/transaction-detail/widget/txn_detail_api_error.dart';
@@ -34,9 +35,9 @@ class _TransactionDetailState extends State<TransactionDetail> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
-          title: const Text(
-            'Transaction Detail',
-            style: TextStyle(
+          title: Text(
+            AppLocalizations.of(context)!.transaction_detail,
+            style: const TextStyle(
               color: Colors.black,
             ),
           ),
@@ -74,15 +75,25 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       columWidgets(
-                          'Transaction Time', ethiopianDate.toString()),
-                      columWidgets('Transaction Reference', txnHistory.txRef!),
-                      columWidgets('Transaction Amount',
+                          AppLocalizations.of(context)!.transaction_time,
+                          ethiopianDate.toString()),
+                      columWidgets(
+                          AppLocalizations.of(context)!.transaction_reference,
+                          txnHistory.txRef!),
+                      columWidgets(
+                          AppLocalizations.of(context)!.transaction_amount,
                           '${txnHistory.amount.toString()} (${txnHistory.currency})'),
-                      columWidgets('Transaction Type', txnHistory.type!),
-                      columWidgets('Transaction Method', txnHistory.method!),
-                      columWidgets('Transaction Title',
+                      columWidgets(
+                          AppLocalizations.of(context)!.transaction_type,
+                          txnHistory.type!),
+                      columWidgets(
+                          AppLocalizations.of(context)!.transaction_method,
+                          txnHistory.method!),
+                      columWidgets(
+                          AppLocalizations.of(context)!.transaction_title,
                           txnHistory.customization!.title!),
-                      columWidgets('Transaction Description',
+                      columWidgets(
+                          AppLocalizations.of(context)!.transaction_description,
                           txnHistory.customization!.description!)
                     ],
                   ),

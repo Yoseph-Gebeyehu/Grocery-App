@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/widgets/snack_bar.dart';
 import '/data/models/user.dart';
@@ -64,7 +65,7 @@ class SignUpPageState extends State<SignUpPage> {
       body: ListView(
         children: [
           Text(
-            'Sign Up',
+            AppLocalizations.of(context)!.sign_up,
             style: TextStyle(
               color: Colors.black,
               fontSize: deviceSize.width * 0.06,
@@ -72,33 +73,33 @@ class SignUpPageState extends State<SignUpPage> {
             ),
           ),
           SizedBox(height: deviceSize.height * 0.03),
-          text('User name'),
+          text(AppLocalizations.of(context)!.user_name),
           SizedBox(height: deviceSize.height * 0.02),
           SizedBox(
             height: deviceSize.height * 0.06,
             child: CustomFormField(
               keyboardType: TextInputType.name,
               controller: userNameController,
-              hintText: 'user name',
+              hintText: AppLocalizations.of(context)!.user_name,
             ),
           ),
           SizedBox(height: deviceSize.height * 0.02),
-          text('Email'),
+          text(AppLocalizations.of(context)!.email),
           SizedBox(height: deviceSize.height * 0.02),
           SizedBox(
             height: deviceSize.height * 0.06,
             child: CustomFormField(
               keyboardType: TextInputType.emailAddress,
               controller: emailController,
-              hintText: 'email',
+              hintText: AppLocalizations.of(context)!.email,
             ),
           ),
           SizedBox(height: deviceSize.height * 0.02),
-          text('Password'),
+          text(AppLocalizations.of(context)!.password),
           SizedBox(height: deviceSize.height * 0.02),
           passwordForm(passwordController),
           SizedBox(height: deviceSize.height * 0.02),
-          text('Confirm password'),
+          text(AppLocalizations.of(context)!.confirm_password),
           SizedBox(height: deviceSize.height * 0.02),
           passwordForm(confirmPasswordController),
           SizedBox(height: deviceSize.height * 0.05),
@@ -110,7 +111,7 @@ class SignUpPageState extends State<SignUpPage> {
             ),
             child: CustomButton(
               function: onSignup,
-              text: 'Sign up',
+              text: AppLocalizations.of(context)!.sign_up,
             ),
           ),
           SizedBox(height: deviceSize.height * 0.02),
@@ -118,7 +119,7 @@ class SignUpPageState extends State<SignUpPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Already have an account?',
+                AppLocalizations.of(context)!.already_have_an_account,
                 style: TextStyle(
                   fontSize: deviceSize.width * 0.036,
                 ),
@@ -128,7 +129,7 @@ class SignUpPageState extends State<SignUpPage> {
                   Navigator.pop(context);
                 },
                 child: Text(
-                  'Signin',
+                  AppLocalizations.of(context)!.sign_in,
                   style: TextStyle(
                     fontSize: deviceSize.width * 0.04,
                     color: const Color(0xFFE67F1E),
@@ -197,13 +198,17 @@ class SignUpPageState extends State<SignUpPage> {
       } else {
         if (emailController.text.contains('@gmail.com') &&
             passwordController.text != confirmPasswordController.text) {
-          SnackBarWidget().showSnack(context, 'Please confirm your password.');
+          SnackBarWidget().showSnack(context,
+              AppLocalizations.of(context)!.please_confirm_your_password);
         } else if (!emailController.text.contains('@gmail.com') &&
             passwordController.text == confirmPasswordController.text) {
-          SnackBarWidget().showSnack(context, "Email must contain @gmail.com");
+          SnackBarWidget().showSnack(
+              context, AppLocalizations.of(context)!.email_must_contain);
         } else if (passwordController.text.length < 6) {
           SnackBarWidget().showSnack(
-              context, "The password should be at least 6 characters long.");
+              context,
+              AppLocalizations.of(context)!
+                  .the_password_should_be_at_least_6_characters_long);
         }
       }
     }

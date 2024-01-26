@@ -4,7 +4,7 @@
     "password":"Password",
     "forgot_password":"Forgot Password?",
     "or_log_in_with":"Or Sign in with",
-    "don't have an account":"Don't have an account?",
+    "do_not_have_an_account":"Don't have an account?",
     "sign_up":"Sign Up",
     "user_name":"User Name",
     "confirm_password":"Confirm Password",
@@ -38,7 +38,7 @@
     "total_fee":"Total fee",
     "checkout":"Checkout",
     "favorites":"Favorites",
-    "item_removed_from_favorite"፡"Item removed from favorite"
+   "item_removed_from_favorite":"Item removed from favorites",
     "history":"History",
     "transaction_history":"Transaction History",
     "transaction_detail":"Transaction Detail",
@@ -48,5 +48,17 @@
     "transaction_type":"Transaction Type",
     "transaction_method":"Transaction Method",
     "transaction_title":"Transaction Title",
-    "transaction_description":"Transaction Description"
+    "transaction_description":"Transaction Description",
+    "this_field_is_required":"This field is required",
+    "invalid_username_or_password":"Invalid username/password",
+    "the_password_should_be_at_least_6_characters_long":"The password should be at least 6 characters long",
+    "please_confirm_your_password":"Please confirm your password",
+    "email_must_contain":"Email must contain @gmail.com",
+    "there_is_no_favorite_product":"There is no favorite product",
+    "product_is_not_added_to_cart_yet":"Product is not added to cart yet!",
+    "change_language":"Change Language",
+    "log_out_from_this_account":"Log out from this account?",
+    "cancel":"Cancel",
+    "br":"br"
+
 }

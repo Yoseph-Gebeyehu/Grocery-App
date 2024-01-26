@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:grocery/data/local/shered_preference.dart';
+import 'package:grocery/main.dart';
+
 import '/presentation/auth/widgets/custom_button.dart';
 import '/presentation/auth/widgets/form_field.dart';
 import '/presentation/auth/view/signup.dart';
 import '/presentation/Auth/bloc/auth_bloc.dart';
 import '/presentation/base-home-page/View/base_home.dart';
 import '/widgets/snack_bar.dart';
+
+enum SampleItem { am, en }
 
 class SigninPage extends StatefulWidget {
   const SigninPage({Key? key}) : super(key: key);
@@ -38,8 +44,10 @@ class SigninPageState extends State<SigninPage> {
             body: BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) async {
                 if (state is AuthErrorState) {
-                  SnackBarWidget()
-                      .showSnack(context, 'Invalid username/password');
+                  SnackBarWidget().showSnack(
+                      context,
+                      AppLocalizations.of(context)!
+                          .invalid_username_or_password);
                 } else if (state is AuthLoadedState) {
                   await Navigator.pushNamed(context, BaseHomePage.baseHomePage,
                       arguments: state.user);
@@ -63,9 +71,46 @@ class SigninPageState extends State<SigninPage> {
   }
 
   Widget buildScreen(BuildContext context) {
+    SampleItem? selectedMenu;
+    String lang = 'en';
     Size deviceSize = MediaQuery.of(context).size;
     return ListView(
       children: [
+        Align(
+          alignment: Alignment.topRight,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const Icon(
+                Icons.language,
+                color: Color(0xFFE67F1E),
+              ),
+              PopupMenuButton<SampleItem>(
+                iconColor: const Color(0xFFE67F1E),
+                initialValue: selectedMenu,
+                onSelected: (SampleItem item) {
+                  setState(() {
+                    selectedMenu = item;
+                    String lang = item == SampleItem.am ? 'am' : 'en';
+                    LocalStorage.setLanguage('language', lang);
+                  });
+                  MyApp.setLanguage(context);
+                },
+                itemBuilder: (BuildContext context) =>
+                    <PopupMenuEntry<SampleItem>>[
+                  const PopupMenuItem<SampleItem>(
+                    value: SampleItem.am,
+                    child: Text('አማርኛ'),
+                  ),
+                  const PopupMenuItem<SampleItem>(
+                    value: SampleItem.en,
+                    child: Text('English'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
         Container(
           width: deviceSize.width * 0.2,
           height: deviceSize.height * 0.15,
@@ -80,7 +125,7 @@ class SigninPageState extends State<SigninPage> {
           ),
         ),
         Text(
-          'Sign in',
+          AppLocalizations.of(context)!.sign_in,
           style: TextStyle(
             color: Colors.black,
             fontSize: deviceSize.width * 0.06,
@@ -88,18 +133,18 @@ class SigninPageState extends State<SigninPage> {
           ),
         ),
         SizedBox(height: deviceSize.height * 0.03),
-        text('Email'),
+        text(AppLocalizations.of(context)!.email),
         SizedBox(height: deviceSize.height * 0.02),
         SizedBox(
           height: deviceSize.height * 0.06,
           child: CustomFormField(
             keyboardType: TextInputType.emailAddress,
             controller: emailController,
-            hintText: 'email',
+            hintText: AppLocalizations.of(context)!.email,
           ),
         ),
         SizedBox(height: deviceSize.height * 0.02),
-        text('Password'),
+        text(AppLocalizations.of(context)!.password),
         SizedBox(height: deviceSize.height * 0.02),
         SizedBox(
           height: deviceSize.height * 0.06,
@@ -107,7 +152,7 @@ class SigninPageState extends State<SigninPage> {
             keyboardType: TextInputType.visiblePassword,
             controller: passwordController,
             obscure: obscure,
-            hintText: 'Password',
+            hintText: AppLocalizations.of(context)!.password,
             function: () {
               setState(() {
                 setState(() {
@@ -124,7 +169,7 @@ class SigninPageState extends State<SigninPage> {
             TextButton(
               onPressed: () {},
               child: Text(
-                'Forgot Password?',
+                AppLocalizations.of(context)!.forgot_password,
                 style: TextStyle(
                   color: const Color(0xFFE67F1E),
                   fontSize: deviceSize.width * 0.035,
@@ -155,7 +200,7 @@ class SigninPageState extends State<SigninPage> {
                         );
                   }
                 },
-                text: 'Sign in',
+                text: AppLocalizations.of(context)!.sign_in,
               );
             },
           ),
@@ -171,7 +216,7 @@ class SigninPageState extends State<SigninPage> {
                 color: Color.fromARGB(255, 182, 174, 174),
               ),
             ),
-            const Text('Or Login with'),
+            Text(AppLocalizations.of(context)!.or_log_in_with),
             SizedBox(
               width: deviceSize.width * 0.25,
               child: const Divider(
@@ -204,7 +249,7 @@ class SigninPageState extends State<SigninPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Don\'t have an account?',
+              AppLocalizations.of(context)!.do_not_have_an_account,
               style: TextStyle(
                 fontSize: deviceSize.width * 0.036,
               ),
@@ -214,7 +259,7 @@ class SigninPageState extends State<SigninPage> {
                 Navigator.pushNamed(context, SignUpPage.signUp);
               },
               child: Text(
-                'Sign up',
+                AppLocalizations.of(context)!.sign_up,
                 style: TextStyle(
                   fontSize: deviceSize.width * 0.04,
                   color: const Color(0xFFE67F1E),

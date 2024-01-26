@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomFormField extends StatelessWidget {
   final TextEditingController controller;
@@ -23,7 +24,7 @@ class CustomFormField extends StatelessWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value!.isEmpty) {
-          return "This field is required";
+          return AppLocalizations.of(context)!.this_field_is_required;
         }
         return null;
       },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../data/models/user.dart';
 import '../../../presentation/base-home-page/bloc/base_home_page_bloc.dart';
@@ -25,11 +26,11 @@ class _BaseHomePageState extends State<BaseHomePage> {
   Widget build(BuildContext context) {
     int selectedIndex = 0;
     List<String> appBarTitle = [
-      'Home',
-      'Categories',
-      'Cart',
-      'Favorites',
-      'Transaction History'
+      AppLocalizations.of(context)!.home,
+      AppLocalizations.of(context)!.categories,
+      AppLocalizations.of(context)!.cart,
+      AppLocalizations.of(context)!.favorites,
+      AppLocalizations.of(context)!.transaction_history,
     ];
 
     List<Widget> pages = [
@@ -121,26 +122,26 @@ class _BaseHomePageState extends State<BaseHomePage> {
                       context.read<BaseHomePageBloc>().add(BProfileEvent());
                     }
                   },
-                  items: const [
+                  items: [
                     BottomNavigationBarItem(
-                      label: 'Home',
-                      icon: Icon(Icons.home),
+                      label: AppLocalizations.of(context)!.home,
+                      icon: const Icon(Icons.home),
                     ),
                     BottomNavigationBarItem(
-                      label: 'Categories',
-                      icon: Icon(Icons.category),
+                      label: AppLocalizations.of(context)!.categories,
+                      icon: const Icon(Icons.category),
                     ),
                     BottomNavigationBarItem(
-                      label: 'Cart',
-                      icon: Icon(Icons.shopping_cart),
+                      label: AppLocalizations.of(context)!.cart,
+                      icon: const Icon(Icons.shopping_cart),
                     ),
                     BottomNavigationBarItem(
-                      label: 'Favorite',
-                      icon: Icon(Icons.favorite),
+                      label: AppLocalizations.of(context)!.favorites,
+                      icon: const Icon(Icons.favorite),
                     ),
                     BottomNavigationBarItem(
-                      label: 'History',
-                      icon: Icon(Icons.history),
+                      label: AppLocalizations.of(context)!.history,
+                      icon: const Icon(Icons.history),
                     ),
                   ],
                 ),

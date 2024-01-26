@@ -4,11 +4,11 @@
     "password":"የይለፍ ቃል",
     "forgot_password":"የይለፍ ቃል ረስተዋል?",
     "or_log_in_with":"በነዚህ አማራጮች ይግቡ",
-    "don't have an account":"መለያ የሎትም",
+    "do_not_have_an_account":"መለያ የሎትም?",
     "sign_up":"ይመዝገቡ",
     "user_name":"የተጠቃሚ ስም",
     "confirm_password":"የይለፍ ቃል ማረጋገጫ",
-    "already_have_an_account":"መለያ አሎት",
+    "already_have_an_account":"መለያ አሎት?",
     "home":"ቤት",
     "categories":"ምድቦች",
     "electronics":"ኤሌክትሮኒክስ",
@@ -38,7 +38,7 @@
     "total_fee":"አጠቃላይ ክፍያ",
     "checkout":"ይክፈሉ",
     "favorites":"የተወደዱ",
-    "item_removed_from_favorite":"ንጥል ከተወደዱ ተወግዷል"
+    "item_removed_from_favorite":"ንጥል ከተወደዱ ተወግዷል",
     "history":"ታሪክ",
     "transaction_history":"የግብይት ታሪክ",
     "transaction_detail":"የግብይት ዝርዝር",
@@ -48,5 +48,18 @@
     "transaction_type":"የግብይት አይነት",
     "transaction_method":"የግብይት ዘዴ",
     "transaction_title":"የግብይት ርዕስ",
-    "transaction_description":"የግብይት መግለጫ"
+    "transaction_description":"የግብይት መግለጫ",
+    "this_field_is_required":"ይህ ቦታ መሞላት አለበት",
+    "invalid_username_or_password":"የተሳሳተ ስም/የይለፍ ቃል",
+    "the_password_should_be_at_least_6_characters_long":"የይለፍ ቃሉ ቢያንስ 6 ፊደላትን መያዝ አለበት",
+    "please_confirm_your_password":"እባክዎ የይለፍ ቃሎን ያረጋግጡ",
+    "email_must_contain":"ኢሜይል @gmail.com ን መያዝ አለበት",
+    "there_is_no_favorite_product":"የተወደዱ ምርቶች የሉም",
+    "product_is_not_added_to_cart_yet":"ወደ ጋሪ የተጨመሩ ምርቶች የሉም!",
+    "change_language":"ቋንቋ ይቀይሩ",
+    "log_out_from_this_account":"ለመውጣት ይፈልጋሉ?",
+    "cancel":"ይሰርዙ",
+    "br":"ብር"
+
+
 }

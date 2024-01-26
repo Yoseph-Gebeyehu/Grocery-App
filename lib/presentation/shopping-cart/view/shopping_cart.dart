@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/presentation/auth/widgets/custom_button.dart';
 import '/presentation/shopping-cart/widget/check_out_widget.dart';
@@ -73,14 +74,20 @@ class _ShoppingCartState extends State<ShoppingCart> {
                           .toList();
                       counts();
                       return cartProducts.isEmpty
-                          ? const Center(
-                              child: Text('Product is not added to cart yet!'),
+                          ? Center(
+                              child: Text(
+                                AppLocalizations.of(context)!
+                                    .product_is_not_added_to_cart_yet,
+                              ),
                             )
                           : shoppingCart(deviceSize);
                     } else if (state is AddedToCartState) {
                       return cartProducts.isEmpty
-                          ? const Center(
-                              child: Text('Product is not added to cart yet!'),
+                          ? Center(
+                              child: Text(
+                                AppLocalizations.of(context)!
+                                    .product_is_not_added_to_cart_yet,
+                              ),
                             )
                           : shoppingCart(deviceSize);
                     } else if (state is NetworkErrorState) {
@@ -110,7 +117,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                           function: () {
                             _showCustomerInfoSheet(context);
                           },
-                          text: 'PLACE ORDER',
+                          text: AppLocalizations.of(context)!.place_order,
                         )),
                   ),
                 );
@@ -198,7 +205,10 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                     BlocProvider.of<HomeBloc>(context)
                                         .add(FetchProductsEvent());
                                     SnackBarWidget().showSnack(
-                                        context, 'Item removed from cart');
+                                      context,
+                                      AppLocalizations.of(context)!
+                                          .item_removed_from_cart,
+                                    );
                                   },
                                   icon: const Icon(
                                     Icons.delete,

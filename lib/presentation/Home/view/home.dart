@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/domain/constants/names/home_fruit_names.dart';
 import '/domain/Constants/Images/home_images.dart';
@@ -77,7 +78,7 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Categories',
+                AppLocalizations.of(context)!.categories,
                 style: TextStyle(
                   fontSize: deviceSize.width * 0.045,
                   color: Colors.black,
@@ -155,7 +156,7 @@ class _HomeState extends State<Home> {
           ),
           SizedBox(height: deviceSize.height * 0.02),
           Text(
-            'All Products',
+            AppLocalizations.of(context)!.all_products,
             style: TextStyle(
               fontSize: deviceSize.width * 0.045,
               color: Colors.black,
@@ -171,7 +172,7 @@ class _HomeState extends State<Home> {
                 crossAxisCount: 2,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                childAspectRatio: 2 / 3,
+                childAspectRatio: 3 / 5,
               ),
               itemBuilder: (context, index) {
                 var product = productsList[index];
@@ -243,37 +244,39 @@ class _HomeState extends State<Home> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  product.price!.toString(),
-                                  style: TextStyle(
-                                    fontSize: deviceSize.width * 0.036,
-                                    fontWeight: FontWeight.bold,
+                                Flexible(
+                                  child: Text(
+                                    product.price!.toString(),
+                                    style: TextStyle(
+                                      fontSize: deviceSize.width * 0.036,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                                GestureDetector(
-                                  onTap: () async {
-                                    product.isAddedToCart
-                                        ? null
-                                        : context.read<HomeBloc>().add(
-                                              AddToCartEvent(
-                                                products: product,
-                                              ),
-                                            );
-                                  },
-                                  child: Text(
-                                    product.isAddedToCart
-                                        ? 'Added to cart'
-                                        : 'Add to cart',
-                                    style: TextStyle(
-                                      fontSize: deviceSize.width * 0.03,
-                                      fontWeight: FontWeight.bold,
-                                      color: product.isAddedToCart
-                                          ? const Color(
-                                              0xFFB1B1B1,
-                                            )
-                                          : const Color(
-                                              0xFFFF0000,
-                                            ),
+                                Flexible(
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      product.isAddedToCart
+                                          ? null
+                                          : context.read<HomeBloc>().add(
+                                                AddToCartEvent(
+                                                  products: product,
+                                                ),
+                                              );
+                                    },
+                                    child: Text(
+                                      product.isAddedToCart
+                                          ? AppLocalizations.of(context)!
+                                              .added_to_cart
+                                          : AppLocalizations.of(context)!
+                                              .add_to_cart,
+                                      style: TextStyle(
+                                        fontSize: deviceSize.width * 0.03,
+                                        fontWeight: FontWeight.bold,
+                                        color: product.isAddedToCart
+                                            ? const Color(0xFFB1B1B1)
+                                            : const Color(0xFFFF0000),
+                                      ),
                                     ),
                                   ),
                                 ),

@@ -43,7 +43,7 @@ class ShoppingCartBloc extends Bloc<ShoppingCartEvent, ShoppingCartState> {
       );
 
       var response = await repository.postData(apiRequest);
-      print(response.status);
+      // print(response.status);
       if (response.status == 200) {
         String? checkoutUrl = response.checkoutUrl;
         if (!await launchUrl(Uri.parse(checkoutUrl!))) {
