@@ -9,10 +9,10 @@ class HomeImages {
   // static const iceCream3 = 'assets/ice-cream.png';
   // static const milk3 = 'assets/milk.png';
   // static const banana4 = 'assets/banana.png';
-  static const electronics = 'assets/electrinics.jpg';
-  static const jewelery = 'assets/jewelery.jpg';
-  static const men = 'assets/mens_cloth.jpg';
-  static const women = 'assets/womens_cloth.jpg';
+  static const electronics = 'assets/images/electrinics.jpg';
+  static const jewelery = 'assets/images/jewelery.jpg';
+  static const men = 'assets/images/mens_cloth.jpg';
+  static const women = 'assets/images/womens_cloth.jpg';
 
   static const images = [
     electronics,
@@ -33,5 +33,4 @@ class HomeImages {
   //   milk3,
   //   banana4,
   // ];
-
 }

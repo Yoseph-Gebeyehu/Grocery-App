@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         body: Container(
           margin: const EdgeInsets.only(bottom: 100),
           alignment: Alignment.bottomCenter,
-          child: Image.asset('assets/splash.png'),
+          child: Image.asset('assets/images/splash.png'),
         ),
       ),
     );

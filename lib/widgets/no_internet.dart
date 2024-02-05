@@ -25,7 +25,7 @@ class NoConnectionPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: deviceSize.width * 0.05,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).textTheme.bodyText2!.color,
+                color: Theme.of(context).textTheme.bodyMedium!.color,
               ),
             ),
             Padding(
@@ -53,8 +53,9 @@ class NoConnectionPage extends StatelessWidget {
                 child: Text(
                   'Refresh',
                   style: TextStyle(
-                      fontSize: deviceSize.width * 0.06,
-                      color: const Color(0xFFE67F1E)),
+                    fontSize: deviceSize.width * 0.06,
+                    color: const Color(0xFFE67F1E),
+                  ),
                 ),
               ),
             ),

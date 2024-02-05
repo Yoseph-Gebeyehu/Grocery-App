@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
         onGenerateRoute: _appRoute.onGenerateRoute,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        locale: Locale(currentLanguage!),
+        locale: currentLanguage != null ? Locale(currentLanguage!) : null,
       ),
     );
   }

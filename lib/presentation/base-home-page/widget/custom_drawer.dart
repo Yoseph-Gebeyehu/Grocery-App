@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:grocery/data/local/shered_preference.dart';
 import 'package:grocery/main.dart';
+import 'package:grocery/presentation/base-home-page/view/base_home.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../auth/view/signin.dart';
 import '../../auth/widgets/custom_button.dart';
@@ -21,8 +25,21 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
+  @override
+  void initState() {
+    super.initState();
+    getImagePath();
+  }
+
   SampleItem? selectedMenu;
   String lang = 'en';
+
+  final ImagePicker _picker = ImagePicker();
+  XFile? _image;
+  String? imagePath;
+  Future getImagePath() async {
+    imagePath = await LocalStorage.getString('image');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,22 +55,159 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 bottomStart: Radius.circular(50),
               ),
             ),
-            height: deviceSize.height * 0.32,
+            height: deviceSize.height * 0.35,
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: deviceSize.width * 0.08,
-                  child: Text(
-                    widget.user.userName![0],
-                    style: TextStyle(
-                      fontSize: deviceSize.width * 0.06,
-                      color: const Color(0xFFE67F1E),
-                    ),
-                  ),
+                FutureBuilder(
+                  future: getImagePath(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<void> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return GestureDetector(
+                        onTap: () async {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    'Choose where you want to pick the image from',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: deviceSize.width * 0.045,
+                                    ),
+                                  ),
+                                  content: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: deviceSize.width * 0.3,
+                                        child: ElevatedButton(
+                                          style: ButtonStyle(
+                                            elevation: MaterialStateProperty
+                                                .all<double>(0),
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(
+                                              const Color(0xFFE67F1E),
+                                            ),
+                                            shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                            ),
+                                          ),
+                                          onPressed: () async {
+                                            final XFile? image =
+                                                await _picker.pickImage(
+                                              source: ImageSource.camera,
+                                            );
+                                            setState(() async {
+                                              _image = image;
+                                              await LocalStorage.saveString(
+                                                'image',
+                                                image!.path,
+                                              );
+                                              // ignore: use_build_context_synchronously
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      BaseHomePage(
+                                                          user: widget.user),
+                                                ),
+                                              );
+                                            });
+                                          },
+                                          child: Text(
+                                            'Camera',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize:
+                                                  deviceSize.width * 0.036,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      SizedBox(
+                                        width: deviceSize.width * 0.3,
+                                        child: ElevatedButton(
+                                          style: ButtonStyle(
+                                            elevation: MaterialStateProperty
+                                                .all<double>(0),
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(
+                                              const Color(0xFFE67F1E),
+                                            ),
+                                            shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                            ),
+                                          ),
+                                          onPressed: () async {
+                                            final XFile? image =
+                                                await _picker.pickImage(
+                                              source: ImageSource.gallery,
+                                            );
+                                            setState(() async {
+                                              _image = image;
+                                              await LocalStorage.saveString(
+                                                  'image', image!.path);
+                                              // ignore: use_build_context_synchronously
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      BaseHomePage(
+                                                          user: widget.user),
+                                                ),
+                                              );
+                                            });
+                                          },
+                                          child: Text(
+                                            'Gallery',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize:
+                                                  deviceSize.width * 0.036,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              });
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: deviceSize.width * 0.1,
+                          backgroundImage: imagePath == null
+                              ? null
+                              : FileImage(File(imagePath!)),
+                          child: imagePath == null
+                              ? Text(
+                                  widget.user.userName![0],
+                                  style: TextStyle(
+                                    fontSize: deviceSize.width * 0.06,
+                                    color: const Color(0xFFE67F1E),
+                                  ),
+                                )
+                              : null,
+                        ),
+                      );
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
+                  },
                 ),
                 SizedBox(height: deviceSize.height * 0.02),
                 Text(
@@ -88,7 +242,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             onTap: () {},
             child: ListTile(
               leading: const Icon(
-                Icons.language,
+                FontAwesome.language,
                 color: Color(0xFFE67F1E),
               ),
               title: Text(AppLocalizations.of(context)!.change_language),
@@ -128,7 +282,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             },
             child: ListTile(
               leading: const Icon(
-                Icons.edit_outlined,
+                FontAwesome.edit,
                 color: Color(0xFFE67F1E),
               ),
               title: Text(AppLocalizations.of(context)!.update_profile),
@@ -139,7 +293,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             onTap: () {},
             child: ListTile(
               leading: const Icon(
-                Icons.lock_outline,
+                FontAwesome.lock,
                 color: Color(0xFFE67F1E),
               ),
               title: Text(AppLocalizations.of(context)!.privacy),
@@ -161,7 +315,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             onTap: () {},
             child: ListTile(
               leading: const Icon(
-                Icons.help_outline,
+                FontAwesome.support,
                 color: Color(0xFFE67F1E),
               ),
               title: Text(AppLocalizations.of(context)!.support),
@@ -172,7 +326,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             onTap: () {},
             child: ListTile(
               leading: const Icon(
-                Icons.info_outline,
+                FontAwesome.info_circle,
                 color: Color(0xFFE67F1E),
               ),
               title: Text(AppLocalizations.of(context)!.about_us),

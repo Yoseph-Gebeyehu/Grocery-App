@@ -1,3 +1,3 @@
 class ChapaImage {
-  static const chapa = 'assets/splash_logo.png';
+  static const chapa = 'assets/images/splash_logo.png';
 }

@@ -118,7 +118,7 @@ class SigninPageState extends State<SigninPage> {
             color: Colors.transparent,
             image: DecorationImage(
               image: AssetImage(
-                'assets/ic_launcher.jpg',
+                'assets/images/ic_launcher.jpg',
               ),
               fit: BoxFit.contain,
             ),
