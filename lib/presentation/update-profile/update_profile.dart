@@ -21,13 +21,13 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
-        elevation: 0,
-        backgroundColor: Colors.white,
+        iconTheme: Theme.of(context).iconTheme,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 10,
         title: Text(
           AppLocalizations.of(context)!.update,
-          style: const TextStyle(
-            color: Colors.black,
+          style: TextStyle(
+            color: Theme.of(context).textTheme.titleLarge!.color,
           ),
         ),
         centerTitle: true,
@@ -46,8 +46,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             ),
             const SizedBox(height: 20),
             CustomButton(
-                function: updateUserName,
-                text: AppLocalizations.of(context)!.update)
+              function: updateUserName,
+              text: AppLocalizations.of(context)!.update,
+            )
           ],
         ),
       ),

@@ -62,15 +62,19 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                           padding: EdgeInsets.symmetric(
                               horizontal: deviceSize.width * 0.01),
                           child: Card(
+                            color: Theme.of(context).scaffoldBackgroundColor,
                             child: ListTile(
-                              leading: const Icon(
+                              leading: Icon(
                                 Icons.person,
-                                color: Color(0xFFE67F1E),
+                                color: Theme.of(context).primaryColor,
                               ),
                               title: Text(
                                 txRef,
-                                style: const TextStyle(
-                                  color: Colors.black,
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .color,
                                 ),
                               ),
                             ),
@@ -84,17 +88,17 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
               ),
             );
           } else if (state is TransactionHistoryInitialState) {
-            return const Center(
+            return Center(
               child: CircularProgressIndicator(
-                color: Color(0xFFE67F1E),
+                color: Theme.of(context).primaryColor,
               ),
             );
           } else if (state is NetworkErrorState) {
             return const NoConnectionPage();
           }
-          return const Center(
+          return Center(
             child: CircularProgressIndicator(
-              color: Color(0xFFE67F1E),
+              color: Theme.of(context).primaryColor,
             ),
           );
         },

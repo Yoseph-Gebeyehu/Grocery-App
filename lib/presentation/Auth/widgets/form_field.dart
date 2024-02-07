@@ -30,8 +30,8 @@ class CustomFormField extends StatelessWidget {
       },
       controller: controller,
       obscureText: hintText == 'Password' ? obscure! : false,
-      style: const TextStyle(color: Colors.black),
-      cursorColor: const Color(0xFFFEC54B),
+      style: TextStyle(color: Theme.of(context).textTheme.titleLarge!.color),
+      cursorColor: Theme.of(context).primaryColor,
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: const TextStyle(color: Colors.grey),
@@ -45,7 +45,7 @@ class CustomFormField extends StatelessWidget {
             ? IconButton(
                 icon: Icon(
                   obscure! ? Icons.visibility_off : Icons.visibility,
-                  color: Colors.grey,
+                  color: const Color(0xFFE67F1E),
                 ),
                 onPressed: () {
                   function!();

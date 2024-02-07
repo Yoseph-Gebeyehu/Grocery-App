@@ -83,7 +83,12 @@ class _CategoryPageState extends State<CategoryPage> {
                         ),
                       ),
                       SizedBox(height: deviceSize.height * 0.02),
-                      Text(name.toUpperCase()[0] + name.substring(1)),
+                      Text(
+                        name.toUpperCase()[0] + name.substring(1),
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.titleLarge!.color,
+                        ),
+                      ),
                     ],
                   );
                 },
@@ -93,9 +98,9 @@ class _CategoryPageState extends State<CategoryPage> {
           } else if (state is NetworkErrorState) {
             return const NoConnectionPage();
           }
-          return const Center(
+          return Center(
             child: CircularProgressIndicator(
-              color: Color(0xFFE67F1E),
+              color: Theme.of(context).primaryColor,
             ),
           );
         },

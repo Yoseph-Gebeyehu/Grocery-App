@@ -59,9 +59,9 @@ class _HomeState extends State<Home> {
         } else if (state is NetworkErrorState) {
           return const NoConnectionPage();
         }
-        return const Center(
+        return Center(
           child: CircularProgressIndicator(
-            color: Color(0xFFE67F1E),
+            color: Theme.of(context).primaryColor,
           ),
         );
       }),
@@ -81,7 +81,7 @@ class _HomeState extends State<Home> {
                 AppLocalizations.of(context)!.categories,
                 style: TextStyle(
                   fontSize: deviceSize.width * 0.045,
-                  color: Colors.black,
+                  color: Theme.of(context).textTheme.titleLarge!.color,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -143,8 +143,13 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       SizedBox(height: deviceSize.height * 0.02),
-                      Text(HomeFruitNames.categoryName[index].toUpperCase()[0] +
-                          HomeFruitNames.categoryName[index].substring(1)),
+                      Text(
+                        HomeFruitNames.categoryName[index].toUpperCase()[0] +
+                            HomeFruitNames.categoryName[index].substring(1),
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.titleLarge!.color,
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(width: deviceSize.width * 0.02)
@@ -159,7 +164,7 @@ class _HomeState extends State<Home> {
             AppLocalizations.of(context)!.all_products,
             style: TextStyle(
               fontSize: deviceSize.width * 0.045,
-              color: Colors.black,
+              color: Theme.of(context).textTheme.titleLarge!.color,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -183,7 +188,15 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).iconTheme.color!,
+                              offset: const Offset(0, 5),
+                              blurRadius: 0.0,
+                              spreadRadius: 1.0,
+                            ),
+                          ],
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,12 +205,11 @@ class _HomeState extends State<Home> {
                               padding: const EdgeInsets.all(0),
                               onPressed: () async {
                                 context.read<HomeBloc>().add(
-                                      AddToFavorite(
-                                        products: product,
-                                      ),
+                                      AddToFavorite(products: product),
                                     );
-                                BlocProvider.of<HomeBloc>(context)
-                                    .add(FetchProductsEvent());
+                                BlocProvider.of<HomeBloc>(context).add(
+                                  FetchProductsEvent(),
+                                );
                               },
                               icon: Icon(
                                 Icons.favorite,
@@ -229,7 +241,7 @@ class _HomeState extends State<Home> {
                                     image: NetworkImage(
                                       product.image!,
                                     ),
-                                    fit: BoxFit.contain,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
@@ -239,6 +251,10 @@ class _HomeState extends State<Home> {
                               style: TextStyle(
                                 fontSize: deviceSize.width * 0.036,
                                 fontWeight: FontWeight.bold,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .color,
                               ),
                             ),
                             Row(
@@ -250,6 +266,10 @@ class _HomeState extends State<Home> {
                                     style: TextStyle(
                                       fontSize: deviceSize.width * 0.036,
                                       fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .color,
                                     ),
                                   ),
                                 ),

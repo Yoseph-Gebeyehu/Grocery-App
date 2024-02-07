@@ -65,7 +65,7 @@ class CheckOutWidgetState extends State<CheckOutWidget> {
                 topRight: Radius.circular(50.0),
               ),
               child: Container(
-                color: Colors.white,
+                color: Theme.of(context).scaffoldBackgroundColor,
                 height: deviceSize.height * 0.3,
                 padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -80,6 +80,7 @@ class CheckOutWidgetState extends State<CheckOutWidget> {
                       style: TextStyle(
                         fontSize: deviceSize.width * 0.045,
                         fontWeight: FontWeight.bold,
+                        color: Theme.of(context).textTheme.titleLarge!.color,
                       ),
                     ),
                     Column(
@@ -132,7 +133,7 @@ class CheckOutWidgetState extends State<CheckOutWidget> {
           title,
           style: TextStyle(
             fontSize: deviceSize.width * 0.04,
-            color: Colors.black,
+            color: Theme.of(context).textTheme.titleLarge!.color,
           ),
         ),
         const Spacer(),
@@ -140,7 +141,7 @@ class CheckOutWidgetState extends State<CheckOutWidget> {
           '$amount ${AppLocalizations.of(context)!.br}',
           style: TextStyle(
             fontSize: deviceSize.width * 0.04,
-            color: Colors.black,
+            color: Theme.of(context).textTheme.titleLarge!.color,
           ),
         )
       ],

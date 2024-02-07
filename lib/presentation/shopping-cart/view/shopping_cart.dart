@@ -93,9 +93,9 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     } else if (state is NetworkErrorState) {
                       return const NoConnectionPage();
                     }
-                    return const Center(
+                    return Center(
                       child: CircularProgressIndicator(
-                        color: Color(0xFFE67F1E),
+                        color: Theme.of(context).primaryColor,
                       ),
                     );
                   },
@@ -176,14 +176,20 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                       cart.category!,
                                       style: TextStyle(
                                         fontSize: deviceSize.width * 0.03,
-                                        color: Colors.black,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
+                                            .color,
                                       ),
                                     ),
                                     Text(
                                       cart.title!.substring(0, 10),
                                       style: TextStyle(
                                         fontSize: deviceSize.width * 0.05,
-                                        color: Colors.black,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge!
+                                            .color,
                                       ),
                                     ),
                                   ],
@@ -225,7 +231,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                     .toStringAsFixed(2),
                                 style: TextStyle(
                                   fontSize: deviceSize.width * 0.05,
-                                  color: const Color(0xFFE67F1E),
+                                  color: Theme.of(context).primaryColor,
                                 ),
                               ),
                               const Spacer(),
@@ -280,6 +286,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
               thickness: 1,
               indent: deviceSize.width * 0.1,
               endIndent: deviceSize.width * 0.1,
+              color: Theme.of(context).dividerColor,
             ),
           ],
         );

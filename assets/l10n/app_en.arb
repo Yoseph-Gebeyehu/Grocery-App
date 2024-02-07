@@ -59,6 +59,9 @@
     "change_language":"Change Language",
     "log_out_from_this_account":"Log out from this account?",
     "cancel":"Cancel",
-    "br":"br"
+    "br":"br",
+    "choose_where_you_want_to_pick_the_image_from":"Choose where you want to pick the image from",
+    "camera":"Camera",
+    "gallery":"Gallery"
 
 }

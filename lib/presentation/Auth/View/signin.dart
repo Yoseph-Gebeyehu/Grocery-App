@@ -55,7 +55,7 @@ class SigninPageState extends State<SigninPage> {
               },
               builder: (context, state) {
                 return Container(
-                  color: Colors.white,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                     vertical: 50,
@@ -81,12 +81,13 @@ class SigninPageState extends State<SigninPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const Icon(
+              Icon(
                 Icons.language,
-                color: Color(0xFFE67F1E),
+                color: Theme.of(context).primaryColor,
               ),
               PopupMenuButton<SampleItem>(
-                iconColor: const Color(0xFFE67F1E),
+                color: Theme.of(context).scaffoldBackgroundColor,
+                iconColor: Theme.of(context).primaryColor,
                 initialValue: selectedMenu,
                 onSelected: (SampleItem item) {
                   setState(() {
@@ -98,15 +99,32 @@ class SigninPageState extends State<SigninPage> {
                 },
                 itemBuilder: (BuildContext context) =>
                     <PopupMenuEntry<SampleItem>>[
-                  const PopupMenuItem<SampleItem>(
+                  PopupMenuItem<SampleItem>(
                     value: SampleItem.am,
-                    child: Text('አማርኛ'),
+                    child: Text(
+                      'አማርኛ',
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.titleLarge!.color,
+                      ),
+                    ),
                   ),
-                  const PopupMenuItem<SampleItem>(
+                  PopupMenuItem<SampleItem>(
                     value: SampleItem.en,
-                    child: Text('English'),
+                    child: Text(
+                      'English',
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.titleLarge!.color,
+                      ),
+                    ),
                   ),
                 ],
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    color: Theme.of(context).iconTheme.color!,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
               ),
             ],
           ),
@@ -118,7 +136,7 @@ class SigninPageState extends State<SigninPage> {
             color: Colors.transparent,
             image: DecorationImage(
               image: AssetImage(
-                'assets/images/ic_launcher.jpg',
+                'assets/images/broccoli.png',
               ),
               fit: BoxFit.contain,
             ),
@@ -127,7 +145,7 @@ class SigninPageState extends State<SigninPage> {
         Text(
           AppLocalizations.of(context)!.sign_in,
           style: TextStyle(
-            color: Colors.black,
+            color: Theme.of(context).textTheme.titleLarge!.color,
             fontSize: deviceSize.width * 0.06,
             fontWeight: FontWeight.bold,
           ),
@@ -171,7 +189,7 @@ class SigninPageState extends State<SigninPage> {
               child: Text(
                 AppLocalizations.of(context)!.forgot_password,
                 style: TextStyle(
-                  color: const Color(0xFFE67F1E),
+                  color: Theme.of(context).primaryColor,
                   fontSize: deviceSize.width * 0.035,
                   fontWeight: FontWeight.bold,
                 ),
@@ -216,7 +234,12 @@ class SigninPageState extends State<SigninPage> {
                 color: Color.fromARGB(255, 182, 174, 174),
               ),
             ),
-            Text(AppLocalizations.of(context)!.or_log_in_with),
+            Text(
+              AppLocalizations.of(context)!.or_log_in_with,
+              style: TextStyle(
+                color: Theme.of(context).textTheme.titleLarge!.color,
+              ),
+            ),
             SizedBox(
               width: deviceSize.width * 0.25,
               child: const Divider(
@@ -252,6 +275,7 @@ class SigninPageState extends State<SigninPage> {
               AppLocalizations.of(context)!.do_not_have_an_account,
               style: TextStyle(
                 fontSize: deviceSize.width * 0.036,
+                color: Theme.of(context).textTheme.titleLarge!.color,
               ),
             ),
             TextButton(
@@ -262,7 +286,7 @@ class SigninPageState extends State<SigninPage> {
                 AppLocalizations.of(context)!.sign_up,
                 style: TextStyle(
                   fontSize: deviceSize.width * 0.04,
-                  color: const Color(0xFFE67F1E),
+                  color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -278,7 +302,7 @@ class SigninPageState extends State<SigninPage> {
     return Text(
       text,
       style: TextStyle(
-        color: Colors.black,
+        color: Theme.of(context).textTheme.titleLarge!.color,
         fontSize: deviceSize.width * 0.04,
         fontWeight: FontWeight.bold,
       ),

@@ -32,20 +32,19 @@ class SignUpPageState extends State<SignUpPage> {
       key: formKey,
       autovalidateMode: AutovalidateMode.always,
       child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           toolbarHeight: deviceSize.height * 0.05,
           automaticallyImplyLeading: true,
           leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
+            icon: Icon(Icons.arrow_back,
+                color: Theme.of(context).iconTheme.color),
           ),
         ),
         body: Container(
@@ -67,7 +66,7 @@ class SignUpPageState extends State<SignUpPage> {
           Text(
             AppLocalizations.of(context)!.sign_up,
             style: TextStyle(
-              color: Colors.black,
+              color: Theme.of(context).textTheme.titleLarge!.color,
               fontSize: deviceSize.width * 0.06,
               fontWeight: FontWeight.bold,
             ),
@@ -122,6 +121,7 @@ class SignUpPageState extends State<SignUpPage> {
                 AppLocalizations.of(context)!.already_have_an_account,
                 style: TextStyle(
                   fontSize: deviceSize.width * 0.036,
+                  color: Theme.of(context).textTheme.titleLarge!.color,
                 ),
               ),
               TextButton(
@@ -132,7 +132,7 @@ class SignUpPageState extends State<SignUpPage> {
                   AppLocalizations.of(context)!.sign_in,
                   style: TextStyle(
                     fontSize: deviceSize.width * 0.04,
-                    color: const Color(0xFFE67F1E),
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -219,7 +219,7 @@ class SignUpPageState extends State<SignUpPage> {
     return Text(
       text,
       style: TextStyle(
-        color: Colors.black,
+        color: Theme.of(context).textTheme.titleLarge!.color,
         fontSize: deviceSize.width * 0.04,
         fontWeight: FontWeight.bold,
       ),

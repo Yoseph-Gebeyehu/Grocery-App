@@ -12,9 +12,15 @@ class CategoryDetailPage extends StatelessWidget {
     Size deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(productsList[0].category!.toUpperCase()[0] +
-            productsList[0].category!.substring(1)),
+        iconTheme: Theme.of(context).iconTheme,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        title: Text(
+          productsList[0].category!.toUpperCase()[0] +
+              productsList[0].category!.substring(1),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.titleLarge!.color,
+          ),
+        ),
         toolbarHeight: deviceSize.height * 0.1,
         elevation: 10,
       ),
@@ -34,7 +40,12 @@ class CategoryDetailPage extends StatelessWidget {
                   );
                 },
                 child: ListTile(
-                  title: Text(products.title!),
+                  title: Text(
+                    products.title!,
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.titleLarge!.color,
+                    ),
+                  ),
                   leading: Container(
                     width: deviceSize.width * 0.2,
                     height: deviceSize.height * 0.15,
@@ -49,7 +60,7 @@ class CategoryDetailPage extends StatelessWidget {
                   ),
                 ),
               ),
-              divider(deviceSize),
+              divider(deviceSize, context),
             ],
           );
         },
@@ -58,11 +69,12 @@ class CategoryDetailPage extends StatelessWidget {
     );
   }
 
-  Widget divider(Size deviceSize) {
+  Widget divider(Size deviceSize, BuildContext context) {
     return Divider(
       thickness: 1,
       indent: deviceSize.width * 0.05,
       endIndent: deviceSize.width * 0.05,
+      color: Theme.of(context).dividerColor,
     );
   }
 }

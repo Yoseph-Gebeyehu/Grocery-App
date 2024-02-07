@@ -17,7 +17,7 @@ class CustomButton extends StatelessWidget {
       style: ButtonStyle(
         elevation: MaterialStateProperty.all<double>(0),
         backgroundColor: MaterialStateProperty.all<Color>(
-          const Color(0xFFE67F1E),
+          Theme.of(context).primaryColor,
         ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -47,7 +47,7 @@ class CustomButton extends StatelessWidget {
             text,
             style: TextStyle(
               fontSize: deviceSize.width * 0.04,
-              color: Colors.white,
+              color: Theme.of(context).textTheme.labelLarge!.color,
             ),
           ),
         ],

@@ -59,7 +59,10 @@
     "change_language":"ቋንቋ ይቀይሩ",
     "log_out_from_this_account":"ለመውጣት ይፈልጋሉ?",
     "cancel":"ይሰርዙ",
-    "br":"ብር"
+    "br":"ብር",
+    "choose_where_you_want_to_pick_the_image_from":"ምስሉን ከየት እንደሚመርጡ ይምረጡ",
+    "camera":"ካሜራ",
+    "gallery":"ማዕከለ-ስዕላት"
 
 
 }

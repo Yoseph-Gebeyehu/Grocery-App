@@ -45,7 +45,7 @@ class _ItemDetailState extends State<ItemDetail> {
                 Container(
                   height: deviceSize.height * 0.4,
                   width: double.infinity,
-                  color: Colors.white,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   padding: const EdgeInsets.all(60),
                   child: Container(
                     width: deviceSize.width * 0.2,
@@ -65,9 +65,9 @@ class _ItemDetailState extends State<ItemDetail> {
                   left: deviceSize.width * 0.02,
                   child: IconButton(
                     iconSize: deviceSize.width * 0.06,
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.arrow_back,
-                      color: Colors.black,
+                      color: Theme.of(context).iconTheme.color,
                     ),
                     onPressed: () {
                       return Navigator.of(context).pop(isAddedToCart);
@@ -84,9 +84,9 @@ class _ItemDetailState extends State<ItemDetail> {
                         top: deviceSize.height * 0.03,
                       ),
                       width: deviceSize.width,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(25),
                           topRight: Radius.circular(25),
                         ),
@@ -102,6 +102,10 @@ class _ItemDetailState extends State<ItemDetail> {
                                 style: TextStyle(
                                   fontSize: deviceSize.width * 0.06,
                                   fontWeight: FontWeight.w600,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .color,
                                 ),
                               ),
                               ElevatedButton(
@@ -115,9 +119,11 @@ class _ItemDetailState extends State<ItemDetail> {
                                   backgroundColor: widget.products.isAddedToCart
                                       ? MaterialStateProperty.all<Color>(
                                           const Color.fromARGB(
-                                              255, 215, 209, 209))
+                                              255, 188, 173, 173),
+                                        )
                                       : MaterialStateProperty.all<Color>(
-                                          const Color(0xFFFEC54B)),
+                                          Theme.of(context).primaryColor,
+                                        ),
                                   padding: MaterialStateProperty.all<
                                       EdgeInsetsGeometry>(
                                     const EdgeInsets.all(15),
@@ -135,7 +141,10 @@ class _ItemDetailState extends State<ItemDetail> {
                                       : AppLocalizations.of(context)!
                                           .add_to_cart,
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .color,
                                     fontSize: deviceSize.width * 0.03,
                                   ),
                                 ),
@@ -148,7 +157,7 @@ class _ItemDetailState extends State<ItemDetail> {
                                 '${widget.products.price.toString()} ${AppLocalizations.of(context)!.br}',
                                 style: TextStyle(
                                   fontSize: deviceSize.width * 0.05,
-                                  color: const Color(0xFFFEC54B),
+                                  color: Theme.of(context).primaryColor,
                                 ),
                               ),
                               const Expanded(
@@ -162,6 +171,8 @@ class _ItemDetailState extends State<ItemDetail> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: deviceSize.width * 0.05,
+                              color:
+                                  Theme.of(context).textTheme.titleLarge!.color,
                             ),
                           ),
                           Container(
@@ -189,7 +200,8 @@ class _ItemDetailState extends State<ItemDetail> {
                                 widget.products.description!.substring(1),
                             style: TextStyle(
                               fontSize: deviceSize.width * 0.04,
-                              color: Colors.black,
+                              color:
+                                  Theme.of(context).textTheme.titleLarge!.color,
                             ),
                           )
                         ],

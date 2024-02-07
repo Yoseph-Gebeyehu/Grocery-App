@@ -35,10 +35,10 @@ class _BaseHomePageState extends State<BaseHomePage> {
 
     List<Widget> pages = [
       Home(user: widget.user),
-      CategoryPage(),
+      const CategoryPage(),
       const ShoppingCart(),
       const Favorite(),
-      TransactionHistoryPage(),
+      const TransactionHistoryPage(),
     ];
     Size deviceSize = MediaQuery.of(context).size;
     return PopScope(
@@ -63,12 +63,13 @@ class _BaseHomePageState extends State<BaseHomePage> {
               drawer: Drawer(
                 child: CustomDrawer(user: widget.user),
               ),
-              backgroundColor: const Color(0xFFF5F5F5),
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               appBar: AppBar(
-                iconTheme: const IconThemeData(color: Colors.black),
+                iconTheme:
+                    IconThemeData(color: Theme.of(context).iconTheme.color),
                 centerTitle: false,
                 elevation: 10,
-                backgroundColor: Colors.white,
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 toolbarHeight: deviceSize.height * 0.08,
                 title: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -78,7 +79,7 @@ class _BaseHomePageState extends State<BaseHomePage> {
                       appBarTitle[selectedIndex],
                       style: TextStyle(
                         fontSize: deviceSize.width * 0.045,
-                        color: Colors.black,
+                        color: Theme.of(context).textTheme.titleLarge!.color,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -105,7 +106,7 @@ class _BaseHomePageState extends State<BaseHomePage> {
                   ),
                 ),
                 child: BottomNavigationBar(
-                  selectedItemColor: const Color(0xFFE67F1E),
+                  selectedItemColor: Theme.of(context).primaryColor,
                   unselectedItemColor: const Color(0xFFB1B1B1),
                   iconSize: deviceSize.width * 0.08,
                   currentIndex: selectedIndex,
@@ -124,6 +125,8 @@ class _BaseHomePageState extends State<BaseHomePage> {
                   },
                   items: [
                     BottomNavigationBarItem(
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
                       label: AppLocalizations.of(context)!.home,
                       icon: const Icon(Icons.home),
                     ),

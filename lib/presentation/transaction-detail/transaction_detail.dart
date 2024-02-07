@@ -34,11 +34,11 @@ class _TransactionDetailState extends State<TransactionDetail> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           title: Text(
             AppLocalizations.of(context)!.transaction_detail,
-            style: const TextStyle(
-              color: Colors.black,
+            style: TextStyle(
+              color: Theme.of(context).textTheme.titleLarge!.color,
             ),
           ),
           leading: IconButton(
@@ -47,9 +47,9 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   .add(FetchTransactionHistoryEvent());
               return Navigator.of(context).pop(update);
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back,
-              color: Colors.black,
+              color: Theme.of(context).iconTheme.color,
             ),
           ),
         ),
@@ -103,9 +103,9 @@ class _TransactionDetailState extends State<TransactionDetail> {
               } else if (state is ApiErrorSatate) {
                 return const TxnDetailApiErrorWidget();
               }
-              return const Center(
+              return Center(
                 child: CircularProgressIndicator(
-                  color: Color(0xFFE67F1E),
+                  color: Theme.of(context).primaryColor,
                 ),
               );
             },
@@ -125,6 +125,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
           style: TextStyle(
             fontSize: deviceSize.width * 0.04,
             fontWeight: FontWeight.w600,
+            color: Theme.of(context).textTheme.titleLarge!.color,
           ),
         ),
         SizedBox(height: deviceSize.height * 0.01),
@@ -132,7 +133,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
           subTitle,
           style: TextStyle(
             fontSize: deviceSize.width * 0.035,
-            color: const Color(0xFFE67F1E),
+            color: Theme.of(context).primaryColor,
           ),
         ),
         SizedBox(height: deviceSize.height * 0.01),

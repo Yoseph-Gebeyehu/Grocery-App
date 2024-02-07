@@ -67,9 +67,9 @@ class _FavoriteState extends State<Favorite> {
         } else if (state is NetworkErrorState) {
           return const NoConnectionPage();
         }
-        return const Center(
+        return Center(
           child: CircularProgressIndicator(
-            color: Color(0xFFE67F1E),
+            color: Theme.of(context).primaryColor,
           ),
         );
       }),
@@ -136,7 +136,10 @@ class _FavoriteState extends State<Favorite> {
                                   favProducts[index].title!.substring(0, 10),
                                   style: TextStyle(
                                     fontSize: deviceSize.width * 0.05,
-                                    color: Colors.black,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .color,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -168,7 +171,7 @@ class _FavoriteState extends State<Favorite> {
                                 favProducts[index].price.toString(),
                                 style: TextStyle(
                                   fontSize: deviceSize.width * 0.05,
-                                  color: const Color(0xFFE67F1E),
+                                  color: Theme.of(context).primaryColor,
                                 ),
                               ),
                               const Spacer(),
@@ -222,6 +225,7 @@ class _FavoriteState extends State<Favorite> {
               thickness: 1,
               indent: deviceSize.width * 0.1,
               endIndent: deviceSize.width * 0.1,
+              color: Theme.of(context).dividerColor,
             ),
           ],
         );
