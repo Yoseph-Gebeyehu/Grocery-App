@@ -131,18 +131,26 @@ class _BaseHomePageState extends State<BaseHomePage> {
                       icon: const Icon(Icons.home),
                     ),
                     BottomNavigationBarItem(
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
                       label: AppLocalizations.of(context)!.categories,
                       icon: const Icon(Icons.category),
                     ),
                     BottomNavigationBarItem(
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
                       label: AppLocalizations.of(context)!.cart,
                       icon: const Icon(Icons.shopping_cart),
                     ),
                     BottomNavigationBarItem(
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
                       label: AppLocalizations.of(context)!.favorites,
                       icon: const Icon(Icons.favorite),
                     ),
                     BottomNavigationBarItem(
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
                       label: AppLocalizations.of(context)!.history,
                       icon: const Icon(Icons.history),
                     ),

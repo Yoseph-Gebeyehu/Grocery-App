@@ -15,6 +15,8 @@ class AppTheme {
       ),
       iconTheme: const IconThemeData(color: Colors.black),
       dividerColor: const Color(0xFFF5F5F5),
+      shadowColor: Colors.black26,
+      cardColor: const Color(0xFFEEEEEE),
     );
   }
 
@@ -32,6 +34,8 @@ class AppTheme {
       ),
       iconTheme: const IconThemeData(color: Colors.white),
       dividerColor: const Color(0xFF2E2E2E),
+      shadowColor: Colors.white24,
+      cardColor: const Color(0xFF2C2C2C),
     );
   }
 }

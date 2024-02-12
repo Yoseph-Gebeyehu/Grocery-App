@@ -14,10 +14,10 @@ part 'transaction_history_state.dart';
 class TransactionHistoryBloc
     extends Bloc<TransactionHistoryEvent, TransactionHistoryState> {
   TransactionHistoryBloc() : super(const TransactionHistoryState()) {
-    List<String> _txRef = [];
+    List<String> txRef = [];
     Future<void> loadTxRef() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      _txRef = prefs.getStringList('txns') ?? [];
+      txRef = prefs.getStringList('txns') ?? [];
     }
 
     on<TransactionHistoryInitialEvent>((event, emit) async {
@@ -32,7 +32,7 @@ class TransactionHistoryBloc
       }
       await loadTxRef();
 
-      emit(FetchTransactionHistoryState(trxnHistoryList: _txRef));
+      emit(FetchTransactionHistoryState(trxnHistoryList: txRef));
     });
 
     on<FetchTransactionDetailEvent>((event, emit) async {

@@ -1,4 +1,4 @@
-class HomeFruitNames {
+class ProductCategory {
   // static const orange = 'Orange';
   // static const garlic = 'Garlic';
   // static const broccoli = 'Broccoli';

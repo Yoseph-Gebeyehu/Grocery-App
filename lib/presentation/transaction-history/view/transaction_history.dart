@@ -58,9 +58,18 @@ class _TransactionHistoryPageState extends State<TransactionHistoryPage> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context).shadowColor,
+                                offset: const Offset(1, 4),
+                                blurRadius: 8.0,
+                                spreadRadius: 0.0,
+                              ),
+                            ],
                           ),
                           padding: EdgeInsets.symmetric(
-                              horizontal: deviceSize.width * 0.01),
+                            horizontal: deviceSize.width * 0.01,
+                          ),
                           child: Card(
                             color: Theme.of(context).scaffoldBackgroundColor,
                             child: ListTile(

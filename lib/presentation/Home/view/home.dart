@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:grocery/domain/constants/names/product_categories.dart';
 
-import '/domain/constants/names/home_fruit_names.dart';
 import '/domain/Constants/Images/home_images.dart';
 import '/presentation/category-detail/category_detail.dart';
 import '/presentation/home/widgets/api_error_widget.dart';
@@ -99,14 +99,12 @@ class _HomeState extends State<Home> {
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          color: const Color(
-                            0xFFFBFBFB,
-                          ),
+                          color: Theme.of(context).shadowColor,
                           boxShadow: const [
                             BoxShadow(
                               color: Color(0x42000000),
-                              offset: Offset(9, 0),
-                              blurRadius: 10,
+                              offset: Offset(2, 2),
+                              blurRadius: 0,
                               spreadRadius: 2,
                             ),
                           ],
@@ -121,7 +119,7 @@ class _HomeState extends State<Home> {
                                   productsList: products
                                       .where((product) =>
                                           product.category ==
-                                          HomeFruitNames.categoryName[index])
+                                          ProductCategory.categoryName[index])
                                       .toList(),
                                 ),
                               ),
@@ -144,8 +142,8 @@ class _HomeState extends State<Home> {
                       ),
                       SizedBox(height: deviceSize.height * 0.02),
                       Text(
-                        HomeFruitNames.categoryName[index].toUpperCase()[0] +
-                            HomeFruitNames.categoryName[index].substring(1),
+                        ProductCategory.categoryName[index].toUpperCase()[0] +
+                            ProductCategory.categoryName[index].substring(1),
                         style: TextStyle(
                           color: Theme.of(context).textTheme.titleLarge!.color,
                         ),
@@ -185,14 +183,14 @@ class _HomeState extends State<Home> {
                   children: [
                     Expanded(
                       child: Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Theme.of(context).scaffoldBackgroundColor,
                           boxShadow: [
                             BoxShadow(
-                              color: Theme.of(context).iconTheme.color!,
-                              offset: const Offset(0, 5),
+                              color: Theme.of(context).shadowColor,
+                              offset: const Offset(1, 4),
                               blurRadius: 0.0,
                               spreadRadius: 1.0,
                             ),
@@ -226,9 +224,11 @@ class _HomeState extends State<Home> {
                                   arguments: product,
                                 );
                                 if (pageResponse is bool) {
+                                  // ignore: use_build_context_synchronously
                                   BlocProvider.of<HomeBloc>(context)
                                       .add(CartInitial());
                                 } else {
+                                  // ignore: use_build_context_synchronously
                                   BlocProvider.of<HomeBloc>(context)
                                       .add(CartInitial());
                                 }

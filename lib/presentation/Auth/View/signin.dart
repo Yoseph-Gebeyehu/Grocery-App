@@ -71,22 +71,17 @@ class SigninPageState extends State<SigninPage> {
   }
 
   Widget buildScreen(BuildContext context) {
-    SampleItem? selectedMenu;
+    SampleItem? selectedMenu = SampleItem.am;
     String lang = 'en';
     Size deviceSize = MediaQuery.of(context).size;
     return ListView(
       children: [
-        Align(
-          alignment: Alignment.topRight,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Icon(
-                Icons.language,
-                color: Theme.of(context).primaryColor,
-              ),
-              PopupMenuButton<SampleItem>(
-                color: Theme.of(context).scaffoldBackgroundColor,
+        Row(
+          children: [
+            const Spacer(),
+            Align(
+              alignment: Alignment.topRight,
+              child: PopupMenuButton<SampleItem>(
                 iconColor: Theme.of(context).primaryColor,
                 initialValue: selectedMenu,
                 onSelected: (SampleItem item) {
@@ -119,15 +114,45 @@ class SigninPageState extends State<SigninPage> {
                   ),
                 ],
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    color: Theme.of(context).iconTheme.color!,
+                  side: const BorderSide(
+                    // color: Theme.of(context).iconTheme.color!,
+                    color: Colors.white70,
                     width: 1.0,
                   ),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
+
+                color: Theme.of(context).scaffoldBackgroundColor,
+                elevation: 4,
+                position: PopupMenuPosition.under,
+                tooltip: AppLocalizations.of(context)!.change_language,
+                icon: const Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Icon(Icons.language),
+                    SizedBox(width: 10),
+                    Icon(Icons.expand_more)
+                  ],
+                ),
+
+                // child: Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     Icon(Icons.language, color: Theme.of(context).primaryColor),
+                //     const SizedBox(width: 10),
+                //     Icon(
+                //       Icons.expand_more,
+                //       color: Theme.of(context).primaryColor,
+                //     )
+                //     // Text(
+                //     //   selectedMenu == SampleItem.en ? "E" : "f",
+                //     //   style: Theme.of(context).textTheme.titleLarge,
+                //     // ),
+                //   ],
+                // ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         Container(
           width: deviceSize.width * 0.2,

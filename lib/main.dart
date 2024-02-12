@@ -13,10 +13,12 @@ import 'presentation/transaction-history/bloc/transaction_history_bloc.dart';
 import 'domain/Constants/router/app_route.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   static void setLanguage(BuildContext context) {
     _MyAppState state = context.findAncestorStateOfType<_MyAppState>()!;
     state.onGetAppLanguge();

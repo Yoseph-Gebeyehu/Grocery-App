@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery/domain/constants/names/product_categories.dart';
 import 'package:grocery/presentation/category-detail/category_detail.dart';
 
 import '../../domain/Constants/Images/home_images.dart';
-import '../../domain/constants/names/home_fruit_names.dart';
 import '../Home/bloc/home_bloc.dart';
 import '../../widgets/no_internet.dart';
 
@@ -44,7 +44,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 ),
                 itemBuilder: (context, index) {
                   const image = HomeImages.images;
-                  final name = HomeFruitNames.categoryName[index];
+                  final name = ProductCategory.categoryName[index];
                   return Column(
                     children: [
                       InkWell(
@@ -55,7 +55,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                     .where(
                                       (product) =>
                                           product.category ==
-                                          HomeFruitNames.categoryName[index],
+                                          ProductCategory.categoryName[index],
                                     )
                                     .toList()),
                           ));
@@ -67,10 +67,10 @@ class _CategoryPageState extends State<CategoryPage> {
                             borderRadius: BorderRadius.circular(30),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 1,
+                                color: Theme.of(context).shadowColor,
+                                spreadRadius: 2,
                                 blurRadius: 1,
-                                offset: const Offset(0, 3),
+                                offset: const Offset(1, 2),
                               ),
                             ],
                             image: DecorationImage(
@@ -92,7 +92,7 @@ class _CategoryPageState extends State<CategoryPage> {
                     ],
                   );
                 },
-                itemCount: HomeFruitNames.categoryName.length,
+                itemCount: ProductCategory.categoryName.length,
               ),
             );
           } else if (state is NetworkErrorState) {

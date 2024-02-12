@@ -50,7 +50,7 @@ class ShoppingCartBloc extends Bloc<ShoppingCartEvent, ShoppingCartState> {
           throw Exception('Could not launch ${Uri.parse(checkoutUrl)}');
         }
         await loadTxRef();
-        _txRef.add(event.txRef);
+        _txRef.insert(0, event.txRef);
         await saveTxRef();
         emit(BuySuccessState(checkoutUrl: response.checkoutUrl!));
       }

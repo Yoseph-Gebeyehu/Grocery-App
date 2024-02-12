@@ -273,7 +273,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   ),
                 ),
                 trailing: PopupMenuButton<SampleItem>(
-                  color: Theme.of(context).scaffoldBackgroundColor,
                   iconColor: Theme.of(context).primaryColor,
                   initialValue: selectedMenu,
                   onSelected: (SampleItem item) {
@@ -306,12 +305,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     ),
                   ],
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: Theme.of(context).iconTheme.color!,
+                    side: const BorderSide(
+                      // color: Theme.of(context).iconTheme.color!,
+                      color: Colors.white70,
                       width: 1.0,
                     ),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  elevation: 4,
+                  position: PopupMenuPosition.under,
+                  tooltip: AppLocalizations.of(context)!.change_language,
                 ),
               ),
             ),
