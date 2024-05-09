@@ -1,13 +1,13 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:grocery/data/local/shered_preference.dart';
-import 'package:grocery/main.dart';
-import 'package:grocery/presentation/base-home-page/view/base_home.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '/main.dart';
+import '/presentation/base-home-page/view/base_home.dart';
+import '/data/local/shered_preference.dart';
 import '../../auth/view/signin.dart';
 import '../../auth/widgets/custom_button.dart';
 import '../../update-profile/update_profile.dart';
@@ -129,7 +129,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         BaseHomePage(
-                                                            user: widget.user),
+                                                      user: widget.user,
+                                                    ),
                                                   ),
                                                 );
                                               });
@@ -176,14 +177,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                               setState(() async {
                                                 _image = image;
                                                 await LocalStorage.saveString(
-                                                    'image', image!.path);
+                                                  'image',
+                                                  image!.path,
+                                                );
                                                 // ignore: use_build_context_synchronously
                                                 Navigator.of(context)
                                                     .pushReplacement(
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         BaseHomePage(
-                                                            user: widget.user),
+                                                      user: widget.user,
+                                                    ),
                                                   ),
                                                 );
                                               });
@@ -306,7 +310,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   ],
                   shape: RoundedRectangleBorder(
                     side: const BorderSide(
-                      // color: Theme.of(context).iconTheme.color!,
                       color: Colors.white70,
                       width: 1.0,
                     ),

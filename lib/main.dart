@@ -1,19 +1,25 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:grocery/data/local/shered_preference.dart';
-import 'package:grocery/domain/constants/thems/theme.dart';
 
+import 'data/local/shered_preference.dart';
+import 'domain/constants/thems/theme.dart';
+import 'domain/Constants/router/app_route.dart';
 import 'presentation/shopping-cart/bloc/shopping_cart_bloc.dart';
 import 'presentation/Auth/bloc/auth_bloc.dart';
 import 'presentation/base-home-page/bloc/base_home_page_bloc.dart';
 import 'presentation/Home/bloc/home_bloc.dart';
 import 'presentation/transaction-history/bloc/transaction_history_bloc.dart';
-import 'domain/Constants/router/app_route.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 }
 
 class MyApp extends StatefulWidget {

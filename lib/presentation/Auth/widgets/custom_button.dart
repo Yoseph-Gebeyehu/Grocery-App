@@ -46,7 +46,7 @@ class CustomButton extends StatelessWidget {
           Text(
             text,
             style: TextStyle(
-              fontSize: deviceSize.width * 0.04,
+              fontSize: deviceSize.width * 0.036,
               color: Theme.of(context).textTheme.labelLarge!.color,
             ),
           ),

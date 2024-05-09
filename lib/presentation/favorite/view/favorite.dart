@@ -46,6 +46,9 @@ class _FavoriteState extends State<Favorite> {
               : Center(
                   child: Text(
                     AppLocalizations.of(context)!.there_is_no_favorite_product,
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.titleLarge!.color,
+                    ),
                   ),
                 );
         } else if (state is AddedToFavoriteState) {
@@ -54,6 +57,9 @@ class _FavoriteState extends State<Favorite> {
               : Center(
                   child: Text(
                     AppLocalizations.of(context)!.there_is_no_favorite_product,
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.titleLarge!.color,
+                    ),
                   ),
                 );
         } else if (state is AddedToCartState) {
@@ -62,6 +68,9 @@ class _FavoriteState extends State<Favorite> {
               : Center(
                   child: Text(
                     AppLocalizations.of(context)!.there_is_no_favorite_product,
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.titleLarge!.color,
+                    ),
                   ),
                 );
         } else if (state is NetworkErrorState) {
@@ -100,9 +109,11 @@ class _FavoriteState extends State<Favorite> {
                           arguments: favProducts[index],
                         );
                         if (pageResponse is bool) {
+                          // ignore: use_build_context_synchronously
                           BlocProvider.of<HomeBloc>(context)
                               .add(FetchProductsEvent());
                         } else {
+                          // ignore: use_build_context_synchronously
                           BlocProvider.of<HomeBloc>(context)
                               .add(FetchProductsEvent());
                         }

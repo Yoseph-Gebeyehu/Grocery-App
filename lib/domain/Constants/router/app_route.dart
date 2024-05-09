@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:grocery/data/models/user.dart';
 
 import '/presentation/auth/view/signup.dart';
 import '/presentation/auth/view/signin.dart';
@@ -11,6 +10,7 @@ import '/presentation/item-detail/item_detail.dart';
 import '/presentation/splash/splash.dart';
 import '/presentation/shopping-cart/view/shopping_cart.dart';
 import '/presentation/transaction-history/view/transaction_history.dart';
+import '/data/models/user.dart';
 import '/data/models/products.dart';
 
 class AppRoute {

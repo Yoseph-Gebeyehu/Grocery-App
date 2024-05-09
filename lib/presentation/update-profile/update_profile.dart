@@ -40,6 +40,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
         child: Column(
           children: [
             CustomFormField(
+              prefix: const Icon(Icons.person_outline),
               keyboardType: TextInputType.name,
               controller: userNameController,
               hintText: AppLocalizations.of(context)!.enter_user_name,

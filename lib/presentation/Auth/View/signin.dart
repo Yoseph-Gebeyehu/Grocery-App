@@ -3,14 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:grocery/data/local/shered_preference.dart';
-import 'package:grocery/main.dart';
+import 'package:grocery/data/form_validator_service.dart';
 
 import '/presentation/auth/widgets/custom_button.dart';
 import '/presentation/auth/widgets/form_field.dart';
 import '/presentation/auth/view/signup.dart';
 import '/presentation/Auth/bloc/auth_bloc.dart';
 import '/presentation/base-home-page/View/base_home.dart';
+import '/main.dart';
+import '/data/local/shered_preference.dart';
 import '/widgets/snack_bar.dart';
 
 enum SampleItem { am, en }
@@ -71,127 +72,117 @@ class SigninPageState extends State<SigninPage> {
   }
 
   Widget buildScreen(BuildContext context) {
+    FormValidatorService formValidatorService =
+        FormValidatorService(context: context);
     SampleItem? selectedMenu = SampleItem.am;
-    String lang = 'en';
     Size deviceSize = MediaQuery.of(context).size;
-    return ListView(
-      children: [
-        Row(
-          children: [
-            const Spacer(),
-            Align(
-              alignment: Alignment.topRight,
-              child: PopupMenuButton<SampleItem>(
-                iconColor: Theme.of(context).primaryColor,
-                initialValue: selectedMenu,
-                onSelected: (SampleItem item) {
-                  setState(() {
-                    selectedMenu = item;
-                    String lang = item == SampleItem.am ? 'am' : 'en';
-                    LocalStorage.setLanguage('language', lang);
-                  });
-                  MyApp.setLanguage(context);
-                },
-                itemBuilder: (BuildContext context) =>
-                    <PopupMenuEntry<SampleItem>>[
-                  PopupMenuItem<SampleItem>(
-                    value: SampleItem.am,
-                    child: Text(
-                      'አማርኛ',
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.titleLarge!.color,
+    return Center(
+      child: ListView(
+        children: [
+          Row(
+            children: [
+              const Spacer(),
+              Align(
+                alignment: Alignment.topRight,
+                child: PopupMenuButton<SampleItem>(
+                  iconColor: Theme.of(context).primaryColor,
+                  initialValue: selectedMenu,
+                  onSelected: (SampleItem item) {
+                    setState(() {
+                      selectedMenu = item;
+                      String lang = item == SampleItem.am ? 'am' : 'en';
+                      LocalStorage.setLanguage('language', lang);
+                    });
+                    MyApp.setLanguage(context);
+                  },
+                  itemBuilder: (BuildContext context) =>
+                      <PopupMenuEntry<SampleItem>>[
+                    PopupMenuItem<SampleItem>(
+                      value: SampleItem.am,
+                      child: Text(
+                        'አማርኛ',
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.titleLarge!.color,
+                        ),
                       ),
                     ),
-                  ),
-                  PopupMenuItem<SampleItem>(
-                    value: SampleItem.en,
-                    child: Text(
-                      'English',
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.titleLarge!.color,
+                    PopupMenuItem<SampleItem>(
+                      value: SampleItem.en,
+                      child: Text(
+                        'English',
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.titleLarge!.color,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(
-                    // color: Theme.of(context).iconTheme.color!,
-                    color: Colors.white70,
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-
-                color: Theme.of(context).scaffoldBackgroundColor,
-                elevation: 4,
-                position: PopupMenuPosition.under,
-                tooltip: AppLocalizations.of(context)!.change_language,
-                icon: const Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(Icons.language),
-                    SizedBox(width: 10),
-                    Icon(Icons.expand_more)
                   ],
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(
+                      color: Colors.white70,
+                      width: 1.0,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  elevation: 4,
+                  position: PopupMenuPosition.under,
+                  tooltip: AppLocalizations.of(context)!.change_language,
+                  icon: const Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(Icons.language),
+                      SizedBox(width: 10),
+                      Icon(Icons.expand_more)
+                    ],
+                  ),
                 ),
-
-                // child: Row(
-                //   mainAxisAlignment: MainAxisAlignment.end,
-                //   children: [
-                //     Icon(Icons.language, color: Theme.of(context).primaryColor),
-                //     const SizedBox(width: 10),
-                //     Icon(
-                //       Icons.expand_more,
-                //       color: Theme.of(context).primaryColor,
-                //     )
-                //     // Text(
-                //     //   selectedMenu == SampleItem.en ? "E" : "f",
-                //     //   style: Theme.of(context).textTheme.titleLarge,
-                //     // ),
-                //   ],
-                // ),
+              ),
+            ],
+          ),
+          Container(
+            width: deviceSize.width * 0.2,
+            height: deviceSize.height * 0.15,
+            decoration: const BoxDecoration(
+              color: Colors.transparent,
+              image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/broccoli.png',
+                ),
+                fit: BoxFit.contain,
               ),
             ),
-          ],
-        ),
-        Container(
-          width: deviceSize.width * 0.2,
-          height: deviceSize.height * 0.15,
-          decoration: const BoxDecoration(
-            color: Colors.transparent,
-            image: DecorationImage(
-              image: AssetImage(
-                'assets/images/broccoli.png',
-              ),
-              fit: BoxFit.contain,
+          ),
+          // Text(
+          //   AppLocalizations.of(context)!.sign_in,
+          //   style: TextStyle(
+          //     color: Theme.of(context).textTheme.titleLarge!.color,
+          //     fontSize: deviceSize.width * 0.06,
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
+          SizedBox(height: deviceSize.height * 0.03),
+          // text(AppLocalizations.of(context)!.email),
+          SizedBox(height: deviceSize.height * 0.02),
+          CustomFormField(
+            prefix: Icon(
+              Icons.email_outlined,
+              color: Theme.of(context).primaryColor,
             ),
-          ),
-        ),
-        Text(
-          AppLocalizations.of(context)!.sign_in,
-          style: TextStyle(
-            color: Theme.of(context).textTheme.titleLarge!.color,
-            fontSize: deviceSize.width * 0.06,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: deviceSize.height * 0.03),
-        text(AppLocalizations.of(context)!.email),
-        SizedBox(height: deviceSize.height * 0.02),
-        SizedBox(
-          height: deviceSize.height * 0.06,
-          child: CustomFormField(
+            validator: (value) => formValidatorService.validateEmail(value!),
             keyboardType: TextInputType.emailAddress,
             controller: emailController,
             hintText: AppLocalizations.of(context)!.email,
           ),
-        ),
-        SizedBox(height: deviceSize.height * 0.02),
-        text(AppLocalizations.of(context)!.password),
-        SizedBox(height: deviceSize.height * 0.02),
-        SizedBox(
-          height: deviceSize.height * 0.06,
-          child: CustomFormField(
+          // SizedBox(height: deviceSize.height * 0.02),
+          // text(AppLocalizations.of(context)!.password),
+          SizedBox(height: deviceSize.height * 0.03),
+          CustomFormField(
+            prefix: Icon(
+              Icons.lock_outline,
+              color: Theme.of(context).primaryColor,
+              // size: 18,
+            ),
+            validator: (value) => formValidatorService.validatePassword(value!),
             keyboardType: TextInputType.visiblePassword,
             controller: passwordController,
             obscure: obscure,
@@ -204,121 +195,121 @@ class SigninPageState extends State<SigninPage> {
               });
             },
           ),
-        ),
-        Row(
-          children: [
-            const SizedBox(),
-            const Spacer(),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                AppLocalizations.of(context)!.forgot_password,
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: deviceSize.width * 0.035,
-                  fontWeight: FontWeight.bold,
+          Row(
+            children: [
+              const SizedBox(),
+              const Spacer(),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  AppLocalizations.of(context)!.forgot_password,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: deviceSize.width * 0.035,
+                    // fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-        SizedBox(height: deviceSize.height * 0.01),
-        Container(
-          height: deviceSize.height * 0.06,
-          width: deviceSize.width,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
+            ],
           ),
-          child: BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) {
-              return CustomButton(
-                stateChecker: state is AuthLoadingState,
-                function: () {
-                  if (formKey.currentState!.validate()) {
-                    context.read<AuthBloc>().add(
-                          LoginEvent(
-                            email: emailController.text,
-                            password: passwordController.text,
-                          ),
-                        );
-                  }
-                },
-                text: AppLocalizations.of(context)!.sign_in,
-              );
-            },
-          ),
-        ),
-        SizedBox(height: deviceSize.height * 0.1),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SizedBox(
-              width: deviceSize.width * 0.25,
-              child: const Divider(
-                thickness: 1,
-                color: Color.fromARGB(255, 182, 174, 174),
-              ),
+          SizedBox(height: deviceSize.height * 0.01),
+          Container(
+            height: deviceSize.height * 0.06,
+            width: deviceSize.width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
             ),
-            Text(
-              AppLocalizations.of(context)!.or_log_in_with,
-              style: TextStyle(
-                color: Theme.of(context).textTheme.titleLarge!.color,
-              ),
-            ),
-            SizedBox(
-              width: deviceSize.width * 0.25,
-              child: const Divider(
-                thickness: 1,
-                color: Color.fromARGB(255, 182, 174, 174),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: deviceSize.height * 0.02),
-        const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Icon(
-              FontAwesome.facebook,
-              color: Colors.blue,
-            ),
-            Icon(
-              FontAwesome.twitter,
-              color: Colors.blue,
-            ),
-            Icon(
-              FontAwesome.google,
-              color: Color(0xFF4285F4),
-            ),
-          ],
-        ),
-        SizedBox(height: deviceSize.height * 0.02),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              AppLocalizations.of(context)!.do_not_have_an_account,
-              style: TextStyle(
-                fontSize: deviceSize.width * 0.036,
-                color: Theme.of(context).textTheme.titleLarge!.color,
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, SignUpPage.signUp);
+            child: BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return CustomButton(
+                  stateChecker: state is AuthLoadingState,
+                  function: () {
+                    if (formKey.currentState!.validate()) {
+                      context.read<AuthBloc>().add(
+                            LoginEvent(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            ),
+                          );
+                    }
+                  },
+                  text: AppLocalizations.of(context)!.sign_in,
+                );
               },
-              child: Text(
-                AppLocalizations.of(context)!.sign_up,
-                style: TextStyle(
-                  fontSize: deviceSize.width * 0.04,
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: deviceSize.height * 0.05),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                width: deviceSize.width * 0.3,
+                child: const Divider(
+                  thickness: 0.5,
+                  color: Color.fromARGB(255, 182, 174, 174),
                 ),
               ),
-            ),
-          ],
-        ),
-      ],
+              Text(
+                AppLocalizations.of(context)!.or_log_in_with,
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.titleLarge!.color,
+                ),
+              ),
+              SizedBox(
+                width: deviceSize.width * 0.3,
+                child: const Divider(
+                  thickness: 0.5,
+                  color: Color.fromARGB(255, 182, 174, 174),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: deviceSize.height * 0.015),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Icon(
+                FontAwesome.facebook,
+                color: Colors.blue,
+              ),
+              Icon(
+                FontAwesome.twitter,
+                color: Colors.blue,
+              ),
+              Icon(
+                FontAwesome.google,
+                color: Color(0xFF4285F4),
+              ),
+            ],
+          ),
+          SizedBox(height: deviceSize.height * 0.02),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.do_not_have_an_account,
+                style: TextStyle(
+                  fontSize: deviceSize.width * 0.036,
+                  color: Theme.of(context).textTheme.titleLarge!.color,
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, SignUpPage.signUp);
+                },
+                child: Text(
+                  AppLocalizations.of(context)!.sign_up,
+                  style: TextStyle(
+                    fontSize: deviceSize.width * 0.04,
+                    color: Theme.of(context).primaryColor,
+                    // fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

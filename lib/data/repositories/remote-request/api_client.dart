@@ -1,8 +1,8 @@
 import "dart:convert";
 import "package:http/http.dart" as http;
 
-import 'package:grocery/data/models/api_request.dart';
-import 'package:grocery/data/models/api_response.dart';
+import '/data/models/api_request.dart';
+import '/data/models/api_response.dart';
 
 class ApiClient {
   Future<ApiResponse> postData(

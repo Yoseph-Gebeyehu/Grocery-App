@@ -78,6 +78,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
                               child: Text(
                                 AppLocalizations.of(context)!
                                     .product_is_not_added_to_cart_yet,
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .color,
+                                ),
                               ),
                             )
                           : shoppingCart(deviceSize);

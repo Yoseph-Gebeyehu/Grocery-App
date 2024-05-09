@@ -1,7 +1,8 @@
-import 'package:grocery/data/models/user.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'local/sqflite.dart';
+
+import '/data/models/user.dart';
 
 class UserServies {
   Future<void> addUserToDB(User user) async {

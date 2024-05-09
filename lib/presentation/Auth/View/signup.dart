@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:grocery/data/form_validator_service.dart';
 
 import '/widgets/snack_bar.dart';
 import '/data/models/user.dart';
@@ -25,6 +26,15 @@ class SignUpPageState extends State<SignUpPage> {
   final formKey = GlobalKey<FormState>();
 
   @override
+  void dispose() {
+    userNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
 
@@ -43,8 +53,10 @@ class SignUpPageState extends State<SignUpPage> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: Icon(Icons.arrow_back,
-                color: Theme.of(context).iconTheme.color),
+            icon: Icon(
+              Icons.arrow_back,
+              color: Theme.of(context).iconTheme.color,
+            ),
           ),
         ),
         body: Container(
@@ -59,6 +71,8 @@ class SignUpPageState extends State<SignUpPage> {
   }
 
   Widget buildScreen(BuildContext context) {
+    FormValidatorService formValidatorService =
+        FormValidatorService(context: context);
     Size deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       body: ListView(
@@ -74,33 +88,38 @@ class SignUpPageState extends State<SignUpPage> {
           SizedBox(height: deviceSize.height * 0.03),
           text(AppLocalizations.of(context)!.user_name),
           SizedBox(height: deviceSize.height * 0.02),
-          SizedBox(
-            height: deviceSize.height * 0.06,
-            child: CustomFormField(
-              keyboardType: TextInputType.name,
-              controller: userNameController,
-              hintText: AppLocalizations.of(context)!.user_name,
+          CustomFormField(
+            validator: (value) =>
+                formValidatorService.validateText(value!, 'user name'),
+            prefix: Icon(
+              Icons.person_outline,
+              color: Theme.of(context).primaryColor,
             ),
+            keyboardType: TextInputType.name,
+            controller: userNameController,
+            hintText: AppLocalizations.of(context)!.user_name,
           ),
           SizedBox(height: deviceSize.height * 0.02),
           text(AppLocalizations.of(context)!.email),
           SizedBox(height: deviceSize.height * 0.02),
-          SizedBox(
-            height: deviceSize.height * 0.06,
-            child: CustomFormField(
-              keyboardType: TextInputType.emailAddress,
-              controller: emailController,
-              hintText: AppLocalizations.of(context)!.email,
+          CustomFormField(
+            validator: (value) => formValidatorService.validateEmail(value!),
+            prefix: Icon(
+              Icons.email,
+              color: Theme.of(context).primaryColor,
             ),
+            keyboardType: TextInputType.emailAddress,
+            controller: emailController,
+            hintText: AppLocalizations.of(context)!.email,
           ),
           SizedBox(height: deviceSize.height * 0.02),
           text(AppLocalizations.of(context)!.password),
           SizedBox(height: deviceSize.height * 0.02),
-          passwordForm(passwordController),
+          passwordForm(passwordController, 'Password'),
           SizedBox(height: deviceSize.height * 0.02),
           text(AppLocalizations.of(context)!.confirm_password),
           SizedBox(height: deviceSize.height * 0.02),
-          passwordForm(confirmPasswordController),
+          passwordForm(confirmPasswordController, 'Confirm'),
           SizedBox(height: deviceSize.height * 0.05),
           Container(
             height: deviceSize.height * 0.06,
@@ -145,23 +164,32 @@ class SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  SizedBox passwordForm(TextEditingController controller) {
-    Size deviceSize = MediaQuery.of(context).size;
-    return SizedBox(
-      height: deviceSize.height * 0.06,
-      child: CustomFormField(
-        keyboardType: TextInputType.visiblePassword,
-        controller: controller,
-        obscure: obscure,
-        hintText: 'Password',
-        function: () {
-          setState(() {
-            setState(() {
-              obscure = !obscure;
-            });
-          });
-        },
+  Widget passwordForm(TextEditingController controller, String which) {
+    FormValidatorService formValidatorService =
+        FormValidatorService(context: context);
+
+    return CustomFormField(
+      validator: which == 'Password'
+          ? (value) => formValidatorService.validatePassword(value!)
+          : (value) => formValidatorService.validateConfirmPassword(
+                value!,
+                passwordController.text,
+              ),
+      prefix: Icon(
+        Icons.lock,
+        color: Theme.of(context).primaryColor,
       ),
+      keyboardType: TextInputType.visiblePassword,
+      controller: controller,
+      obscure: obscure,
+      hintText: 'Password',
+      function: () {
+        setState(() {
+          setState(() {
+            obscure = !obscure;
+          });
+        });
+      },
     );
   }
 
@@ -192,23 +220,30 @@ class SignUpPageState extends State<SignUpPage> {
         await UserServies().addUserToDB(user);
         await Future.delayed(const Duration(seconds: 2));
 
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
 
+        // ignore: use_build_context_synchronously
         Navigator.pushNamed(context, SigninPage.signIn);
       } else {
         if (emailController.text.contains('@gmail.com') &&
             passwordController.text != confirmPasswordController.text) {
-          SnackBarWidget().showSnack(context,
-              AppLocalizations.of(context)!.please_confirm_your_password);
+          SnackBarWidget().showSnack(
+            context,
+            AppLocalizations.of(context)!.please_confirm_your_password,
+          );
         } else if (!emailController.text.contains('@gmail.com') &&
             passwordController.text == confirmPasswordController.text) {
           SnackBarWidget().showSnack(
-              context, AppLocalizations.of(context)!.email_must_contain);
+            context,
+            AppLocalizations.of(context)!.email_must_contain,
+          );
         } else if (passwordController.text.length < 6) {
           SnackBarWidget().showSnack(
-              context,
-              AppLocalizations.of(context)!
-                  .the_password_should_be_at_least_6_characters_long);
+            context,
+            AppLocalizations.of(context)!
+                .the_password_should_be_at_least_6_characters_long,
+          );
         }
       }
     }

@@ -25,7 +25,7 @@ class NoConnectionPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: deviceSize.width * 0.05,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).textTheme.bodyMedium!.color,
+                color: Theme.of(context).textTheme.titleLarge!.color,
               ),
             ),
             Padding(
@@ -41,6 +41,7 @@ class NoConnectionPage extends StatelessWidget {
                   fontWeight: FontWeight.w200,
                   fontSize: deviceSize.width * 0.04,
                   wordSpacing: 5,
+                  color: Theme.of(context).textTheme.titleLarge!.color,
                 ),
               ),
             ),
